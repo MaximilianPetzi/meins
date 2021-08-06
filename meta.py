@@ -1,6 +1,7 @@
 usekm=True
 #terminal auf CPG_iCub
 import sys
+import os
 sys.path.append("../CPG_iCub")
 
 ##
@@ -204,6 +205,7 @@ try:
     recordsAz=[]
     recordsBz=[]
     TRIAL=0
+    os.system("echo 0 > ../meins/cancel.txt")
     for trial in range(50000):
         cancel_content = open("../meins/cancel.txt", "r")
         Cancel=str(cancel_content.read())
