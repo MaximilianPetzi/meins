@@ -1,4 +1,5 @@
 usekm=True
+showall=True
 #terminal auf CPG_iCub
 import sys
 import os
@@ -230,23 +231,50 @@ print("____________________")
 print("total time: ",time.time()-ttotal, "davon simulate(100): ", tsimulate, "davon movetoinit:", tmovetoinit)
 figname="f"+str(minconi.var_f).replace(".","-")+"_"+"eta"+str(minconi.var_eta).replace(".","-")+"_g"+str(minconi.var_g).replace(".","-")+"_N"+str(minconi.var_N).replace(".","-")+"_A"+str(minconi.var_A).replace(".","-")
 print("var_f,var_eta,var_g,var_N: ",figname)
-
+####
+rAf_t = []
+for i in range(10):  # 10=nr of chunks
+    rAf_t.append(recordsA_first[i]['r'].T)
+rAf_t = np.array(rAf_t)
+raftsh = np.shape(rAf_t)
+rAf_t = np.transpose(rAf_t, (1, 0, 2))
+rAf_t = np.reshape(rAf_t, (raftsh[1], raftsh[0]*raftsh[2]))
+####
+rAl_t = []
+for i in range(10):  # 10=nr of chunks
+    rAl_t.append(recordsA[i]['r'].T)  # last records
+rAl_t = np.array(rAl_t)
+raltsh = np.shape(rAl_t)
+rAl_t = np.transpose(rAl_t, (1, 0, 2))
+rAl_t = np.reshape(rAl_t, (raltsh[1], raltsh[0]*raltsh[2]))
+####
 import matplotlib.pyplot as plt
 plt.figure(figsize=(20, 20))
 ax = plt.subplot(241)
-#recordsA[timechunk]
-ax.imshow(recordsA_first[0]['r'].T, aspect='auto', origin='lower')
-ax.set_title('FIRST 100ms PopulationA of FIRST trial')
-ax = plt.subplot(242)
-ax.imshow(recordsA_first[-1]['r'].T, aspect='auto', origin='lower')
-ax.set_title('LAST 100ms PopulationA FIRST trial')
+if not showall:
+    ax.imshow(recordsA_first[0]['r'].T, aspect='auto', origin='lower')
+    ax.set_title('FIRST 100ms PopulationA of FIRST trial')
+if showall:
+    ax.imshow(rAf_t, aspect='auto', origin='lower')
+    ax.set_title('ALL 10 100ms-chunks of PopulationA of FIRST trial')
+
+if not showall:
+    ax = plt.subplot(242)
+    ax.imshow(recordsA_first[-1]['r'].T, aspect='auto', origin='lower')
+    ax.set_title('LAST 100ms PopulationA FIRST trial')
 
 ax = plt.subplot(245)
-ax.imshow(recordsA[0]['r'].T, aspect='auto', origin='lower')
-ax.set_title('FIRST 100ms PopulationA of last trial')
-ax = plt.subplot(246)
-ax.imshow(recordsA[-1]['r'].T, aspect='auto', origin='lower')
-ax.set_title('LAST 100ms PopulationA last trial')
+if not showall:
+    ax.imshow(recordsA[0]['r'].T, aspect='auto', origin='lower')
+    ax.set_title('FIRST 100ms PopulationA of last trial')
+if showall:
+    ax.imshow(rAl_t, aspect='auto', origin='lower')
+    ax.set_title('ALL 10 100ms-chunks of PopulationA of last trial')
+
+if not showall:
+    ax = plt.subplot(246)
+    ax.imshow(recordsA[-1]['r'].T, aspect='auto', origin='lower')
+    ax.set_title('LAST 100ms PopulationA last trial')
 
 ax = plt.subplot(243)
 #ax.plot(initialA[:, mynet.begin_out], label='before')
