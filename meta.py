@@ -1,10 +1,10 @@
-#just use one meta.py at a time, except with params.py
+##just use one meta.py at a time, except with params.py
 #terminal auf CPG_iCub
 usekm=True      #use kinematic model or not (simulator, not on ssh)
 showall=True    #plot whole trial activities or not (just first and last 100ms)
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
-max_trials=50
-chunktime=200
+max_trials=3000
+chunktime=150
 import os
 import time
 from termcolor import colored

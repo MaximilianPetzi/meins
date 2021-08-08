@@ -18,7 +18,7 @@ print("PARAMETERS MINCONI: ", Paramarr)
 #var_A=float(input("A="))
 
 import sys
-sys.path.append("/home/maxim/Documents/programme/CPG_iCub")
+#sys.path.append("/home/maxim/Documents/programme/CPG_iCub")
 import time
 from ANNarchy import *
 clear()
