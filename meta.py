@@ -1,10 +1,11 @@
-##just use one meta.py at a time, except with params.py
+#just use one meta.py at a time, except with params.py
 #terminal auf CPG_iCub
 usekm=True      #use kinematic model or not (simulator, not on ssh)
 showall=True    #plot whole trial activities or not (just first and last 100ms)
+skipcpg=True   #just use scaled minconi output after last timechunk as final angels instead of using the CPG. 
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
-max_trials=3000
-chunktime=150
+max_trials=30000
+chunktime=150 #also change var_f inversely
 import os
 import time
 from termcolor import colored
@@ -19,11 +20,19 @@ args = parser.parse_args()
 if not args.m:
     os.system("rm ../bilder/temporary/*")
     Paramarr=np.zeros((6))
-    var_f=float(input("f="))
-    var_eta=float(input("eta="))
-    var_g=float(input("g="))
-    var_N=int(input("N="))
-    var_A=float(input("A="))
+    default=input("default?(y/n)")
+    if default=="y":
+        var_f=5
+        var_eta=.5
+        var_g=1.5
+        var_N=200
+        var_A=2
+    else:
+        var_f=float(input("f="))
+        var_eta=float(input("eta="))
+        var_g=float(input("g="))
+        var_N=int(input("N="))
+        var_A=float(input("A="))
     Paramarr[0]=var_f
     Paramarr[1]=var_eta
     Paramarr[2]=var_g
@@ -117,14 +126,14 @@ def trial_simulation(trial,first,R_mean):
     
     if usekm==False:
         initposi=myreadr.read()
-        print(colored("initpos "+str(initposi),"yellow"))
+        #print(colored("initpos "+str(initposi),"yellow"))
     if usekm==True:
         the1=mycpg.Angles[mycpg.LShoulderRoll]
         the2=mycpg.Angles[mycpg.LElbow]
         the3=mycpg.Angles[mycpg.LShoulderPitch]
         the4=mycpg.Angles[mycpg.LShoulderYaw]
         initposi=kinematic_model.wrist_position([the4,the3,the1,the2])[0:3]
-        print(colored("initpos "+str(initposi),"yellow"))
+        #print(colored("initpos "+str(initposi),"yellow"))
     #print("init u und v: ", CPG.cpg.__dict__)
     #print("\n\n..mycpg: ",mycpg.__dict__)
     #print(CPG.cpg.myCont[0].RG.E.q)
@@ -164,8 +173,8 @@ def trial_simulation(trial,first,R_mean):
         parr=np.array(parr)
         mycpg.set_patterns(scaling(parr[:,0]),scaling(parr[:,1]),scaling2(parr[:,2]),scaling2(parr[:,3]),scalingICUR(parr[:,4]),scaling(parr[:,5]))
         if timechunk==5:
-            print("patterns set to:",scaling(parr[0,0]),scaling(parr[0,1]),scaling2(parr[0,2]),scaling2(parr[0,3]),scalingICUR(parr[0,4]),scaling(parr[0,5]))
-
+            #print("patterns set to:",scaling(parr[0,0]),scaling(parr[0,1]),scaling2(parr[0,2]),scaling2(parr[0,3]),scalingICUR(parr[0,4]),scaling(parr[0,5]))
+            pass
         #moove:
          
         mycpg.loop_move(timechunk)
@@ -176,9 +185,17 @@ def trial_simulation(trial,first,R_mean):
     if usekm==False:
         position=myreadr.read()
     if usekm==True:
-        the1=mycpg.Angles[mycpg.LShoulderRoll]
+        if skipcpg:
+            the1=(parr[0,0]+1)*80
+            #print(the1)
+        if not skipcpg:
+            the1=mycpg.Angles[mycpg.LShoulderRoll]
         the2=mycpg.Angles[mycpg.LElbow]
-        the3=mycpg.Angles[mycpg.LShoulderPitch]
+        if skipcpg:
+            the3=(parr[1,0]+1)/2*(8+95.5)-95.5
+            #print(the3)
+        if not skipcpg:
+            the3=mycpg.Angles[mycpg.LShoulderPitch]
         the4=mycpg.Angles[mycpg.LShoulderYaw]
         position=kinematic_model.wrist_position([the4,the3,the1,the2])[0:3]
           
@@ -191,8 +208,8 @@ def trial_simulation(trial,first,R_mean):
     if usekm==True:
         target= targetA if first == 0 else targetB
     error = (np.linalg.norm(np.array(target) - np.array(position)))**2
-    print(colored("target: "+str(first)+", "+str(target)+" \nposition : "+str(position),"white"))
-    print(colored("error: "+str(error)+" Mean: "+str(R_mean[first]),"red"))
+    #print(colored("target: "+str(first)+", "+str(target)+" \nposition : "+str(position),"white"))
+    #print(colored("error: "+str(error)+" Mean: "+str(R_mean[first]),"red"))
     
     #print('Target:', target, '\tOutput:', position, '\tError:',  "%0.3f" % error, '\tMean:', "%0.3f" % R_mean[first])
     #print("WEIGHT: ",mynet.Wrec[3].w[1:3])

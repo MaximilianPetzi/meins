@@ -24,7 +24,7 @@ for i in range(len(ara)):
 			if Paramarr[-1]==1:break
 			print("waiting")
 			time.sleep(.1)#wait till its 1
-		Paramarr=np.array([.7,ara[i],1.5,200,arb[j],0])
+		Paramarr=np.array([5,ara[i],1.5,200,arb[j],0])
 #last entry=1 means file is writable, 0 means its not yet read by minconi.py so it has to wait before its changed again.
 		np.save('../meins/paramarr',Paramarr)
 		os.system("python3 ../meins/meta.py --m 1&")
