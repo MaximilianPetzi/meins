@@ -1,10 +1,35 @@
-usekm=True
-showall=True
+#just use one meta.py at a time, except with params.py
 #terminal auf CPG_iCub
-import sys
+usekm=True      #use kinematic model or not (simulator, not on ssh)
+showall=True    #plot whole trial activities or not (just first and last 100ms)
+#picture usually saved in bilder/temporary/, and this folder is always cleared before
+max_trials=1
+chunktime=100
 import os
+import time
+from termcolor import colored
+import numpy as np
+import sys
 sys.path.append("../CPG_iCub")
 
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--m", help="set to eg. 1, if meta is called by params")
+args = parser.parse_args()
+if not args.m:
+    os.system("rm ../bilder/temporary/*")
+    Paramarr=np.zeros((6))
+    var_f=float(input("f="))
+    var_eta=float(input("eta="))
+    var_g=float(input("g="))
+    var_N=int(input("N="))
+    var_A=float(input("A="))
+    Paramarr[0]=var_f
+    Paramarr[1]=var_eta
+    Paramarr[2]=var_g
+    Paramarr[3]=var_N
+    Paramarr[4]=var_A
+    np.save('../meins/paramarr',Paramarr)
 ##
 
 if usekm==False:
@@ -18,10 +43,7 @@ import minconi
 #print(tl1.a,tl2.a)
 #ade=tlib.mensch("dolf\n")
 
-import numpy as np
-import os
-import time
-from termcolor import colored
+
 #start simulator:
 path="../iCub_simulator_tools/iCubSim_environment/"
 if usekm==False:
@@ -119,7 +141,7 @@ def trial_simulation(trial,first,R_mean):
         #print(colored("\ntimechunk "+str(timechunk),"green"))
         tspre=time.time()
         
-        minconi.simulate(1000)
+        minconi.simulate(chunktime)
         tsimulate+=time.time()-tspre
         # Read the output parameters(robot inputs)#
         
@@ -207,7 +229,7 @@ try:
     recordsBz=[]
     TRIAL=0
     os.system("echo 0 > ../meins/cancel.txt")
-    for trial in range(50000):
+    for trial in range(max_trials):
         cancel_content = open("../meins/cancel.txt", "r")
         Cancel=str(cancel_content.read())
         if Cancel[0]!="0":break
@@ -228,7 +250,7 @@ except KeyboardInterrupt:
 posis1=np.array(posis1)
 posis2=np.array(posis2)
 print("____________________")
-print("total time: ",time.time()-ttotal, "davon simulate(100): ", tsimulate, "davon movetoinit:", tmovetoinit)
+print("total time: ",time.time()-ttotal, "davon simulate(chunktime): ", tsimulate, "davon movetoinit:", tmovetoinit)
 figname="f"+str(minconi.var_f).replace(".","-")+"_"+"eta"+str(minconi.var_eta).replace(".","-")+"_g"+str(minconi.var_g).replace(".","-")+"_N"+str(minconi.var_N).replace(".","-")+"_A"+str(minconi.var_A).replace(".","-")
 print("var_f,var_eta,var_g,var_N: ",figname)
 ####
@@ -249,7 +271,7 @@ rAl_t = np.transpose(rAl_t, (1, 0, 2))
 rAl_t = np.reshape(rAl_t, (raltsh[1], raltsh[0]*raltsh[2]))
 ####
 import matplotlib.pyplot as plt
-plt.figure(figsize=(20, 20))
+fig=plt.figure(figsize=(20, 20))
 ax = plt.subplot(241)
 if not showall:
     ax.imshow(recordsA_first[0]['r'].T, aspect='auto', origin='lower')
@@ -319,11 +341,12 @@ ax = plt.subplot(248)
 ax.plot(R_means2,label='mean_error')
 #ax.set_ylim((-0.3,0.12))
 ax.legend()
-
+fig.suptitle("params:"+figname, fontsize=14)
 savefiginp="y"#input("save the figure? (y/n)")
 if savefiginp=="y":
-    plt.savefig("../bilder/delete/"+figname+"_Tr"+str(TRIAL))	
-    print("saved")
+    savepa="../bilder/temporary/"
+    plt.savefig(savepa+figname+"_Tr"+str(TRIAL))	
+    print("saved in "+savepa)
 else:
     print("not saved")
 plt.show()
