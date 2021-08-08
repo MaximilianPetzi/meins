@@ -3,8 +3,8 @@
 usekm=True      #use kinematic model or not (simulator, not on ssh)
 showall=True    #plot whole trial activities or not (just first and last 100ms)
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
-max_trials=1
-chunktime=100
+max_trials=50
+chunktime=200
 import os
 import time
 from termcolor import colored
@@ -271,6 +271,8 @@ rAl_t = np.transpose(rAl_t, (1, 0, 2))
 rAl_t = np.reshape(rAl_t, (raltsh[1], raltsh[0]*raltsh[2]))
 ####
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use("TkAgg")
 fig=plt.figure(figsize=(20, 20))
 ax = plt.subplot(241)
 if not showall:
