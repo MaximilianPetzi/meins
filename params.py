@@ -13,20 +13,20 @@ ara=[.500,.501,.502,.503]
 arb=[.2,1]
 #set last entry to 1 
 Paramarr=np.array([.7111,.4111,1.5111,200111,4111,1])
-np.save('../meins/paramarr',Paramarr)
-os.system("echo 0 > ../meins/cancel.txt")
+np.save('../paramarr',Paramarr)
+os.system("echo 0 > ../cancel.txt")
 #change this 0 in the txt file to stop the simulations
 for i in range(len(ara)):
 	for j in range(len(arb)):
 		print(i,j)
 		while True:
-			Paramarr=np.load("../meins/paramarr.npy")
+			Paramarr=np.load("../paramarr.npy")
 			if Paramarr[-1]==1:break
 			print("waiting")
 			time.sleep(.1)#wait till its 1
 		Paramarr=np.array([5,ara[i],1.5,200,arb[j],0])
 #last entry=1 means file is writable, 0 means its not yet read by minconi.py so it has to wait before its changed again.
-		np.save('../meins/paramarr',Paramarr)
+		np.save('../paramarr',Paramarr)
 		os.system("python3 ../meins/meta.py --m 1&")
 os.system("done")
 		

@@ -38,7 +38,7 @@ if not args.m:
     Paramarr[2]=var_g
     Paramarr[3]=var_N
     Paramarr[4]=var_A
-    np.save('../meins/paramarr',Paramarr)
+    np.save('../paramarr',Paramarr)
 ##
 
 if usekm==False:
@@ -245,9 +245,9 @@ try:
     recordsAz=[]
     recordsBz=[]
     TRIAL=0
-    os.system("echo 0 > ../meins/cancel.txt")
+    os.system("echo 0 > ../cancel.txt")
     for trial in range(max_trials):
-        cancel_content = open("../meins/cancel.txt", "r")
+        cancel_content = open("../cancel.txt", "r")
         Cancel=str(cancel_content.read())
         if Cancel[0]!="0":break
         print('Trial', trial)

@@ -1,8 +1,8 @@
 import numpy as np
-Paramarr=np.load("../meins/paramarr.npy")
+Paramarr=np.load("../paramarr.npy")
 #set flag to writable:
 Paramarr[-1]=1
-np.save('../meins/paramarr',Paramarr)
+np.save('../paramarr',Paramarr)
 
 var_f=Paramarr[0]
 var_eta=Paramarr[1]
