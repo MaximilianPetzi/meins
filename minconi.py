@@ -29,7 +29,7 @@ setup(dt=1.0)
 class net:
     def __init__(self, n_out):
         self.n_out=n_out
-    begin_out=50
+    begin_out=0
     neuron = Neuron(
         parameters = """
             tau = 30 : (default 30) population # Time constant
@@ -91,9 +91,9 @@ class net:
     # Recurrent population
     N = var_N
     pop = Population(N, neuron)
-    pop[1].constant = 1.0
-    pop[10].constant = 1.0
-    pop[11].constant = -1.0
+    pop[40].constant = 1.0
+    pop[41].constant = 1.0
+    pop[42].constant = -1.0
     pop.x = Uniform(-0.1, 0.1)
     
 

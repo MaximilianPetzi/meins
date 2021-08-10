@@ -28,5 +28,5 @@ for i in range(len(ara)):
 #last entry=1 means file is writable, 0 means its not yet read by minconi.py so it has to wait before its changed again.
 		np.save('../paramarr',Paramarr)
 		os.system("python3 ../meins/meta.py --m 1&")
-os.system("done")
+os.system("echo done")
 		
