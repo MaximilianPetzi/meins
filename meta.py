@@ -4,7 +4,7 @@ usekm=True      #use kinematic model or not (simulator, not on ssh)
 showall=True    #plot whole trial activities or not (just first and last 100ms)
 skipcpg=True   #just use scaled minconi output after last timechunk as final angels instead of using the CPG. 
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
-max_trials=30000
+max_trials=100
 chunktime=150 #also change var_f inversely
 import os
 import time

@@ -9,8 +9,8 @@ import time
 os.system("rm ../bilder/temporary/*")
 #ara=[.3,.5,1]
 #arb=[4,8,16]
-ara=[.500,.501,.502,.503]
-arb=[.2,1]
+ara=[.000500,0.00501,.000502,.000503]
+arb=[1.2,1.4]
 #set last entry to 1 
 Paramarr=np.array([.7111,.4111,1.5111,200111,4111,1])
 np.save('../paramarr',Paramarr)
@@ -24,7 +24,7 @@ for i in range(len(ara)):
 			if Paramarr[-1]==1:break
 			print("waiting")
 			time.sleep(.1)#wait till its 1
-		Paramarr=np.array([5,ara[i],1.5,200,arb[j],0])
+		Paramarr=np.array([0,ara[i],arb[j],200,0,0])
 #last entry=1 means file is writable, 0 means its not yet read by minconi.py so it has to wait before its changed again.
 		np.save('../paramarr',Paramarr)
 		os.system("python3 ../meins/meta.py --m 1&")
