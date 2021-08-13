@@ -4,8 +4,9 @@ usekm=True      #use kinematic model or not (simulator, not on ssh)
 showall=True    #plot whole trial activities or not (just first and last 100ms)
 skipcpg=False   #just use scaled minconi output after last timechunk as final angels instead of using the CPG. 
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
-max_trials=200000
-chunktime=150 #also change var_f inversely
+max_trials=30
+chunktime=150   #also change var_f inversely
+d_execution=1  #average over last d_execution timesteps
 import os
 import time
 from termcolor import colored
@@ -162,8 +163,10 @@ def trial_simulation(trial,first,R_mean):
         rec = mynet.m.get()
         recz.append(rec)
         #output = rec['r'][-int(d_execution):, output_neuron] # neuron 100 over the last 200 ms
-        output = rec['r'][-1, minconi.net.begin_out:minconi.net.begin_out+mynet.n_out]
+        output = rec['r'][-int(d_execution):, minconi.net.begin_out:minconi.net.begin_out+mynet.n_out]
         #print("______________OUTPUTSSS: ",output)
+        output=np.array(output)
+        output=np.average(output,axis=0)
 
         ###alpha,theta,Sf,Ss,InjCMF,TM
         #mycpg.set_patterns(.25, 0,  5 ,0.1 ,1, 0.1)
