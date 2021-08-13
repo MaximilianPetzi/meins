@@ -3,8 +3,9 @@
 usekm=True      #use kinematic model or not (simulator, not on ssh)
 showall=True    #plot whole trial activities or not (just first and last 100ms)
 skipcpg=False   #just use scaled minconi output after last timechunk as final angels instead of using the CPG. 
+plotremote=False
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
-max_trials=20
+max_trials=40
 chunktime=150   #also change var_f inversely
 d_execution=1  #average over last d_execution timesteps
 import os
@@ -303,11 +304,10 @@ rAl_t = np.transpose(rAl_t, (1, 0, 2))
 rAl_t = np.reshape(rAl_t, (raltsh[1], raltsh[0]*raltsh[2]))
 ####
 import matplotlib.pyplot as plt
-import matplotlib
-try:
+
+if plotremote:
+    import matplotlib
     matplotlib.use("TkAgg")
-except:
-    print(colored("MATPLOTLIB.USE didnt work!","red"))
 fig=plt.figure(figsize=(20, 20))
 ax = plt.subplot(241)
 if not showall:
