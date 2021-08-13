@@ -9,8 +9,9 @@ import time
 os.system("rm ../bilder/temporary/*")
 #ara=[.3,.5,1]
 #arb=[4,8,16]
-ara=[.500,.501,.502,.503]
-arb=[1.3,1.5]
+ara=np.arange(25)/10000+.5
+#ara=[.500,.501,.502,.503]
+arb=[1.5]
 #set last entry to 1 
 Paramarr=np.array([.7111,.4111,1.5111,200111,4111,1])
 np.save('../paramarr',Paramarr)

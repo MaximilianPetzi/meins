@@ -4,6 +4,7 @@ usekm=True      #use kinematic model or not (simulator, not on ssh)
 showall=True    #plot whole trial activities or not (just first and last 100ms)
 skipcpg=False   #just use scaled minconi output after last timechunk as final angels instead of using the CPG. 
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
+showplots=False
 max_trials=30
 chunktime=150   #also change var_f inversely
 d_execution=1  #average over last d_execution timesteps
@@ -238,7 +239,7 @@ def trial_simulation(trial,first,R_mean):
     # Update the mean reward
     R_mean[first] = alpha * R_mean[first] + (1.- alpha) * error
 
-    return position,recz ,traces, R_mean, initposi, Ahist
+    return position,recz ,traces, R_mean, initposi, Ahist, error
 if usekm==True:
     targetA=[ 0.07145494,  0.36328722, -0.04980991]#[0.04399564,0.22961777,0.25192178]
     targetB=[-0.35862834, -0.09199801, -0.04854833]#[0.11422334,0.15786776,0.26741575]
@@ -257,13 +258,14 @@ try:
     os.system("echo 0 > ../cancel.txt")
     AhistA_ar=[]
     AhistB_ar=[]
+    error_history=[]
     for trial in range(max_trials):
         cancel_content = open("../cancel.txt", "r")
         Cancel=str(cancel_content.read())
         if Cancel[0]!="0":break
         print('Trial', trial)
-        posi1, recordsA, tracesA, R_mean, initposi, AhistA = trial_simulation(trial, 0, R_mean)
-        posi2, recordsB, tracesB, R_mean, initposi, AhistB = trial_simulation(trial, 1, R_mean)
+        posi1, recordsA, tracesA, R_mean, initposi, AhistA, error= trial_simulation(trial, 0, R_mean)
+        posi2, recordsB, tracesB, R_mean, initposi, AhistB, error= trial_simulation(trial, 1, R_mean)
         if trial == 0:
             recordsA_first=recordsA
             recordsB_first=recordsA
@@ -276,6 +278,9 @@ try:
         posis2.append(posi2)
         R_means1.append(R_mean[0])
         R_means2.append(R_mean[1])
+
+
+        error_history.append(error)
         TRIAL+=1
 except KeyboardInterrupt:
     pass
@@ -302,6 +307,9 @@ raltsh = np.shape(rAl_t)
 rAl_t = np.transpose(rAl_t, (1, 0, 2))
 rAl_t = np.reshape(rAl_t, (raltsh[1], raltsh[0]*raltsh[2]))
 ####
+
+np.save(sim+'error.npy',error_history)
+
 import matplotlib.pyplot as plt
 
 import matplotlib
@@ -401,4 +409,5 @@ if savefiginp=="y":
     print("saved in "+savepa)
 else:
     print("not saved")
-plt.show()
+if showplot:
+    plt.show()
