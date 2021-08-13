@@ -305,7 +305,7 @@ rAl_t = np.reshape(rAl_t, (raltsh[1], raltsh[0]*raltsh[2]))
 import matplotlib.pyplot as plt
 
 import matplotlib
-matplotlib.use("TkAgg")
+#matplotlib.use("TkAgg")
 
 try: 
     fig=plt.figure(figsize=(20, 20))
