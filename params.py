@@ -1,15 +1,16 @@
 #just use one params.py at a time
 #give max_trials in meta.py, otherwise its hard to stop it:
 
-print("params started")
+print("PARAMS STARTED")
 import numpy as np
 import os
 import time
 
 os.system("rm ../bilder/temporary/*")
+#os.system("rm ../error_h/*")
 #ara=[.3,.5,1]
 #arb=[4,8,16]
-ara=np.arange(25)/10000+.5
+ara=np.arange(10)/10000+.500
 #ara=[.500,.501,.502,.503]
 arb=[1.5]
 #set last entry to 1 

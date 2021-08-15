@@ -5,7 +5,7 @@ showall=True    #plot whole trial activities or not (just first and last 100ms)
 skipcpg=False   #just use scaled minconi output after last timechunk as final angels instead of using the CPG. 
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
 showplot=False
-max_trials=200
+max_trials=5
 chunktime=150   #also change var_f inversely
 d_execution=1  #average over last d_execution timesteps
 import os
@@ -310,7 +310,7 @@ raltsh = np.shape(rAl_t)
 rAl_t = np.transpose(rAl_t, (1, 0, 2))
 rAl_t = np.reshape(rAl_t, (raltsh[1], raltsh[0]*raltsh[2]))
 ####
-ehname=str(sim)+"error.npy"
+ehname="../error_h/"+str(sim)+"error.npy"
 np.save(ehname,error_history)
 print("saved as",ehname)
 
