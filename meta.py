@@ -4,8 +4,8 @@ usekm=True      #use kinematic model or not (simulator, not on ssh)
 showall=True    #plot whole trial activities or not (just first and last 100ms)
 skipcpg=False   #just use scaled minconi output after last timechunk as final angels instead of using the CPG. 
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
-showplots=False
-max_trials=30
+showplot=False
+max_trials=10
 chunktime=150   #also change var_f inversely
 d_execution=1  #average over last d_execution timesteps
 import os
@@ -17,8 +17,11 @@ sys.path.append("../CPG_iCub")
 
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument("--m", help="set to eg. 1, if meta is called by params")
+parser.add_argument("--m", help="set to eg. 1, if meta is called by params")    #optional argument
+parser.add_argument("--s", help="number of the simulation")
 args = parser.parse_args()
+sim=args.s
+
 if not args.m:
     os.system("rm ../bilder/temporary/*")
     Paramarr=np.zeros((6))
@@ -75,13 +78,13 @@ mynet=minconi.net(n_out=6*njoints_max) #mynet has many class variables
 
 if usekm==False:
     myreadr=readr.readr()
-    print(colored("icub started "+str(myreadr.read()),"yellow"))
+    #print(colored("icub started "+str(myreadr.read()),"yellow"))
 
 # Compute the mean reward per trial
 R_mean = np.zeros((2))
 alpha = 0.75 # 0.33
 import CPG
-print("__________________________qui: CPG imported")
+#print("__________________________qui: CPG imported")
 
 
 
@@ -307,8 +310,9 @@ raltsh = np.shape(rAl_t)
 rAl_t = np.transpose(rAl_t, (1, 0, 2))
 rAl_t = np.reshape(rAl_t, (raltsh[1], raltsh[0]*raltsh[2]))
 ####
-
-np.save(sim+'error.npy',error_history)
+ehname=str(sim)+"error.npy"
+np.save(ehname,error_history)
+print("saved as",ehname)
 
 import matplotlib.pyplot as plt
 

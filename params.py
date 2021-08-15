@@ -17,6 +17,7 @@ Paramarr=np.array([.7111,.4111,1.5111,200111,4111,1])
 np.save('../paramarr',Paramarr)
 os.system("echo 0 > ../cancel.txt")
 #change this 0 in the txt file to stop the simulations
+sim=0
 for i in range(len(ara)):
 	for j in range(len(arb)):
 		print(i,j)
@@ -28,6 +29,7 @@ for i in range(len(ara)):
 		Paramarr=np.array([5,ara[i],arb[j],200,2,0])
 #last entry=1 means file is writable, 0 means its not yet read by minconi.py so it has to wait before its changed again.
 		np.save('../paramarr',Paramarr)
-		os.system("python3 ../meins/meta.py --m 1&")
+		sim+=1
+		os.system("python3 ../meins/meta.py --m 1 --s "+str(sim)+" &")
 os.system("echo done")
 		
