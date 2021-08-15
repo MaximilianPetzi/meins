@@ -5,7 +5,7 @@ showall=True    #plot whole trial activities or not (just first and last 100ms)
 skipcpg=False   #just use scaled minconi output after last timechunk as final angels instead of using the CPG. 
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
 showplot=False
-max_trials=10
+max_trials=200
 chunktime=150   #also change var_f inversely
 d_execution=1  #average over last d_execution timesteps
 import os

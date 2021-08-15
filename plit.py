@@ -1,5 +1,9 @@
 import numpy as np
 from matplotlib import pyplot as plt 
+import matplotlib
+matplotlib.use("TkAgg")
+import os
+os.system("rm ../bilder/plit_temp/*")
 nrt=25
 am = []
 for i in range(nrt):
@@ -11,4 +15,5 @@ for i in range(nrt):
         print("--"+str(i+1)+"error.npy is missing--")
 Am=np.average(am,axis=0)
 plt.plot(Am)
+plt.savefig("../bilder/plit_temp/this")
 plt.show()
