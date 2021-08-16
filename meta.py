@@ -5,7 +5,7 @@ showall=True    #plot whole trial activities or not (just first and last 100ms)
 skipcpg=False   #just use scaled minconi output after last timechunk as final angels instead of using the CPG. 
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
 showplot=False
-max_trials=5
+max_trials=50
 chunktime=150   #also change var_f inversely
 d_execution=1  #average over last d_execution timesteps
 import os
@@ -72,7 +72,7 @@ if usekm==True:
 4 = LShoulderYaw, 27
 '''
 
-njoints_max=2
+njoints_max=4
 mynet=minconi.net(n_out=6*njoints_max) #mynet has many class variables
 # mynet.init_w = minconi.net.Wrec.w #instance variable implicitly created
 
@@ -220,7 +220,7 @@ def trial_simulation(trial,first,R_mean):
         target = targetA if first == 0 else targetB
     if usekm==True:
         target= targetA if first == 0 else targetB
-    error = (np.linalg.norm(np.array(target) - np.array(position)))**2
+    error = (np.linalg.norm(np.array(target) - np.array(position)))**1
     #print(colored("target: "+str(first)+", "+str(target)+" \nposition : "+str(position),"white"))
     #print(colored("error: "+str(error)+" Mean: "+str(R_mean[first]),"red"))
     

@@ -88,9 +88,13 @@ class cpg:
         if usekm==False:
             self.joint1 = iCubMotor.LShoulderRoll
             self.joint2 = iCubMotor.LShoulderPitch
+            self.joint3 = iCubMotor.LShoulderYaw
+            self.joint4 = iCubMotor.LElbow
         if usekm==True:
             self.joint1 = self.LShoulderRoll
             self.joint2 = self.LShoulderPitch
+            self.joint3 = self.LShoulderYaw
+            self.joint4 = self.LElbow
         
         
         Pattern1 = RG_Patterns(Sf[0], Ss[0], InjCMF[0], TM[0])
@@ -104,6 +108,18 @@ class cpg:
 
         myCont[self.joint2].fSetPatternPF(PFPat2)
         myCont[self.joint2].fSetPatternRG(Pattern2)
+
+        Pattern3 = RG_Patterns(Sf[2], Ss[2], InjCMF[2], TM[2])
+        PFPat3 = PF_Patterns(alpha[2], theta[2])
+
+        myCont[self.joint3].fSetPatternPF(PFPat3)
+        myCont[self.joint3].fSetPatternRG(Pattern3)
+
+        Pattern4 = RG_Patterns(Sf[3], Ss[3], InjCMF[3], TM[3])
+        PFPat4 = PF_Patterns(alpha[3], theta[3])
+
+        myCont[self.joint4].fSetPatternPF(PFPat4)
+        myCont[self.joint4].fSetPatternRG(Pattern4)
         #######################################################
 
     def init_updates(self):
@@ -194,6 +210,8 @@ class cpg:
             #    print(colored("I="+str(I),"blue"))
             ExtInjCurr = 1
             ExtInjCurr2 = 1
+            ExtInjCurr3 = 1
+            ExtInjCurr4 = 1
             #remove input after first 100ms
             #if I==2:# or timechunk!=0:   
             #    ExtInjCurr = 0
@@ -226,12 +244,27 @@ class cpg:
                     myCont[ii].RG.F.InjCurrent_MultiplicationFactor
                 myCont[ii].RG.E.InjCurrent_value = -1*ExtInjCurr2 * \
                     myCont[ii].RG.E.InjCurrent_MultiplicationFactor
+            
+            JointList3 = [self.joint3]
+            for ii in JointList3:
+                myCont[ii].RG.F.InjCurrent_value = +1*ExtInjCurr3 * \
+                    myCont[ii].RG.F.InjCurrent_MultiplicationFactor
+                myCont[ii].RG.E.InjCurrent_value = -1*ExtInjCurr3 * \
+                    myCont[ii].RG.E.InjCurrent_MultiplicationFactor
+
+            JointList4 = [self.joint4]
+            for ii in JointList4:
+                myCont[ii].RG.F.InjCurrent_value = +1*ExtInjCurr4 * \
+                    myCont[ii].RG.F.InjCurrent_MultiplicationFactor
+                myCont[ii].RG.E.InjCurrent_value = -1*ExtInjCurr4 * \
+                    myCont[ii].RG.E.InjCurrent_MultiplicationFactor
+
 
             if usekm==False:
                 angles = self.iCub_robot.iCub_get_angles()
             if usekm==True:
                 angles=self.Angles
-            self.AllJointList = JointList1 + JointList2
+            self.AllJointList = JointList1 + JointList2 + JointList3 + JointList4
 
             # Update sensor neurons first before update the CPG
             ic = 0
