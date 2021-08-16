@@ -4,10 +4,10 @@ usekm=True      #use kinematic model or not (simulator, not on ssh)
 showall=True    #plot whole trial activities or not (just first and last 100ms)
 skipcpg=False   #just use scaled minconi output after last timechunk as final angels instead of using the CPG. 
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
-showplot=False
-max_trials=50
-chunktime=150   #also change var_f inversely
-d_execution=1  #average over last d_execution timesteps
+showplot=True
+max_trials=1000
+chunktime=40   #also change var_f inversely
+d_execution=40  #average over last d_execution timesteps
 import os
 import time
 from termcolor import colored
@@ -27,11 +27,11 @@ if not args.m:
     Paramarr=np.zeros((6))
     default="y"#input("use default?(y/n)")
     if default=="y":
-        var_f=5
-        var_eta=.5
+        var_f=9
+        var_eta=.6
         var_g=1.5
-        var_N=200
-        var_A=2
+        var_N=400
+        var_A=20
     else:
         var_f=float(input("f="))
         var_eta=float(input("eta="))
@@ -187,8 +187,8 @@ def trial_simulation(trial,first,R_mean):
             #print("patterns set to:",scaling(parr[0,0]),scaling(parr[0,1]),scaling2(parr[0,2]),scaling2(parr[0,3]),scalingICUR(parr[0,4]),scaling(parr[0,5]))
             pass
         #moove:
-         
-        mycpg.loop_move(timechunk)
+        if timechunk>1:
+            mycpg.loop_move(timechunk)
         #print(mycpg.Angles)
         Ahist.append(np.degrees(np.array(mycpg.Angles)[[26,25]]))
         #print("_______________là: loop-moved")
