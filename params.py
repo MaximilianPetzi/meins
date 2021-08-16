@@ -10,7 +10,7 @@ os.system("rm ../bilder/temporary/*")
 os.system("rm ../error_h/*")
 #ara=[.3,.5,1]
 #arb=[4,8,16]
-ara=np.arange(25)/10000+.500
+ara=np.arange(2)/10000+.600
 #ara=[.500,.501,.502,.503]
 arb=[1.5]
 #set last entry to 1 
@@ -27,10 +27,17 @@ for i in range(len(ara)):
 			if Paramarr[-1]==1:break
 			print("waiting")
 			time.sleep(.1)#wait till its 1
-		Paramarr=np.array([5,ara[i],arb[j],200,2,0])
+		Paramarr=np.array([9,ara[i],arb[j],400,20,0])
 #last entry=1 means file is writable, 0 means its not yet read by minconi.py so it has to wait before its changed again.
 		np.save('../paramarr',Paramarr)
 		sim+=1
 		os.system("python3 ../meins/meta.py --m 1 --s "+str(sim)+" &")
 os.system("echo done")
-		
+
+"""
+var_f=Paramarr[0]
+var_eta=Paramarr[1]
+var_g=Paramarr[2]
+var_N=int(Paramarr[3])
+var_A=Paramarr[4] 
+"""

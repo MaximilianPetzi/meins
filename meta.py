@@ -4,10 +4,10 @@ usekm=True      #use kinematic model or not (simulator, not on ssh)
 showall=True    #plot whole trial activities or not (just first and last 100ms)
 skipcpg=False   #just use scaled minconi output after last timechunk as final angels instead of using the CPG. 
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
-showplot=False
-max_trials=50
-chunktime=150   #also change var_f inversely
-d_execution=1  #average over last d_execution timesteps
+showplot=True
+max_trials=10
+chunktime=200   #also change var_f inversely
+d_execution=200  #average over last d_execution timesteps
 import os
 import time
 from termcolor import colored
@@ -151,7 +151,7 @@ def trial_simulation(trial,first,R_mean):
     #print(mynet.Wi.w[0][0:10])
     recz=[]
     Ahist=[]
-    for timechunk in range(10):
+    for timechunk in range(2):
         #print("\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
         #print(colored("\ntimechunk "+str(timechunk),"green"))
         tspre=time.time()
@@ -295,7 +295,7 @@ figname="f"+str(minconi.var_f).replace(".","-")+"_"+"eta"+str(minconi.var_eta).r
 print("var_f,var_eta,var_g,var_N: ",figname)
 ####
 rAf_t = []
-for i in range(10):  # 10=nr of chunks
+for i in range(2):  # 10=nr of chunks
     rAf_t.append(recordsA_first[i]['r'].T)
 rAf_t = np.array(rAf_t)
 raftsh = np.shape(rAf_t)
@@ -303,7 +303,7 @@ rAf_t = np.transpose(rAf_t, (1, 0, 2))
 rAf_t = np.reshape(rAf_t, (raftsh[1], raftsh[0]*raftsh[2]))
 ####
 rAl_t = []
-for i in range(10):  # 10=nr of chunks
+for i in range(2):  # 10=nr of chunks
     rAl_t.append(recordsA[i]['r'].T)  # last records
 rAl_t = np.array(rAl_t)
 raltsh = np.shape(rAl_t)
