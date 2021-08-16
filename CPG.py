@@ -202,7 +202,7 @@ class cpg:
         #print("Main loop.. ")
         # for I in range(0,int(myT.N_Loop/2)):
 
-        Imax = 2
+        Imax = 40
         while I < Imax:  # (time.time() - tt) < maxt:
             I += 1
             t = timechunk*Imax*myT.T + I * myT.T  # myT.T==0.05
