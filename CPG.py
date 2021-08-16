@@ -1,5 +1,5 @@
 usekm=True
-njoints=2
+njoints=4
 #+
 from CPG_lib.MLMPCPG.SetTiming import *
 from CPG_lib.MLMPCPG.myPloting import *
