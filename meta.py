@@ -151,7 +151,7 @@ def trial_simulation(trial,first,R_mean):
     #print(mynet.Wi.w[0][0:10])
     recz=[]
     Ahist=[]
-    for timechunk in range(2):
+    for timechunk in range(3):
         #print("\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
         #print(colored("\ntimechunk "+str(timechunk),"green"))
         tspre=time.time()
@@ -187,7 +187,7 @@ def trial_simulation(trial,first,R_mean):
             #print("patterns set to:",scaling(parr[0,0]),scaling(parr[0,1]),scaling2(parr[0,2]),scaling2(parr[0,3]),scalingICUR(parr[0,4]),scaling(parr[0,5]))
             pass
         #moove:
-        if timechunk>0:
+        if timechunk>1:
             mycpg.loop_move(timechunk)
         #print(mycpg.Angles)
         Ahist.append(np.degrees(np.array(mycpg.Angles)[[26,25]]))
