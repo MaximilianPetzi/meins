@@ -182,7 +182,15 @@ def trial_simulation(trial,first,R_mean):
         for i in range(njoints_max):
             parr.append(output[i*6:i*6+6])
         parr=np.array(parr)
-        mycpg.set_patterns(scaling(parr[:,0]),scaling(parr[:,1]),scaling2(parr[:,2]),scaling2(parr[:,3]),scalingICUR(parr[:,4]),scaling(parr[:,5]))
+
+        parr[:,0] = np.clip( (1+parr[:,0])*(5.0/2.0),0.001,5)  
+        parr[:,1] = np.clip( (1+parr[:,1])*(5.0/2.0),0.001,5) 
+        parr[:,2] = np.clip(parr[:,2]*4,-4,4)  
+        parr[:,3] = np.clip( (1+parr[:,3])*(10.0/2.0),0.001,10)  
+        parr[:,4] = np.clip( (1+parr[:,4]),0.01,2.0)  
+        parr[:,5] = np.clip( (1+parr[:,5]),0.01,2.0) 
+        mycpg.set_patterns(parr[:,0],parr[:,1],parr[:,2],parr[:,3],parr[:,4],parr[:,5])
+        #mycpg.set_patterns(scaling(parr[:,0]),scaling(parr[:,1]),scaling2(parr[:,2]),scaling2(parr[:,3]),scalingICUR(parr[:,4]),scaling(parr[:,5]))
         if timechunk==5:
             #print("patterns set to:",scaling(parr[0,0]),scaling(parr[0,1]),scaling2(parr[0,2]),scaling2(parr[0,3]),scalingICUR(parr[0,4]),scaling(parr[0,5]))
             pass
