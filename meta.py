@@ -181,13 +181,13 @@ def trial_simulation(trial,first,R_mean):
         parr=[]
         for i in range(njoints_max):
             parr.append(output[i*6:i*6+6])
-        parr=np.array(parr)
-        parrr[:,0] = np.clip( (1+parr[:,0])*(5.0/2.0),0.001,5)  
-        parrr[:,1] = np.clip( (1+parr[:,1])*(5.0/2.0),0.001,5) 
-        parrr[:,2] = np.clip(parr[:,2]*4,-4,4)  
-        parrr[:,3] = np.clip( (1+parr[:,3])*(10.0/2.0),0.001,10)  
-        parrr[:,4] = np.clip( (1+parr[:,4]),0.01,2.0)  
-        parrr[:,5] = np.clip( (1+parr[:,5]),0.01,2.0) 
+        parrr=np.array(parr)
+        parrr[:,0] = np.clip( (1+parrr[:,0])*(5.0/2.0),0.001,5)  
+        parrr[:,1] = np.clip( (1+parrr[:,1])*(5.0/2.0),0.001,5) 
+        parrr[:,2] = np.clip(parrr[:,2]*4,-4,4)  
+        parrr[:,3] = np.clip( (1+parrr[:,3])*(10.0/2.0),0.001,10)  
+        parrr[:,4] = np.clip( (1+parrr[:,4]),0.01,2.0)  
+        parrr[:,5] = np.clip( (1+parrr[:,5]),0.01,2.0) 
         mycpg.set_patterns(parrr[:,0],parrr[:,1],parrr[:,2],parrr[:,3],parrr[:,4],parrr[:,5])
         #mycpg.set_patterns(scaling(parr[:,0]),scaling(parr[:,1]),scaling2(parr[:,2]),scaling2(parr[:,3]),scalingICUR(parr[:,4]),scaling(parr[:,5]))
         
