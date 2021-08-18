@@ -182,7 +182,16 @@ def trial_simulation(trial,first,R_mean):
         for i in range(njoints_max):
             parr.append(output[i*6:i*6+6])
         parr=np.array(parr)
-        mycpg.set_patterns(scaling(parr[:,0]),scaling(parr[:,1]),scaling2(parr[:,2]),scaling2(parr[:,3]),scalingICUR(parr[:,4]),scaling(parr[:,5]))
+        parrr[:,0] = np.clip( (1+parr[:,0])*(5.0/2.0),0.001,5)  
+        parrr[:,1] = np.clip( (1+parr[:,1])*(5.0/2.0),0.001,5) 
+        parrr[:,2] = np.clip(parr[:,2]*4,-4,4)  
+        parrr[:,3] = np.clip( (1+parr[:,3])*(10.0/2.0),0.001,10)  
+        parrr[:,4] = np.clip( (1+parr[:,4]),0.01,2.0)  
+        parrr[:,5] = np.clip( (1+parr[:,5]),0.01,2.0) 
+        mycpg.set_patterns(parrr[:,0],parrr[:,1],parrr[:,2],parrr[:,3],parrr[:,4],parrr[:,5])
+        #mycpg.set_patterns(scaling(parr[:,0]),scaling(parr[:,1]),scaling2(parr[:,2]),scaling2(parr[:,3]),scalingICUR(parr[:,4]),scaling(parr[:,5]))
+        
+        
         if timechunk==5:
             #print("patterns set to:",scaling(parr[0,0]),scaling(parr[0,1]),scaling2(parr[0,2]),scaling2(parr[0,3]),scalingICUR(parr[0,4]),scaling(parr[0,5]))
             pass
@@ -267,8 +276,8 @@ try:
         Cancel=str(cancel_content.read())
         if Cancel[0]!="0":break
         print('Trial', trial)
-        posi1, recordsA, tracesA, R_mean, initposi, AhistA, error= trial_simulation(trial, 0, R_mean)
-        posi2, recordsB, tracesB, R_mean, initposi, AhistB, error= trial_simulation(trial, 1, R_mean)
+        posi1, recordsA, tracesA, R_mean, initposi, AhistA, error1= trial_simulation(trial, 0, R_mean)
+        posi2, recordsB, tracesB, R_mean, initposi, AhistB, error2= trial_simulation(trial, 1, R_mean)
         if trial == 0:
             recordsA_first=recordsA
             recordsB_first=recordsA
@@ -283,7 +292,7 @@ try:
         R_means2.append(R_mean[1])
 
 
-        error_history.append(error)
+        error_history.append(error1+error2)
         TRIAL+=1
 except KeyboardInterrupt:
     pass
