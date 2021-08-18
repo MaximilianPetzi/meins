@@ -4,8 +4,8 @@ usekm=True      #use kinematic model or not (simulator, not on ssh)
 showall=True    #plot whole trial activities or not (just first and last 100ms)
 skipcpg=False   #just use scaled minconi output after last timechunk as final angels instead of using the CPG. 
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
-showplot=True
-max_trials=1000
+showplot=False
+max_trials=600
 chunktime=40   #also change var_f inversely
 d_execution=40  #average over last d_execution timesteps
 import os
@@ -292,7 +292,7 @@ try:
         R_means2.append(R_mean[1])
 
 
-        error_history.append(error1+error2)
+        error_history.append((error1+error2)/2)
         TRIAL+=1
 except KeyboardInterrupt:
     pass
