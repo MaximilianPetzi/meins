@@ -5,7 +5,7 @@ showall=True    #plot whole trial activities or not (just first and last 100ms)
 skipcpg=False   #just use scaled minconi output after last timechunk as final angels instead of using the CPG. 
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
 showplot=False
-max_trials=2200
+max_trials=1000
 chunktime=200   #also change var_f inversely
 d_execution=200  #average over last d_execution timesteps
 import os
@@ -275,8 +275,8 @@ try:
         Cancel=str(cancel_content.read())
         if Cancel[0]!="0":break
         print('Trial', trial)
-        posi1, recordsA, tracesA, R_mean, initposi, AhistA, error= trial_simulation(trial, 0, R_mean)
-        posi2, recordsB, tracesB, R_mean, initposi, AhistB, error= trial_simulation(trial, 1, R_mean)
+        posi1, recordsA, tracesA, R_mean, initposi, AhistA, error1= trial_simulation(trial, 0, R_mean)
+        posi2, recordsB, tracesB, R_mean, initposi, AhistB, error2= trial_simulation(trial, 1, R_mean)
         if trial == 0:
             recordsA_first=recordsA
             recordsB_first=recordsA
@@ -291,7 +291,7 @@ try:
         R_means2.append(R_mean[1])
 
 
-        error_history.append(error)
+        error_history.append(error1+error2)
         TRIAL+=1
 except KeyboardInterrupt:
     pass

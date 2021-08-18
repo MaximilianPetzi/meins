@@ -99,7 +99,7 @@ class net:
 
     # Input weights
     Wi = Projection(inp, pop, 'in')
-    Wi.connect_all_to_all(weights=Uniform(-1.0, 1.0))
+    Wi.connect_all_to_all(weights=Uniform(-1.5, 1.5))
 
     # Recurrent weights
     g = var_g #default 1.5
@@ -124,111 +124,4 @@ class net:
         #print("(reinit)")
     
     
-
-def dnms_trial(trial, first, second, R_mean):
-    traces = []
-    # Reinit network
-    pop.x = Uniform(-0.1, 0.1).get_values(N)
-    pop.r = np.tanh(pop.x)
-    pop[1].r = np.tanh(1.0)
-    pop[10].r = np.tanh(1.0)
-    pop[11].r = np.tanh(-1.0)
-    
-    # First input
-    inp[first].r = 1.0
-    simulate(d_stim)
-    # Delay
-    inp.r = 0.0
-    simulate(d_delay)
-    # Second input
-    inp[second].r = 1.0
-    simulate(d_stim)
-    # Relaxation
-    inp.r = 0.0
-    simulate(d_response)
-    # Read the output
-    rec = m.get()
-    # traces = n.get('trace')
-    # Compute the target
-    target = 0.98 if first != second else -0.98
-    # Response if over the last 200 ms
-    output = rec['r'][-int(d_execution):, begin_out:begin_out+n_out] # neuron 100 over the last 200 ms
-    # Compute the error
-    error = np.mean(np.abs(target - output))
-    print('Target:', target, '\tOutput:', "%0.3f" % np.mean(output), '\tError:',  "%0.3f" % error, '\tMean:', "%0.3f" % R_mean[first])
-    # The first 25 trial do not learn, to let R_mean get realistic values
-    if trial > 25:
-        # Apply the learning rule
-        Wrec.learning_phase = 1.0
-        Wrec.error = error
-        Wrec.mean_error = R_mean[first]
-        # Learn for one step
-        step()
-        # Reset the traces
-        Wrec.learning_phase = 0.0
-        Wrec.trace = 0.0
-        _ = m.get() # to flush the recording of the last step
-
-    # Update the mean reward
-    R_mean[first, second] = alpha * R_mean[first, second] + (1.- alpha) * error
-
-    return rec, traces, R_mean
-
-
-    # Initial weights
-#init_w = Wrec.w
-
-# Many trials of each type
-'''try:
-    for trial in range(2500):
-        print('Trial', trial)
-        recordsAA, tracesAA, R_mean = dnms_trial (trial, 0, 0, R_mean)
-        recordsAB, tracesAB, R_mean = dnms_trial (trial, 0, 1, R_mean)
-        recordsBA, tracesBA, R_mean = dnms_trial (trial, 1, 0, R_mean)
-        recordsBB, tracesBB, R_mean = dnms_trial (trial, 1, 1, R_mean)
-        if trial == 0:
-            initialAA = recordsAA['r']
-            initialAB = recordsAB['r']
-            initialBA = recordsBA['r']
-            initialBB = recordsBB['r']
-except KeyboardInterrupt:
-    pass
-
-# Final weights
-final_w = Wrec.w
-
-
-import matplotlib.pyplot as plt
-plt.figure(figsize=(20, 20))
-ax = plt.subplot(231)
-ax.imshow(recordsAA['r'].T, aspect='auto', origin='lower')
-ax.set_title('Population')
-ax = plt.subplot(232)
-ax.plot(np.mean(initialAA[:, output_neuron:output_neuron+1], axis=1), label='before')
-ax.plot(np.mean(recordsAA['r'][:, output_neuron:output_neuron+1], axis=1), label='after')
-ax.set_ylim((-1., 1.))
-ax.legend()
-ax.set_title('Output AA -1')
-ax = plt.subplot(233)
-ax.plot(np.mean(initialBA[:, output_neuron:output_neuron+1], axis=1), label='before')
-ax.plot(np.mean(recordsBA['r'][:, output_neuron:output_neuron+1], axis=1), label='after')
-ax.set_ylim((-1., 1.))
-ax.legend()
-ax.set_title('Output BA +1')
-ax = plt.subplot(235)
-ax.plot(np.mean(initialAB[:, output_neuron:output_neuron+1], axis=1), label='before')
-ax.plot(np.mean(recordsAB['r'][:, output_neuron:output_neuron+1], axis=1), label='after')
-ax.set_ylim((-1., 1.))
-ax.set_title('Output AB +1')
-ax = plt.subplot(236)
-ax.plot(np.mean(initialBB[:, output_neuron:output_neuron+1], axis=1), label='before')
-ax.plot(np.mean(recordsBB['r'][:, output_neuron:output_neuron+1], axis=1), label='after')
-ax.set_ylim((-1., 1.))
-ax.set_title('Output BB -1')
-plt.show()
-
-
-
-'''
-
 
