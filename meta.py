@@ -3,6 +3,7 @@
 usekm=True      #use kinematic model or not (simulator, not on ssh)
 showall=True    #plot whole trial activities or not (just first and last 100ms)
 skipcpg=False   #just use scaled minconi output after last timechunk as final angels instead of using the CPG. 
+multiple_rewards=True
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
 showplot=False
 max_trials=1000
@@ -83,6 +84,8 @@ if usekm==False:
 # Compute the mean reward per trial
 R_mean = np.zeros((2))
 alpha = 0.75 # 0.33
+if multiple_rewards:
+    alpha=alpha**(1/10) #to slow down R_mean again to the previous value
 import CPG
 #print("__________________________qui: CPG imported")
 
@@ -188,68 +191,73 @@ def trial_simulation(trial,first,R_mean):
         parrr[:,3] = np.clip( (1+parrr[:,3])*(10.0/2.0),0.001,10)  
         parrr[:,4] = np.clip( (1+parrr[:,4]),0.01,2.0)  
         parrr[:,5] = np.clip( (1+parrr[:,5]),0.01,2.0) 
+        
         mycpg.set_patterns(parrr[:,0],parrr[:,1],parrr[:,2],parrr[:,3],parrr[:,4],parrr[:,5])
         #mycpg.set_patterns(scaling(parr[:,0]),scaling(parr[:,1]),scaling2(parr[:,2]),scaling2(parr[:,3]),scalingICUR(parr[:,4]),scaling(parr[:,5]))
         
-        
-        if timechunk==5:
-            #print("patterns set to:",scaling(parr[0,0]),scaling(parr[0,1]),scaling2(parr[0,2]),scaling2(parr[0,3]),scalingICUR(parr[0,4]),scaling(parr[0,5]))
-            pass
-        #moove:
-        if timechunk>1:
+        #move from timechunk nr.:
+        movet=2
+        if timechunk>=movet:
             mycpg.loop_move(timechunk)
         #print(mycpg.Angles)
         Ahist.append(np.degrees(np.array(mycpg.Angles)[[26,25]]))
         #print("_______________là: loop-moved")
-    
-    mynet.inp[first].r = 0.0
-    
-    if usekm==False:
-        position=myreadr.read()
-    if usekm==True:
-        if skipcpg:
-            the1=(parr[0,0]+1)*80
-            #print(the1)
-        if not skipcpg:
-            the1=mycpg.Angles[mycpg.LShoulderRoll]
-        the2=mycpg.Angles[mycpg.LElbow]
-        if skipcpg:
-            the3=(parr[1,0]+1)/2*(8+95.5)-95.5
-            #print(the3)
-        if not skipcpg:
-            the3=mycpg.Angles[mycpg.LShoulderPitch]
-        the4=mycpg.Angles[mycpg.LShoulderYaw]
-        position=kinematic_model.wrist_position([the4,the3,the1,the2])[0:3]
-          
-    #haut nur beim ersten mal hin
-    #mycpg.plot_layers()
-    
-    #compute target 1:hand right 2:hand left
-    if usekm==False:
-        target = targetA if first == 0 else targetB
-    if usekm==True:
-        target= targetA if first == 0 else targetB
-    error = (np.linalg.norm(np.array(target) - np.array(position)))**1
-    #print(colored("target: "+str(first)+", "+str(target)+" \nposition : "+str(position),"white"))
-    #print(colored("error: "+str(error)+" Mean: "+str(R_mean[first]),"red"))
-    
-    #print('Target:', target, '\tOutput:', position, '\tError:',  "%0.3f" % error, '\tMean:', "%0.3f" % R_mean[first])
-    #print("WEIGHT: ",mynet.Wrec[3].w[1:3])
-    #print(mynet.Wrec.w)
-    if trial > 50:
-        # Apply the learning rule
-        mynet.Wrec.learning_phase = 1.0
-        mynet.Wrec.error = error
-        mynet.Wrec.mean_error = R_mean[first]
-        # Learn for one step
-        minconi.step()
-        # Reset the traces
-        mynet.Wrec.learning_phase = 0.0
-        mynet.Wrec.trace = 0.0
-        _ = mynet.m.get() # to flush the recording of the last step
 
-    # Update the mean reward
-    R_mean[first] = alpha * R_mean[first] + (1.- alpha) * error
+        #learn here
+
+
+        #mynet.inp[first].r = 0.0   kann weg?
+        
+        if usekm==False:
+            position=myreadr.read()
+        if usekm==True:
+            if skipcpg:
+                the1=(parr[0,0]+1)*80
+                #print(the1)
+            if not skipcpg:
+                the1=mycpg.Angles[mycpg.LShoulderRoll]
+            the2=mycpg.Angles[mycpg.LElbow]
+            if skipcpg:
+                the3=(parr[1,0]+1)/2*(8+95.5)-95.5
+                #print(the3)
+            if not skipcpg:
+                the3=mycpg.Angles[mycpg.LShoulderPitch]
+            the4=mycpg.Angles[mycpg.LShoulderYaw]
+            position=kinematic_model.wrist_position([the4,the3,the1,the2])[0:3]
+            
+        #haut nur beim ersten mal hin
+        #mycpg.plot_layers()
+        
+        #compute target 1:hand right 2:hand left
+        if usekm==False:
+            target = targetA if first == 0 else targetB
+        if usekm==True:
+            target= targetA if first == 0 else targetB
+        error = (np.linalg.norm(np.array(target) - np.array(position)))**1
+        #print(colored("target: "+str(first)+", "+str(target)+" \nposition : "+str(position),"white"))
+        #print(colored("error: "+str(error)+" Mean: "+str(R_mean[first]),"red"))
+        
+        #print('Target:', target, '\tOutput:', position, '\tError:',  "%0.3f" % error, '\tMean:', "%0.3f" % R_mean[first])
+        #print("WEIGHT: ",mynet.Wrec[3].w[1:3])
+        #print(mynet.Wrec.w)
+        if multiple_rewards:
+            movecond=timechunk>=movet
+        else:
+            movecond=timechunk==9
+        if trial > 30 and movecond:
+            # Apply the learning rule
+            mynet.Wrec.learning_phase = 1.0
+            mynet.Wrec.error = error
+            mynet.Wrec.mean_error = R_mean[first]
+            # Learn for one step
+            minconi.step()
+            # Reset the traces
+            mynet.Wrec.learning_phase = 0.0
+            mynet.Wrec.trace = 0.0
+            _ = mynet.m.get() # to flush the recording of the last step
+
+        # Update the mean reward
+        R_mean[first] = alpha * R_mean[first] + (1.- alpha) * error
 
     return position,recz ,traces, R_mean, initposi, Ahist, error
 if usekm==True:
