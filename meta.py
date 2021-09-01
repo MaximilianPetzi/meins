@@ -6,8 +6,8 @@ skipcpg=False   #just use scaled minconi output after last timechunk as final an
 multiple_rewards=False
 use_feedback=True
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
-showplot=True
-max_trials=1000
+showplot=False
+max_trials=800
 chunktime=40   #also change var_f inversely
 d_execution=40  #average over last d_execution timesteps
 import os
