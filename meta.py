@@ -32,7 +32,7 @@ if not args.m:
         var_f=9
         var_eta=.6
         var_g=1.5
-        var_N=100
+        var_N=200
         var_A=20
     else:
         var_f=float(input("f="))
@@ -183,12 +183,12 @@ def trial_simulation(trial,first,R_mean):
         #print(colored("\ntimechunk "+str(timechunk),"green"))
         tspre=time.time()
         if use_feedback:
-            position=give_position()
+            oldposition=give_position()
             
             fdb_ar=np.zeros((3))
             fdb_ar[first] = 1.0
-            mynet.inp[:].r=2.5*np.array(position-target)#faktor 1.5, um die auswirkung groß genug zu halten
-            print(mynet.inp[:].r)
+            mynet.inp[:].r=2.5*np.array(oldposition-target)#faktor 1.5, um die auswirkung groß genug zu halten
+            #print(mynet.inp[:].r)
         minconi.simulate(chunktime)
         tsimulate+=time.time()-tspre
         # Read the output parameters(robot inputs)#
@@ -242,6 +242,7 @@ def trial_simulation(trial,first,R_mean):
         #mycpg.plot_layers()
         
         error = (np.linalg.norm(np.array(target) - np.array(position)))**1
+        learnerror=error/(np.linalg.norm(np.array(target) - np.array(oldposition)))
         #print(colored("target: "+str(first)+", "+str(target)+" \nposition : "+str(position),"white"))
         #print(colored("error: "+str(error)+" Mean: "+str(R_mean[first]),"red"))
         
@@ -255,7 +256,7 @@ def trial_simulation(trial,first,R_mean):
         if trial > 20 and learncond:
             # Apply the learning rule
             mynet.Wrec.learning_phase = 1.0
-            mynet.Wrec.error = error
+            mynet.Wrec.error = learnerror
             mynet.Wrec.mean_error = R_mean[first]
             # Learn for one step
             minconi.step()
@@ -265,9 +266,9 @@ def trial_simulation(trial,first,R_mean):
             _ = mynet.m.get() # to flush the recording of the last step
 
         # Update the mean reward
-        R_mean[first] = alpha * R_mean[first] + (1.- alpha) * error
+        R_mean[first] = alpha * R_mean[first] + (1.- alpha) * learnerror
 
-    return position,recz ,traces, R_mean, initposi, Ahist, error
+    return position,recz ,traces, R_mean, initposi, Ahist, error,learnerror
 if usekm==True:
     targetA=[ 0.07145494,  0.36328722, -0.04980991]#[0.04399564,0.22961777,0.25192178]
     targetB=[-0.35862834, -0.09199801, -0.04854833]#[0.11422334,0.15786776,0.26741575]
@@ -294,8 +295,8 @@ try:
         Cancel=str(cancel_content.read())
         if Cancel[0]!="0":break
         print('Trial', trial)
-        posi1, recordsA, tracesA, R_mean, initposi, AhistA, error1= trial_simulation(trial, 0, R_mean)
-        posi2, recordsB, tracesB, R_mean, initposi, AhistB, error2= trial_simulation(trial, 1, R_mean)
+        posi1, recordsA, tracesA, R_mean, initposi, AhistA, error1, learnerror1= trial_simulation(trial, 0, R_mean)
+        posi2, recordsB, tracesB, R_mean, initposi, AhistB, error2, learnerror2= trial_simulation(trial, 1, R_mean)
         if trial == 0:
             recordsA_first=recordsA
             recordsB_first=recordsB
@@ -305,13 +306,13 @@ try:
             AhistA_ar.append(np.array(AhistA))
             AhistB_ar.append(np.array(AhistB))
         #nicht überschneiden lassen
-        startrecA=80
+        startrecA=500
         if trial == startrecA:
             recordsA_first=recordsA
             recordsB_first=recordsB
             AhistA_first=np.array(AhistA)
             AhistB_first=np.array(AhistB)
-        if trial>=startrecA and trial<startrecA+20:
+        if trial>=startrecA and trial<startrecA+40:
             AhistA_arl.append(np.array(AhistA))
             AhistB_arl.append(np.array(AhistB))
         posis1.append(posi1)

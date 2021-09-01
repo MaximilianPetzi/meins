@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt 
 import matplotlib
-matplotlib.use("TkAgg")
+#matplotlib.use("TkAgg")
 import os
 os.system("rm ../bilder/plit_temp/*")
 nrt=25
