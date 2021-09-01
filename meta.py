@@ -3,9 +3,10 @@
 usekm=True      #use kinematic model or not (simulator, not on ssh)
 showall=True    #plot whole trial activities or not (just first and last 100ms)
 skipcpg=False   #just use scaled minconi output after last timechunk as final angels instead of using the CPG. 
-multiple_rewards=True
+multiple_rewards=False
+use_feedback=True
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
-showplot=False
+showplot=True
 max_trials=1000
 chunktime=40   #also change var_f inversely
 d_execution=40  #average over last d_execution timesteps
@@ -31,7 +32,7 @@ if not args.m:
         var_f=9
         var_eta=.6
         var_g=1.5
-        var_N=400
+        var_N=100
         var_A=20
     else:
         var_f=float(input("f="))
@@ -89,8 +90,6 @@ if multiple_rewards:
 import CPG
 #print("__________________________qui: CPG imported")
 
-
-
 def scaling(x):
     return x+1+0.001#(-.5-1/(x-1))*3
 def scaling2(x):
@@ -106,6 +105,25 @@ def trial_simulation(trial,first,R_mean):
     #start cpg:
     mycpg=CPG.cpg()
     
+    def give_position():
+        if usekm==False:
+            position=myreadr.read()
+        if usekm==True:
+            if skipcpg:
+                the1=(parr[0,0]+1)*80
+                #print(the1)
+            if not skipcpg:
+                the1=mycpg.Angles[mycpg.LShoulderRoll]
+            the2=mycpg.Angles[mycpg.LElbow]
+            if skipcpg:
+                the3=(parr[1,0]+1)/2*(8+95.5)-95.5
+                #print(the3)
+            if not skipcpg:
+                the3=mycpg.Angles[mycpg.LShoulderPitch]
+            the4=mycpg.Angles[mycpg.LShoulderYaw]
+            position=kinematic_model.wrist_position([the4,the3,the1,the2])[0:3]
+        return position
+
     #reset cpg diff equation (global variable myCont) (FUNKTIONERT BEIM 1. TRIAL NICHT RICHTIG(sieht man bei konstanten parameter))
     for i in range(0, len(CPG.myCont)):
         CPG.myCont[i].RG.E.V=0
@@ -147,24 +165,37 @@ def trial_simulation(trial,first,R_mean):
     #print(CPG.cpg.myCont[0].RG.E.q)
     #print(mycpg.myCont[0].RG.E.V)
     
-    
-    mynet.inp[first].r = 1.0
+    if not use_feedback:
+        mynet.inp[first].r = 1.0
     
     #mynet.Wrec.eta*=np.exp(1/200*np.log(101))#x^200=101
     #print(mynet.Wi.w[0][0:10])
     recz=[]
     Ahist=[]
+    #compute target 1:hand right 2:hand left
+    if usekm==False:
+        target = targetA if first == 0 else targetB
+    if usekm==True:
+        target= targetA if first == 0 else targetB
+
     for timechunk in range(10):
         #print("\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
         #print(colored("\ntimechunk "+str(timechunk),"green"))
         tspre=time.time()
-        
+        if use_feedback:
+            position=give_position()
+            
+            fdb_ar=np.zeros((3))
+            fdb_ar[first] = 1.0
+            mynet.inp[:].r=2.5*np.array(position-target)#faktor 1.5, um die auswirkung groß genug zu halten
+            print(mynet.inp[:].r)
         minconi.simulate(chunktime)
         tsimulate+=time.time()-tspre
         # Read the output parameters(robot inputs)#
         
-        #remove input after first 100ms
-        mynet.inp[0:2].r = 0.0
+        if not use_feedback:
+            #remove input after first 100ms
+            mynet.inp[0:2].r = 0.0
 
 
         rec = mynet.m.get()
@@ -204,35 +235,12 @@ def trial_simulation(trial,first,R_mean):
         #print("_______________là: loop-moved")
 
         #learn here
-
-
-        #mynet.inp[first].r = 0.0   kann weg?
         
-        if usekm==False:
-            position=myreadr.read()
-        if usekm==True:
-            if skipcpg:
-                the1=(parr[0,0]+1)*80
-                #print(the1)
-            if not skipcpg:
-                the1=mycpg.Angles[mycpg.LShoulderRoll]
-            the2=mycpg.Angles[mycpg.LElbow]
-            if skipcpg:
-                the3=(parr[1,0]+1)/2*(8+95.5)-95.5
-                #print(the3)
-            if not skipcpg:
-                the3=mycpg.Angles[mycpg.LShoulderPitch]
-            the4=mycpg.Angles[mycpg.LShoulderYaw]
-            position=kinematic_model.wrist_position([the4,the3,the1,the2])[0:3]
+        position=give_position()
             
         #haut nur beim ersten mal hin
         #mycpg.plot_layers()
         
-        #compute target 1:hand right 2:hand left
-        if usekm==False:
-            target = targetA if first == 0 else targetB
-        if usekm==True:
-            target= targetA if first == 0 else targetB
         error = (np.linalg.norm(np.array(target) - np.array(position)))**1
         #print(colored("target: "+str(first)+", "+str(target)+" \nposition : "+str(position),"white"))
         #print(colored("error: "+str(error)+" Mean: "+str(R_mean[first]),"red"))
@@ -241,10 +249,10 @@ def trial_simulation(trial,first,R_mean):
         #print("WEIGHT: ",mynet.Wrec[3].w[1:3])
         #print(mynet.Wrec.w)
         if multiple_rewards:
-            movecond=timechunk>=movet
+            learncond=timechunk>=movet
         else:
-            movecond=timechunk==9
-        if trial > 30 and movecond:
+            learncond=timechunk==9
+        if trial > 20 and learncond:
             # Apply the learning rule
             mynet.Wrec.learning_phase = 1.0
             mynet.Wrec.error = error
@@ -278,6 +286,8 @@ try:
     os.system("echo 0 > ../cancel.txt")
     AhistA_ar=[]
     AhistB_ar=[]
+    AhistA_arl=[]
+    AhistB_arl=[]
     error_history=[]
     for trial in range(max_trials):
         cancel_content = open("../cancel.txt", "r")
@@ -288,12 +298,22 @@ try:
         posi2, recordsB, tracesB, R_mean, initposi, AhistB, error2= trial_simulation(trial, 1, R_mean)
         if trial == 0:
             recordsA_first=recordsA
-            recordsB_first=recordsA
+            recordsB_first=recordsB
             AhistA_first=np.array(AhistA)
             AhistB_first=np.array(AhistB)
         if trial <20:
             AhistA_ar.append(np.array(AhistA))
             AhistB_ar.append(np.array(AhistB))
+        #nicht überschneiden lassen
+        startrecA=80
+        if trial == startrecA:
+            recordsA_first=recordsA
+            recordsB_first=recordsB
+            AhistA_first=np.array(AhistA)
+            AhistB_first=np.array(AhistB)
+        if trial>=startrecA and trial<startrecA+20:
+            AhistA_arl.append(np.array(AhistA))
+            AhistB_arl.append(np.array(AhistB))
         posis1.append(posi1)
         posis2.append(posi2)
         R_means1.append(R_mean[0])
@@ -318,6 +338,16 @@ rAf_t = np.array(rAf_t)
 raftsh = np.shape(rAf_t)
 rAf_t = np.transpose(rAf_t, (1, 0, 2))
 rAf_t = np.reshape(rAf_t, (raftsh[1], raftsh[0]*raftsh[2]))
+#######
+#delete:
+rBf_t = []
+for i in range(10):  # 10=nr of chunks
+    rBf_t.append(recordsB_first[i]['r'].T)
+rBf_t = np.array(rBf_t)
+rbftsh = np.shape(rBf_t)
+rBf_t = np.transpose(rBf_t, (1, 0, 2))
+rBf_t = np.reshape(rBf_t, (rbftsh[1], rbftsh[0]*rbftsh[2]))
+#######
 ####
 rAl_t = []
 for i in range(10):  # 10=nr of chunks
@@ -342,42 +372,32 @@ except:
     print(colored("don't use ssh -X with screen because it doesn't work for some reason.","red"))
 
 ax = plt.subplot(241)
-if not showall:
-    ax.imshow(recordsA_first[0]['r'].T, aspect='auto', origin='lower')
-    ax.set_title('FIRST 100ms PopulationA of FIRST trial')
-if showall:
-    ax.imshow(rAf_t, aspect='auto', origin='lower')
-    ax.set_title('ALL 10 100ms-chunks of PopulationA of FIRST trial')
+ax.imshow(rAf_t, aspect='auto', origin='lower')
+ax.set_title('ALL 10 100ms-chunks of PopulationA of FIRST trial')
     
-    ax = plt.subplot(242)
-    ax.plot(AhistA_first[:,0],c="r",label="LShoulderRoll")
-    ax.plot(AhistA_first[:,1],c="b",label="LShoulderPitch")
-    ax.set_title("Angle development in first trial")
-    ax.legend()
-    ax = plt.subplot(246)
-    AhistA_ar=np.array(AhistA_ar)
-    for i in range(len(AhistA_ar)):
-        alpha=(i+1)/(1+len(AhistA_ar))
-        ax.plot(AhistA_ar[i,:,0],linewidth=.6,c=(1,0,0,alpha**2))
-        ax.plot(AhistA_ar[i,:,1],linewidth=.6,c=(0,0,1,alpha**2))
-    ax.set_title("Angle development in FIRST "+str(len(AhistA_ar))+" trials")
-if not showall:
-    ax = plt.subplot(242)
-    ax.imshow(recordsA_first[-1]['r'].T, aspect='auto', origin='lower')
-    ax.set_title('LAST 100ms PopulationA FIRST trial')
+    
+ax = plt.subplot(242)
+AhistA_ar=np.array(AhistA_ar)
+for i in range(len(AhistA_ar)):
+    alpha=(i+1)/(1+len(AhistA_ar))
+    ax.plot(AhistA_ar[i,:,0],linewidth=.6,c=(1,0,0,alpha**2))
+    ax.plot(AhistA_ar[i,:,1],linewidth=.6,c=(0,0,1,alpha**2))
+ax.set_title("A Angle development in FIRST "+str(len(AhistA_ar))+" trials")
+
+ax=plt.subplot(246)
+AhistA_arl=np.array(AhistA_arl)
+for i in range(len(AhistA_arl)):
+    alpha=(i+1)/(1+len(AhistA_arl))
+    ax.plot(AhistA_arl[i,:,0],linewidth=.6,c=(1,0,0,alpha**2))
+    ax.plot(AhistA_arl[i,:,1],linewidth=.6,c=(0,0,1,alpha**2))
+ax.set_title("A Angle development in LATER "+str(len(AhistA_arl))+" trials")
+
 
 ax = plt.subplot(245)
-if not showall:
-    ax.imshow(recordsA[0]['r'].T, aspect='auto', origin='lower')
-    ax.set_title('FIRST 100ms PopulationA of last trial')
-if showall:
-    ax.imshow(rAl_t, aspect='auto', origin='lower')
-    ax.set_title('ALL 10 100ms-chunks of PopulationA of last trial')
+ax.imshow(rBf_t, aspect='auto', origin='lower')#rAl_t
+ax.set_title('ALL 10 100ms-chunks of PopulationA of last trial')
 
-if not showall:
-    ax = plt.subplot(246)
-    ax.imshow(recordsA[-1]['r'].T, aspect='auto', origin='lower')
-    ax.set_title('LAST 100ms PopulationA last trial')
+
 
 ax = plt.subplot(243)
 #ax.plot(initialA[:, mynet.begin_out], label='before')

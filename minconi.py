@@ -1,3 +1,5 @@
+use_feedback=True
+import time
 import numpy as np
 Paramarr=np.load("../paramarr.npy")
 #set flag to writable:
@@ -85,9 +87,7 @@ class net:
     )
 
     
-    # Input population
-    inp = Population(2, Neuron(parameters="r=0.0"))
-
+    
     # Recurrent population
     N = var_N
     pop = Population(N, neuron)
@@ -96,14 +96,22 @@ class net:
     pop[42].constant = -1.0
     pop.x = Uniform(-0.1, 0.1)
     
-
-    # Input weights
+    if use_feedback:
+        n_fb=3
+        inp = Population(n_fb, Neuron(parameters="r=0.0"))
+    if not use_feedback:
+        # Input population
+        inp = Population(2, Neuron(parameters="r=0.0"))
+    # Input weights'
     Wi = Projection(inp, pop, 'in')
+    #setup(seed=5)
     Wi.connect_all_to_all(weights=Uniform(-1.5, 1.5))
+    
 
     # Recurrent weights
     g = var_g #default 1.5
     Wrec = Projection(pop, pop, 'exc', synapse)
+    #setup(seed=68)
     Wrec.connect_all_to_all(weights=Normal(0., g/np.sqrt(N)), allow_self_connections=True)
     m = Monitor(pop, ['r'])
     compile()

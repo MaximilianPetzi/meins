@@ -19,7 +19,7 @@ extern std::vector<std::mt19937> rng;
 // proj1: pop1 -> pop1 with target exc
 /////////////////////////////////////////////////////////////////////////////
 struct ProjStruct1 : LILMatrix<int> {
-    ProjStruct1() : LILMatrix<int>( 200, 200) {
+    ProjStruct1() : LILMatrix<int>( 400, 400) {
     }
 
 
