@@ -1,15 +1,14 @@
 #just use one meta.py at a time, except with params.py
 #terminal auf CPG_iCub
 usekm=True      #use kinematic model or not (simulator, not on ssh)
-showall=True    #plot whole trial activities or not (just first and last 100ms)
 skipcpg=False   #just use scaled minconi output after last timechunk as final angels instead of using the CPG. 
 multiple_rewards=True
 use_feedback=True
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
 showplot=False
-max_trials=800
-chunktime=40   #also change var_f inversely
-d_execution=40  #average over last d_execution timesteps
+max_trials=1000
+chunktime=200   #also change var_f inversely
+d_execution=200  #average over last d_execution timesteps
 import os
 import time
 from termcolor import colored
@@ -46,19 +45,13 @@ if not args.m:
     Paramarr[3]=var_N
     Paramarr[4]=var_A
     np.save('../paramarr',Paramarr)
-##
+
 
 if usekm==False:
     import readr
 if usekm==True:
     import kinematic_model
-    #print(kinematic_model.wrist_position([0,0,0,0])[0:3])
 import minconi
-#import tlib
-#import tlib_ordner.tlib2
-#print(tl1.a,tl2.a)
-#ade=tlib.mensch("dolf\n")
-
 
 #start simulator:
 path="../iCub_simulator_tools/iCubSim_environment/"
@@ -84,6 +77,7 @@ if usekm==False:
 
 # Compute the mean reward per trial
 R_mean = np.zeros((2))
+r_mean = np.zeros((2))
 alpha = 0.75 # 0.33
 if multiple_rewards:
     alpha=alpha**(1/10) #to slow down R_mean again to the previous value
@@ -97,11 +91,9 @@ def scaling2(x):
 def scalingICUR(x):
     return 8*x
 
+####################################################
 def trial_simulation(trial,first,R_mean):
     traces = []
-    mynet.reinit()
-    
-    #move robot to point using the parameters
     #start cpg:
     mycpg=CPG.cpg()
     
@@ -111,95 +103,72 @@ def trial_simulation(trial,first,R_mean):
         if usekm==True:
             if skipcpg:
                 the1=(parr[0,0]+1)*80
-                #print(the1)
             if not skipcpg:
                 the1=mycpg.Angles[mycpg.LShoulderRoll]
             the2=mycpg.Angles[mycpg.LElbow]
             if skipcpg:
                 the3=(parr[1,0]+1)/2*(8+95.5)-95.5
-                #print(the3)
             if not skipcpg:
                 the3=mycpg.Angles[mycpg.LShoulderPitch]
             the4=mycpg.Angles[mycpg.LShoulderYaw]
             position=kinematic_model.wrist_position([the4,the3,the1,the2])[0:3]
         return position
 
-    #reset cpg diff equation (global variable myCont) (FUNKTIONERT BEIM 1. TRIAL NICHT RICHTIG(sieht man bei konstanten parameter))
-    for i in range(0, len(CPG.myCont)):
-        CPG.myCont[i].RG.E.V=0
-        CPG.myCont[i].RG.E.q=0
-        CPG.myCont[i].RG.F.V=0
-        CPG.myCont[i].RG.F.q=0
-    
-    if len(traces) == 0 and trial == 0:
-        global tmovetoinit, tsimulate
-        tmovetoinit = 0
-        tsimulate = 0
     #move to starting position:
-    tspre=time.time()
     if usekm==False:
         mycpg.move_to_init()
     if usekm==True:
         mycpg.move_to_init2()
-    tmovetoinit+=time.time()-tspre
     #time.sleep(2.5)  # wait until robot finished motion
 
 
-    #initiate:
-    mycpg.init_updates()
-    
-
-    
-    if usekm==False:
-        initposi=myreadr.read()
-        #print(colored("initpos "+str(initposi),"yellow"))
-    if usekm==True:
-        the1=mycpg.Angles[mycpg.LShoulderRoll]
-        the2=mycpg.Angles[mycpg.LElbow]
-        the3=mycpg.Angles[mycpg.LShoulderPitch]
-        the4=mycpg.Angles[mycpg.LShoulderYaw]
-        initposi=kinematic_model.wrist_position([the4,the3,the1,the2])[0:3]
-        #print(colored("initpos "+str(initposi),"yellow"))
-    #print("init u und v: ", CPG.cpg.__dict__)
-    #print("\n\n..mycpg: ",mycpg.__dict__)
+    initposi=give_position()# needed only for plotting
     #print(CPG.cpg.myCont[0].RG.E.q)
     #print(mycpg.myCont[0].RG.E.V)
     
-    if not use_feedback:
-        mynet.inp[first].r = 1.0
     
-    #mynet.Wrec.eta*=np.exp(1/200*np.log(101))#x^200=101
     #print(mynet.Wi.w[0][0:10])
     recz=[]
     Ahist=[]
-    #compute target 1:hand right 2:hand left
+    #compute target
     if usekm==False:
         target = targetA if first == 0 else targetB
     if usekm==True:
         target= targetA if first == 0 else targetB
-
+    
+    
+    ############################################# minitrials:
     for timechunk in range(10):
-        #print("\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
-        #print(colored("\ntimechunk "+str(timechunk),"green"))
-        tspre=time.time()
+        #reset network activities:
+        mynet.reinit()
+        #reset cpg diff equation (global variable myCont) (FUNKTIONERT BEIM 1. TRIAL NICHT RICHTIG(sieht man bei konstanten parameter))
+        for i in range(0, len(CPG.myCont)):
+            CPG.myCont[i].RG.E.V=0
+            CPG.myCont[i].RG.E.q=0
+            CPG.myCont[i].RG.F.V=0
+            CPG.myCont[i].RG.F.q=0
+        #reset initpos of cpg and initiate cpc:
+        mycpg.init_updates()
+
+        ##################### simulate the net with minconis structure:
+        mynet.inp[first].r=1.0
         if use_feedback:
             oldposition=give_position()
-            
-            fdb_ar=np.zeros((3))
-            fdb_ar[first] = 1.0
-            mynet.inp[:].r=2.5*np.array(oldposition-target)#faktor 1.5, um die auswirkung groß genug zu halten
-            #print(mynet.inp[:].r)
-        minconi.simulate(chunktime)
-        tsimulate+=time.time()-tspre
-        # Read the output parameters(robot inputs)#
+            mynet.fdb[:].r=1.5*np.array(oldposition)#faktor 2.5, um die auswirkung groß genug zu halten
         
-        if not use_feedback:
-            #remove input after first 100ms
-            mynet.inp[0:2].r = 0.0
+        minconi.simulate(chunktime)
+        
+        mynet.inp[0:2].r = 0.0
+        mynet.fdb[:].r=0.0
 
+        minconi.simulate(chunktime)
+        #####################
 
         rec = mynet.m.get()
         recz.append(rec)
+
+        ########################### set CPG params with the network outputs:
+
         #output = rec['r'][-int(d_execution):, output_neuron] # neuron 100 over the last 200 ms
         output = rec['r'][-int(d_execution):, minconi.net.begin_out:minconi.net.begin_out+mynet.n_out]
         #print("______________OUTPUTSSS: ",output)
@@ -212,6 +181,7 @@ def trial_simulation(trial,first,R_mean):
         #mycpg.set_patterns([scaling(1.3),.1], [scaling(0.03),0],  [scaling2(1.9),5] ,[scaling2(6.1),0.1] ,[scalingICUR(2.9),1], [scaling(0.4),0.1])
         #mycpg.set_patterns(.1, 0,  5 ,0.1 ,1, 0.1)
         #print(output[0:6])
+        
         parr=[]
         for i in range(njoints_max):
             parr.append(output[i*6:i*6+6])
@@ -226,31 +196,22 @@ def trial_simulation(trial,first,R_mean):
         mycpg.set_patterns(parrr[:,0],parrr[:,1],parrr[:,2],parrr[:,3],parrr[:,4],parrr[:,5])
         #mycpg.set_patterns(scaling(parr[:,0]),scaling(parr[:,1]),scaling2(parr[:,2]),scaling2(parr[:,3]),scalingICUR(parr[:,4]),scaling(parr[:,5]))
         
-        #move from timechunk nr.:
-        movet=2
-        if timechunk>=movet:
-            mycpg.loop_move(timechunk)
+        #########################   move:
+        mycpg.loop_move(timechunk)
+
         #print(mycpg.Angles)
         Ahist.append(np.degrees(np.array(mycpg.Angles)[[26,25]]))
         #print("_______________là: loop-moved")
 
-        #learn here
-        
+        ###########################calculate error and then learn:
         position=give_position()
-            
         #haut nur beim ersten mal hin
         #mycpg.plot_layers()
-        
         error = (np.linalg.norm(np.array(target) - np.array(position)))**1
         learnerror=error/(np.linalg.norm(np.array(target) - np.array(oldposition)))
-        #print(colored("target: "+str(first)+", "+str(target)+" \nposition : "+str(position),"white"))
-        #print(colored("error: "+str(error)+" Mean: "+str(R_mean[first]),"red"))
         
-        #print('Target:', target, '\tOutput:', position, '\tError:',  "%0.3f" % error, '\tMean:', "%0.3f" % R_mean[first])
-        #print("WEIGHT: ",mynet.Wrec[3].w[1:3])
-        #print(mynet.Wrec.w)
         if multiple_rewards:
-            learncond=timechunk>=movet
+            learncond=True
         else:
             learncond=timechunk==9
         if trial > 20 and learncond:
@@ -267,8 +228,11 @@ def trial_simulation(trial,first,R_mean):
 
         # Update the mean reward
         R_mean[first] = alpha * R_mean[first] + (1.- alpha) * learnerror
+        r_mean[first] = alpha * r_mean[first] + (1.- alpha) * error
 
-    return position,recz ,traces, R_mean, initposi, Ahist, error,learnerror
+    return position,recz ,traces, r_mean,R_mean, initposi, Ahist, error,learnerror
+
+####################################### now do the simulation:
 if usekm==True:
     targetA=[ 0.07145494,  0.36328722, -0.04980991]#[0.04399564,0.22961777,0.25192178]
     targetB=[-0.35862834, -0.09199801, -0.04854833]#[0.11422334,0.15786776,0.26741575]
@@ -280,7 +244,8 @@ try:
     posis2=[]
     R_means1=[]
     R_means2=[]
-    ttotal=time.time()
+    r_means1=[]
+    r_means2=[]
     recordsAz=[]
     recordsBz=[]
     TRIAL=0
@@ -295,8 +260,8 @@ try:
         Cancel=str(cancel_content.read())
         if Cancel[0]!="0":break
         print('Trial', trial)
-        posi1, recordsA, tracesA, R_mean, initposi, AhistA, error1, learnerror1= trial_simulation(trial, 0, R_mean)
-        posi2, recordsB, tracesB, R_mean, initposi, AhistB, error2, learnerror2= trial_simulation(trial, 1, R_mean)
+        posi1, recordsA, tracesA, r_mean, R_mean, initposi, AhistA, error1, learnerror1= trial_simulation(trial, 0, R_mean)
+        posi2, recordsB, tracesB, r_mean, R_mean, initposi, AhistB, error2, learnerror2= trial_simulation(trial, 1, R_mean)
         if trial == 0:
             recordsA_first=recordsA
             recordsB_first=recordsB
@@ -306,7 +271,7 @@ try:
             AhistA_ar.append(np.array(AhistA))
             AhistB_ar.append(np.array(AhistB))
         #nicht überschneiden lassen
-        startrecA=500
+        startrecA=max_trials-40
         if trial == startrecA:
             recordsA_first=recordsA
             recordsB_first=recordsB
@@ -319,6 +284,8 @@ try:
         posis2.append(posi2)
         R_means1.append(R_mean[0])
         R_means2.append(R_mean[1])
+        r_means1.append(r_mean[0])
+        r_means2.append(r_mean[1])
 
 
         error_history.append((error1+error2)/2)
@@ -328,7 +295,6 @@ except KeyboardInterrupt:
 posis1=np.array(posis1)
 posis2=np.array(posis2)
 print("____________________")
-print("total time: ",time.time()-ttotal, "davon simulate(chunktime): ", tsimulate, "davon movetoinit:", tmovetoinit)
 figname="f"+str(minconi.var_f).replace(".","-")+"_"+"eta"+str(minconi.var_eta).replace(".","-")+"_g"+str(minconi.var_g).replace(".","-")+"_N"+str(minconi.var_N).replace(".","-")+"_A"+str(minconi.var_A).replace(".","-")
 print("var_f,var_eta,var_g,var_N: ",figname)
 ####
@@ -435,12 +401,14 @@ ax.set_title('target B trials')
 #ax.legend()
 
 ax = plt.subplot(247)
-ax.plot(R_means1,label='mean_error')
+ax.plot(R_means1,label='mean_learnerror')
+ax.plot(r_means1,label='mean_error')
 #ax.set_ylim((-0.3,0.12))
 
 
 ax = plt.subplot(248)
-ax.plot(R_means2,label='mean_error')
+ax.plot(R_means2,label='mean_learned_error')
+ax.plot(r_means2,label='mean_error')
 #ax.set_ylim((-0.3,0.12))
 ax.legend()
 fig.suptitle("params:"+figname, fontsize=14)

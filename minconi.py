@@ -98,10 +98,12 @@ class net:
     
     if use_feedback:
         n_fb=3
-        inp = Population(n_fb, Neuron(parameters="r=0.0"))
-    if not use_feedback:
-        # Input population
-        inp = Population(2, Neuron(parameters="r=0.0"))
+        fdb = Population(n_fb, Neuron(parameters="r=0.0"))
+        Wf=Projection(fdb, pop, 'in')
+        Wf.connect_all_to_all(weights=Uniform(-1.5, 1.5))
+
+    # Input population
+    inp = Population(2, Neuron(parameters="r=0.0"))
     # Input weights'
     Wi = Projection(inp, pop, 'in')
     #setup(seed=5)
