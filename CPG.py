@@ -102,24 +102,27 @@ class cpg:
 
         myCont[self.joint1].fSetPatternPF(PFPat1)
         myCont[self.joint1].fSetPatternRG(Pattern1)
+        
+        if njoints>1:
+            Pattern2 = RG_Patterns(Sf[1], Ss[1], InjCMF[1], TM[1])
+            PFPat2 = PF_Patterns(alpha[1], theta[1])
 
-        Pattern2 = RG_Patterns(Sf[1], Ss[1], InjCMF[1], TM[1])
-        PFPat2 = PF_Patterns(alpha[1], theta[1])
+            myCont[self.joint2].fSetPatternPF(PFPat2)
+            myCont[self.joint2].fSetPatternRG(Pattern2)
 
-        myCont[self.joint2].fSetPatternPF(PFPat2)
-        myCont[self.joint2].fSetPatternRG(Pattern2)
+        if njoints>2:
+            Pattern3 = RG_Patterns(Sf[2], Ss[2], InjCMF[2], TM[2])
+            PFPat3 = PF_Patterns(alpha[2], theta[2])
 
-        Pattern3 = RG_Patterns(Sf[2], Ss[2], InjCMF[2], TM[2])
-        PFPat3 = PF_Patterns(alpha[2], theta[2])
+            myCont[self.joint3].fSetPatternPF(PFPat3)
+            myCont[self.joint3].fSetPatternRG(Pattern3)
 
-        myCont[self.joint3].fSetPatternPF(PFPat3)
-        myCont[self.joint3].fSetPatternRG(Pattern3)
+        if njoints>3:
+            Pattern4 = RG_Patterns(Sf[3], Ss[3], InjCMF[3], TM[3])
+            PFPat4 = PF_Patterns(alpha[3], theta[3])
 
-        Pattern4 = RG_Patterns(Sf[3], Ss[3], InjCMF[3], TM[3])
-        PFPat4 = PF_Patterns(alpha[3], theta[3])
-
-        myCont[self.joint4].fSetPatternPF(PFPat4)
-        myCont[self.joint4].fSetPatternRG(Pattern4)
+            myCont[self.joint4].fSetPatternPF(PFPat4)
+            myCont[self.joint4].fSetPatternRG(Pattern4)
         #######################################################
 
     def init_updates(self):
@@ -237,27 +240,33 @@ class cpg:
                     myCont[ii].RG.F.InjCurrent_MultiplicationFactor
                 myCont[ii].RG.E.InjCurrent_value = -1*ExtInjCurr * \
                     myCont[ii].RG.E.InjCurrent_MultiplicationFactor
-
+            
+            
             JointList2 = [self.joint2]
-            for ii in JointList2:
-                myCont[ii].RG.F.InjCurrent_value = +1*ExtInjCurr2 * \
-                    myCont[ii].RG.F.InjCurrent_MultiplicationFactor
-                myCont[ii].RG.E.InjCurrent_value = -1*ExtInjCurr2 * \
-                    myCont[ii].RG.E.InjCurrent_MultiplicationFactor
+            if njoints>1:
+                for ii in JointList2:
+                    myCont[ii].RG.F.InjCurrent_value = +1*ExtInjCurr2 * \
+                        myCont[ii].RG.F.InjCurrent_MultiplicationFactor
+                    myCont[ii].RG.E.InjCurrent_value = -1*ExtInjCurr2 * \
+                        myCont[ii].RG.E.InjCurrent_MultiplicationFactor
+            
             
             JointList3 = [self.joint3]
-            for ii in JointList3:
-                myCont[ii].RG.F.InjCurrent_value = +1*ExtInjCurr3 * \
-                    myCont[ii].RG.F.InjCurrent_MultiplicationFactor
-                myCont[ii].RG.E.InjCurrent_value = -1*ExtInjCurr3 * \
-                    myCont[ii].RG.E.InjCurrent_MultiplicationFactor
+            if njoints>2:    
+                for ii in JointList3:
+                    myCont[ii].RG.F.InjCurrent_value = +1*ExtInjCurr3 * \
+                        myCont[ii].RG.F.InjCurrent_MultiplicationFactor
+                    myCont[ii].RG.E.InjCurrent_value = -1*ExtInjCurr3 * \
+                        myCont[ii].RG.E.InjCurrent_MultiplicationFactor
 
+            
             JointList4 = [self.joint4]
-            for ii in JointList4:
-                myCont[ii].RG.F.InjCurrent_value = +1*ExtInjCurr4 * \
-                    myCont[ii].RG.F.InjCurrent_MultiplicationFactor
-                myCont[ii].RG.E.InjCurrent_value = -1*ExtInjCurr4 * \
-                    myCont[ii].RG.E.InjCurrent_MultiplicationFactor
+            if njoints>3:
+                for ii in JointList4:
+                    myCont[ii].RG.F.InjCurrent_value = +1*ExtInjCurr4 * \
+                        myCont[ii].RG.F.InjCurrent_MultiplicationFactor
+                    myCont[ii].RG.E.InjCurrent_value = -1*ExtInjCurr4 * \
+                        myCont[ii].RG.E.InjCurrent_MultiplicationFactor
 
 
             if usekm==False:

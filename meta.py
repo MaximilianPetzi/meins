@@ -6,9 +6,12 @@ multiple_rewards=True
 use_feedback=True
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
 showplot=False
+doplot2=False
+nchunks=1
 max_trials=1000
 chunktime=200   #also change var_f inversely
 d_execution=200  #average over last d_execution timesteps
+learnstart=20
 import os
 import time
 from termcolor import colored
@@ -80,7 +83,7 @@ R_mean = np.zeros((2))
 r_mean = np.zeros((2))
 alpha = 0.75 # 0.33
 if multiple_rewards:
-    alpha=alpha**(1/10) #to slow down R_mean again to the previous value
+    alpha=alpha**(1/nchunks) #to slow down R_mean again to the previous value
 import CPG
 #print("__________________________qui: CPG imported")
 
@@ -130,15 +133,17 @@ def trial_simulation(trial,first,R_mean):
     #print(mynet.Wi.w[0][0:10])
     recz=[]
     Ahist=[]
+    Phist=[]
     #compute target
     if usekm==False:
         target = targetA if first == 0 else targetB
     if usekm==True:
         target= targetA if first == 0 else targetB
     
-    
+    errors=[]
+    learnerrors=[]
     ############################################# minitrials:
-    for timechunk in range(10):
+    for timechunk in range(nchunks):
         #reset network activities:
         mynet.reinit()
         #reset cpg diff equation (global variable myCont) (FUNKTIONERT BEIM 1. TRIAL NICHT RICHTIG(sieht man bei konstanten parameter))
@@ -154,7 +159,7 @@ def trial_simulation(trial,first,R_mean):
         mynet.inp[first].r=1.0
         if use_feedback:
             oldposition=give_position()
-            mynet.fdb[:].r=1.5*np.array(oldposition)#faktor 2.5, um die auswirkung groß genug zu halten
+            mynet.fdb[:].r=4.5*np.array(oldposition)#faktor 2.5, um die auswirkung groß genug zu halten
         
         minconi.simulate(chunktime)
         
@@ -176,7 +181,7 @@ def trial_simulation(trial,first,R_mean):
         output=np.average(output,axis=0)
 
         ###alpha,theta,Sf,Ss,InjCMF,TM
-        #mycpg.set_patterns(.25, 0,  5 ,0.1 ,1, 0.1)
+        #mycpg.set_patterns([.25], [0],  [5] ,[0.1] ,[1], [0.1])
         #mycpg.set_patterns([.25,.1], [0,0],  [5,5] ,[.1,0.1] ,[1,1], [.1,0.1])
         #mycpg.set_patterns([scaling(1.3),.1], [scaling(0.03),0],  [scaling2(1.9),5] ,[scaling2(6.1),0.1] ,[scalingICUR(2.9),1], [scaling(0.4),0.1])
         #mycpg.set_patterns(.1, 0,  5 ,0.1 ,1, 0.1)
@@ -200,11 +205,13 @@ def trial_simulation(trial,first,R_mean):
         mycpg.loop_move(timechunk)
 
         #print(mycpg.Angles)
-        Ahist.append(np.degrees(np.array(mycpg.Angles)[[26,25]]))
+        Ahist.append(np.degrees(np.array(mycpg.Angles)[[26,25,27,28]]))
+        
         #print("_______________là: loop-moved")
 
         ###########################calculate error and then learn:
         position=give_position()
+        Phist.append(position)
         #haut nur beim ersten mal hin
         #mycpg.plot_layers()
         error = (np.linalg.norm(np.array(target) - np.array(position)))**1
@@ -214,7 +221,9 @@ def trial_simulation(trial,first,R_mean):
             learncond=True
         else:
             learncond=timechunk==9
-        if trial > 20 and learncond:
+        if trial > learnstart and learncond:
+            errors.append(error)
+            learnerrors.append(learnerror)
             # Apply the learning rule
             mynet.Wrec.learning_phase = 1.0
             mynet.Wrec.error = learnerror
@@ -230,7 +239,7 @@ def trial_simulation(trial,first,R_mean):
         R_mean[first] = alpha * R_mean[first] + (1.- alpha) * learnerror
         r_mean[first] = alpha * r_mean[first] + (1.- alpha) * error
 
-    return position,recz ,traces, r_mean,R_mean, initposi, Ahist, error,learnerror
+    return position,recz ,traces, r_mean, R_mean, initposi, Ahist, Phist, error,learnerror,errors,learnerrors
 
 ####################################### now do the simulation:
 if usekm==True:
@@ -254,22 +263,34 @@ try:
     AhistB_ar=[]
     AhistA_arl=[]
     AhistB_arl=[]
+    PhistA_ar=[]
+    PhistB_ar=[]
+    PhistA_arl=[]
+    PhistB_arl=[]
     error_history=[]
+    errorz=[]
+    learnerrorz=[]
     for trial in range(max_trials):
         cancel_content = open("../cancel.txt", "r")
         Cancel=str(cancel_content.read())
         if Cancel[0]!="0":break
         print('Trial', trial)
-        posi1, recordsA, tracesA, r_mean, R_mean, initposi, AhistA, error1, learnerror1= trial_simulation(trial, 0, R_mean)
-        posi2, recordsB, tracesB, r_mean, R_mean, initposi, AhistB, error2, learnerror2= trial_simulation(trial, 1, R_mean)
+        posi1, recordsA, tracesA, r_mean, R_mean, initposi, AhistA, PhistA, error1, learnerror1, errors1,learnerrors1= trial_simulation(trial, 0, R_mean)
+        posi2, recordsB, tracesB, r_mean, R_mean, initposi, AhistB, PhistB, error2, learnerror2, errors2, learnerrors2= trial_simulation(trial, 1, R_mean)
+        
         if trial == 0:
             recordsA_first=recordsA
             recordsB_first=recordsB
             AhistA_first=np.array(AhistA)
             AhistB_first=np.array(AhistB)
+            PhistA_first=np.array(PhistA)
+            PhistB_first=np.array(PhistB)
+
         if trial <20:
             AhistA_ar.append(np.array(AhistA))
             AhistB_ar.append(np.array(AhistB))
+            PhistA_ar.append(np.array(PhistA))
+            PhistB_ar.append(np.array(PhistB))
         #nicht überschneiden lassen
         startrecA=max_trials-40
         if trial == startrecA:
@@ -277,29 +298,41 @@ try:
             recordsB_first=recordsB
             AhistA_first=np.array(AhistA)
             AhistB_first=np.array(AhistB)
+            PhistA_first=np.array(PhistA)
+            PhistB_first=np.array(PhistB)
         if trial>=startrecA and trial<startrecA+40:
             AhistA_arl.append(np.array(AhistA))
             AhistB_arl.append(np.array(AhistB))
+            PhistA_arl.append(np.array(PhistA))
+            PhistB_arl.append(np.array(PhistB))
         posis1.append(posi1)
         posis2.append(posi2)
-        R_means1.append(R_mean[0])
-        R_means2.append(R_mean[1])
-        r_means1.append(r_mean[0])
-        r_means2.append(r_mean[1])
-
-
+        #R_means1.append(R_mean[0])
+        #R_means2.append(R_mean[1])
+        #r_means1.append(r_mean[0])
+        #r_means2.append(r_mean[1])
+        R_means1.append(learnerror1)
+        R_means2.append(learnerror2)
+        r_means1.append(error1)
+        r_means2.append(error2)
+        if trial>learnstart:
+            errorz.append((np.array(errors1)+np.array(errors2))/2)
+            learnerrorz.append((np.array(learnerrors1)+np.array(learnerrors2))/2)
         error_history.append((error1+error2)/2)
         TRIAL+=1
 except KeyboardInterrupt:
     pass
 posis1=np.array(posis1)
 posis2=np.array(posis2)
+errorz=np.array(errorz)
+learnerrorz=np.array(learnerrorz)
+
 print("____________________")
 figname="f"+str(minconi.var_f).replace(".","-")+"_"+"eta"+str(minconi.var_eta).replace(".","-")+"_g"+str(minconi.var_g).replace(".","-")+"_N"+str(minconi.var_N).replace(".","-")+"_A"+str(minconi.var_A).replace(".","-")
 print("var_f,var_eta,var_g,var_N: ",figname)
 ####
 rAf_t = []
-for i in range(10):  # 10=nr of chunks
+for i in range(nchunks):  # 10=nr of chunks
     rAf_t.append(recordsA_first[i]['r'].T)
 rAf_t = np.array(rAf_t)
 raftsh = np.shape(rAf_t)
@@ -308,7 +341,7 @@ rAf_t = np.reshape(rAf_t, (raftsh[1], raftsh[0]*raftsh[2]))
 #######
 #delete:
 rBf_t = []
-for i in range(10):  # 10=nr of chunks
+for i in range(nchunks):  # 10=nr of chunks
     rBf_t.append(recordsB_first[i]['r'].T)
 rBf_t = np.array(rBf_t)
 rbftsh = np.shape(rBf_t)
@@ -317,7 +350,7 @@ rBf_t = np.reshape(rBf_t, (rbftsh[1], rbftsh[0]*rbftsh[2]))
 #######
 ####
 rAl_t = []
-for i in range(10):  # 10=nr of chunks
+for i in range(nchunks):  # 10=nr of chunks
     rAl_t.append(recordsA[i]['r'].T)  # last records
 rAl_t = np.array(rAl_t)
 raltsh = np.shape(rAl_t)
@@ -328,11 +361,20 @@ ehname="../error_h/"+str(sim)+"error.npy"
 np.save(ehname,error_history)
 print("saved as",ehname)
 
+print("___errorzzrzzrzz_",np.shape(errorz),np.shape(learnerrorz))
 import matplotlib.pyplot as plt
-
 import matplotlib
 #matplotlib.use("TkAgg")
-
+quarter=int((max_trials-learnstart)/4)
+if doplot2:
+    plt.plot((errorz.T)[:,0:quarter],color=(0,0,0))
+    plt.plot((errorz.T)[:,quarter:2*quarter],color=(.25,.25,.25))
+    plt.plot((errorz.T)[:,2*quarter:3*quarter],color=(.5,.5,.5))
+    plt.plot((errorz.T)[:,3*quarter:],color=(.75,.75,.75))
+    plt.show()
+    plt.plot(np.average(errorz,axis=0),color=(0,0,0))
+    plt.plot(np.average(learnerrorz,axis=0),color=(.5,.5,.5))
+    plt.show()
 try: 
     fig=plt.figure(figsize=(20, 20))
 except:
@@ -344,19 +386,25 @@ ax.set_title('ALL 10 100ms-chunks of PopulationA of FIRST trial')
     
     
 ax = plt.subplot(242)
-AhistA_ar=np.array(AhistA_ar)
+AhistA_ar=np.array(PhistA_ar)
+PhistA_ar=np.array(PhistA_ar)
 for i in range(len(AhistA_ar)):
     alpha=(i+1)/(1+len(AhistA_ar))
-    ax.plot(AhistA_ar[i,:,0],linewidth=.6,c=(1,0,0,alpha**2))
-    ax.plot(AhistA_ar[i,:,1],linewidth=.6,c=(0,0,1,alpha**2))
+    ax.plot(AhistA_ar[i,:,0],linewidth=.6,c=(1,0,0,alpha**2),label="1")
+    ax.plot(AhistA_ar[i,:,1],linewidth=.6,c=(0,0,1,alpha**2),label="2")
+    ax.plot(AhistA_ar[i,:,2],linewidth=.6,c=(0,1,0,alpha**2),label="3")
+    #ax.plot(AhistA_ar[i,:,3],linewidth=.6,c=(1,0,1,alpha**2))
 ax.set_title("A Angle development in FIRST "+str(len(AhistA_ar))+" trials")
 
 ax=plt.subplot(246)
-AhistA_arl=np.array(AhistA_arl)
+AhistA_arl=np.array(PhistA_arl)
+PhistA_arl=np.array(PhistA_arl)
 for i in range(len(AhistA_arl)):
     alpha=(i+1)/(1+len(AhistA_arl))
-    ax.plot(AhistA_arl[i,:,0],linewidth=.6,c=(1,0,0,alpha**2))
-    ax.plot(AhistA_arl[i,:,1],linewidth=.6,c=(0,0,1,alpha**2))
+    ax.plot(AhistA_arl[i,:,0],linewidth=.6,c=(1,0,0,alpha**2),label="1")
+    ax.plot(AhistA_arl[i,:,1],linewidth=.6,c=(0,0,1,alpha**2),label="2")
+    ax.plot(AhistA_arl[i,:,2],linewidth=.6,c=(0,1,0,alpha**2),label="3")
+    #ax.plot(AhistA_arl[i,:,3],linewidth=.6,c=(1,0,1,alpha**2))
 ax.set_title("A Angle development in LATER "+str(len(AhistA_arl))+" trials")
 
 
