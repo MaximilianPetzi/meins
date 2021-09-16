@@ -5,7 +5,7 @@ skipcpg=False   #just use scaled minconi output after last timechunk as final an
 multiple_rewards=True
 use_feedback=True
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
-showplot=False
+showplot=True
 doplot2=False
 nchunks=1
 max_trials=1000
@@ -93,7 +93,12 @@ def scaling2(x):
     return 5*(x+1+0.001)
 def scalingICUR(x):
     return 8*x
-
+def fdbencode(coord,sig,Nc,rangea,rangeb):
+    arenc=np.zeros(Nc)
+    for i in range(Nc):
+        ii=i/(Nc-1)*(rangeb-rangea)+rangea
+        arenc[i]=np.exp(-(ii-coord)**2/(2*sig**2))
+    return arenc
 ####################################################
 def trial_simulation(trial,first,R_mean):
     traces = []
@@ -159,8 +164,7 @@ def trial_simulation(trial,first,R_mean):
         mynet.inp[first].r=1.0
         if use_feedback:
             oldposition=give_position()
-            mynet.fdb[:].r=4.5*np.array(oldposition)#faktor 2.5, um die auswirkung groß genug zu halten
-        
+            mynet.fdb[:].r=np.array(oldposition)*4.5
         minconi.simulate(chunktime)
         
         mynet.inp[0:2].r = 0.0

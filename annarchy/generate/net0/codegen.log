@@ -1,5 +1,7 @@
 Filename, Object Description
 pop0, Population( name = pop0 )
 pop1, Population( name = pop1 )
-proj0, Projection( pre = pop0, post = pop1, target = in ) using connector: All-to-All 
-proj1, Projection( pre = pop1, post = pop1, target = exc ) using connector: All-to-All 
+pop2, Population( name = pop2 )
+proj0, Projection( pre = pop1, post = pop0, target = in ) using connector: All-to-All 
+proj1, Projection( pre = pop2, post = pop0, target = in ) using connector: All-to-All 
+proj2, Projection( pre = pop0, post = pop0, target = exc ) using connector: All-to-All 

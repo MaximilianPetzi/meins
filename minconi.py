@@ -97,13 +97,24 @@ class net:
     pop.x = Uniform(-0.1, 0.1)
     
     if use_feedback:
-        n_fb=3
-        fdb = Population(n_fb, Neuron(parameters="r=0.0"))
-        Wf=Projection(fdb, pop, 'in')
-        Wf.connect_all_to_all(weights=Uniform(-1.5, 1.5))
+        NN=10
+        Nx=NN;Ny=NN;Nz=NN
+        wis=2/(Nx+Ny+Nz)
+        fdbx = Population(Nx, Neuron(parameters="r=0.0"))
+        Wfx=Projection(fdbx, pop, 'in')
+        Wfx.connect_all_to_all(weights=Uniform(-1.5*wis, 1.5*wis))
 
+        fdby = Population(Ny, Neuron(parameters="r=0.0"))
+        Wfy=Projection(fdby, pop, 'in')
+        Wfy.connect_all_to_all(weights=Uniform(-1.5*wis, 1.5*wis))
+
+        fdbz = Population(Nz, Neuron(parameters="r=0.0"))
+        Wfz=Projection(fdbz, pop, 'in')
+        Wfz.connect_all_to_all(weights=Uniform(-1.5*wis, 1.5*wis))
+
+    
     # Input population
-    inp = Population(2, Neuron(parameters="r=0.0"))
+    inpx = Population(2, Neuron(parameters="r=0.0"))
     # Input weights'
     Wi = Projection(inp, pop, 'in')
     #setup(seed=5)

@@ -12,9 +12,9 @@ extern std::vector<std::mt19937> rng;
 
 
 ///////////////////////////////////////////////////////////////
-// Main Structure for the population of id 1 (pop1)
+// Main Structure for the population of id 2 (pop2)
 ///////////////////////////////////////////////////////////////
-struct PopStruct1{
+struct PopStruct2{
 
     int size; // Number of neurons
     bool _active; // Allows to shut down the whole population
@@ -84,7 +84,7 @@ struct PopStruct1{
     // Method to draw new random numbers
     void update_rng() {
 #ifdef _TRACE_SIMULATION_STEPS
-    std::cout << "    PopStruct1::update_rng()" << std::endl;
+    std::cout << "    PopStruct2::update_rng()" << std::endl;
 #endif
 
     }

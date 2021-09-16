@@ -5,21 +5,21 @@
 
 #include "sparse_matrix.hpp"
 
-#include "pop0.hpp"
 #include "pop1.hpp"
+#include "pop0.hpp"
 
 
 
-extern PopStruct0 pop0;
 extern PopStruct1 pop1;
+extern PopStruct0 pop0;
 
 extern std::vector<std::mt19937> rng;
 
 /////////////////////////////////////////////////////////////////////////////
-// proj0: pop0 -> pop1 with target in
+// proj0: pop1 -> pop0 with target in
 /////////////////////////////////////////////////////////////////////////////
 struct ProjStruct0 : LILMatrix<int> {
-    ProjStruct0() : LILMatrix<int>( 400, 2) {
+    ProjStruct0() : LILMatrix<int>( 200, 3) {
     }
 
 
@@ -98,7 +98,7 @@ struct ProjStruct0 : LILMatrix<int> {
     #endif
         int nb_post; int rk_post; int rk_pre; double sum;
 
-        if (_transmission && pop1._active){
+        if (_transmission && pop0._active){
 
 
             nb_post = post_rank.size();
@@ -106,9 +106,9 @@ struct ProjStruct0 : LILMatrix<int> {
             for(int i = 0; i < nb_post; i++) {
                 sum = 0.0;
                 for(int j = 0; j < pre_rank[i].size(); j++) {
-                    sum += pop0.r[pre_rank[i][j]]*w[i][j] ;
+                    sum += pop1.r[pre_rank[i][j]]*w[i][j] ;
                 }
-                pop1._sum_in[post_rank[i]] += sum;
+                pop0._sum_in[post_rank[i]] += sum;
             }
 
         } // active

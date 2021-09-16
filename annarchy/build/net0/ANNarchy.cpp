@@ -18,11 +18,13 @@ std::vector<std::mt19937> rng;
 // Populations
 PopStruct0 pop0;
 PopStruct1 pop1;
+PopStruct2 pop2;
 
 
 // Projections
 ProjStruct0 proj0;
 ProjStruct1 proj1;
+ProjStruct2 proj2;
 
 
 // Global operations
@@ -106,12 +108,14 @@ void initialize(double _dt) {
     // Initialize populations
     pop0.init_population();
     pop1.init_population();
+    pop2.init_population();
 
 
     // Projections
     // Initialize projections
     proj0.init_projection();
     proj1.init_projection();
+    proj2.init_projection();
 
 
     // Custom constants
@@ -123,6 +127,7 @@ void initialize(double _dt) {
 void init_rng_dist() {
 pop0.init_rng_dist();
 pop1.init_rng_dist();
+pop2.init_rng_dist();
 
 }
 
@@ -169,19 +174,20 @@ void singleStep()
     ////////////////////////////////
 
 
-    // pop1: pop1
-    if (pop1._active)
-        memset( pop1._sum_exc.data(), 0.0, pop1._sum_exc.size() * sizeof(double));
+    // pop0: pop0
+    if (pop0._active)
+        memset( pop0._sum_exc.data(), 0.0, pop0._sum_exc.size() * sizeof(double));
 
-    // pop1: pop1
-    if (pop1._active)
-        memset( pop1._sum_in.data(), 0.0, pop1._sum_in.size() * sizeof(double));
+    // pop0: pop0
+    if (pop0._active)
+        memset( pop0._sum_in.data(), 0.0, pop0._sum_in.size() * sizeof(double));
 
 #ifdef _TRACE_SIMULATION_STEPS
     std::cout << "Update psp/conductances ..." << std::endl;
 #endif
     proj0.compute_psp();
     proj1.compute_psp();
+    proj2.compute_psp();
 
 
 
@@ -202,7 +208,7 @@ void singleStep()
     std::cout << "Draw required random numbers ..." << std::endl;
 #endif
 
-    pop1.update_rng();
+    pop0.update_rng();
 
 
 
@@ -213,7 +219,7 @@ void singleStep()
     std::cout << "Evaluate neural ODEs ..." << std::endl;
 #endif
 
-    pop1.update(); pop1.spike_gather(); 
+    pop0.update(); pop0.spike_gather(); 
 
 
 
@@ -242,7 +248,7 @@ void singleStep()
     std::cout << "Evaluate synaptic ODEs ..." << std::endl;
 #endif
 
-    proj1.update_synapse();
+    proj2.update_synapse();
 
 
 
