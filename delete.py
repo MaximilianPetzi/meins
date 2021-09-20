@@ -6,4 +6,4 @@ def fdbencode(coord,sig,Nc,rangea,rangeb):
         arenc[i]=np.exp(-(ii-coord)**2/(2*sig**2))
     return arenc
 
-print(fdbencode(0.4,0.03,10,-.5,.5))
+print(fdbencode(-40,4,21,-95.5, 8))

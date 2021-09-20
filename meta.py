@@ -1,16 +1,20 @@
+
 #just use one meta.py at a time, except with params.py
 #terminal auf CPG_iCub
 usekm=True      #use kinematic model or not (simulator, not on ssh)
 skipcpg=False   #just use scaled minconi output after last timechunk as final angels instead of using the CPG. 
 multiple_rewards=True
 use_feedback=True
+randinit=True
+popcode=False
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
 showplot=True
 doplot2=False
 nchunks=1
 max_trials=1000
-chunktime=200   #also change var_f inversely
-d_execution=200  #average over last d_execution timesteps
+chunktime1=200   #also change var_f inversely
+chunktime2=200
+d_execution=200   #average over last d_execution timesteps
 learnstart=20
 import os
 import time
@@ -34,7 +38,7 @@ if not args.m:
         var_f=9
         var_eta=.6
         var_g=1.5
-        var_N=200
+        var_N=400
         var_A=20
     else:
         var_f=float(input("f="))
@@ -72,6 +76,7 @@ if usekm==True:
 
 njoints_max=4
 mynet=minconi.net(n_out=6*njoints_max) #mynet has many class variables
+minconi.popcodeM=popcode
 # mynet.init_w = minconi.net.Wrec.w #instance variable implicitly created
 
 if usekm==False:
@@ -124,9 +129,9 @@ def trial_simulation(trial,first,R_mean):
 
     #move to starting position:
     if usekm==False:
-        mycpg.move_to_init()
+        mycpg.move_to_init(randinit=randinit)#noch machen (wie bei move_to_init2)
     if usekm==True:
-        mycpg.move_to_init2()
+        mycpg.move_to_init2(randinit=randinit)
     #time.sleep(2.5)  # wait until robot finished motion
 
 
@@ -161,16 +166,29 @@ def trial_simulation(trial,first,R_mean):
         mycpg.init_updates()
 
         ##################### simulate the net with minconis structure:
-        mynet.inp[first].r=1.0
+        mynet.inp[first].r=1.0   #if not randinit ... eigentlich=1.0
         if use_feedback:
+            oldangles=np.degrees(mycpg.Angles[[26,25,27,28]])#(r p y b)
             oldposition=give_position()
-            mynet.fdb[:].r=np.array(oldposition)*4.5
-        minconi.simulate(chunktime)
+            if popcode:
+                mynet.fdbx[:].r=fdbencode(oldangles[0],6,mynet.Nx,0,160)   #sigma ändern->minconi.wis ändern
+                mynet.fdby[:].r=fdbencode(oldangles[1],4,mynet.Ny,-95.5, 8)
+                mynet.fdbz[:].r=fdbencode(oldangles[2],5,mynet.Nz,-32, 80)
+                mynet.fdbw[:].r=fdbencode(oldangles[3],5,mynet.Nw,15, 106)
+            if not popcode:
+                mynet.fdbx[:].r=oldangles[0]/160
+                mynet.fdby[:].r=(oldangles[1]+95.5)/(8+95.5)
+                mynet.fdbz[:].r=(oldangles[2]+32)/(32+80)
+                mynet.fdbw[:].r=(oldangles[3]-15)/(106+15)
+        minconi.simulate(chunktime1)
         
         mynet.inp[0:2].r = 0.0
-        mynet.fdb[:].r=0.0
+        mynet.fdbx[:].r=0.0
+        mynet.fdby[:].r=0.0
+        mynet.fdbz[:].r=0.0
+        mynet.fdbw[:].r=0.0
 
-        minconi.simulate(chunktime)
+        minconi.simulate(chunktime2)
         #####################
 
         rec = mynet.m.get()
@@ -209,7 +227,7 @@ def trial_simulation(trial,first,R_mean):
         mycpg.loop_move(timechunk)
 
         #print(mycpg.Angles)
-        Ahist.append(np.degrees(np.array(mycpg.Angles)[[26,25,27,28]]))
+        Ahist.append(np.degrees(np.array(mycpg.Angles)[[26,25,27,28]]))#r p y b
         
         #print("_______________là: loop-moved")
 
@@ -280,7 +298,7 @@ try:
         if Cancel[0]!="0":break
         print('Trial', trial)
         posi1, recordsA, tracesA, r_mean, R_mean, initposi, AhistA, PhistA, error1, learnerror1, errors1,learnerrors1= trial_simulation(trial, 0, R_mean)
-        posi2, recordsB, tracesB, r_mean, R_mean, initposi, AhistB, PhistB, error2, learnerror2, errors2, learnerrors2= trial_simulation(trial, 1, R_mean)
+        (posi2, recordsB, tracesB, r_mean, R_mean, initposi, AhistB, PhistB, error2, learnerror2, errors2, learnerrors2)= (posi1, recordsA, tracesA, r_mean, R_mean, initposi, AhistA, PhistA, error1, learnerror1, errors1,learnerrors1)#trial_simulation(trial, 0, R_mean)
         
         if trial == 0:
             recordsA_first=recordsA
@@ -311,14 +329,14 @@ try:
             PhistB_arl.append(np.array(PhistB))
         posis1.append(posi1)
         posis2.append(posi2)
-        #R_means1.append(R_mean[0])
-        #R_means2.append(R_mean[1])
-        #r_means1.append(r_mean[0])
-        #r_means2.append(r_mean[1])
-        R_means1.append(learnerror1)
-        R_means2.append(learnerror2)
-        r_means1.append(error1)
-        r_means2.append(error2)
+        R_means1.append(R_mean[0])
+        R_means2.append(R_mean[1])
+        r_means1.append(r_mean[0])
+        r_means2.append(r_mean[1])
+        #R_means1.append(learnerror1)
+        #R_means2.append(learnerror2)
+        #r_means1.append(error1)
+        #r_means2.append(error2)
         if trial>learnstart:
             errorz.append((np.array(errors1)+np.array(errors2))/2)
             learnerrorz.append((np.array(learnerrors1)+np.array(learnerrors2))/2)
@@ -365,7 +383,6 @@ ehname="../error_h/"+str(sim)+"error.npy"
 np.save(ehname,error_history)
 print("saved as",ehname)
 
-print("___errorzzrzzrzz_",np.shape(errorz),np.shape(learnerrorz))
 import matplotlib.pyplot as plt
 import matplotlib
 #matplotlib.use("TkAgg")
@@ -393,27 +410,27 @@ ax = plt.subplot(242)
 AhistA_ar=np.array(PhistA_ar)
 PhistA_ar=np.array(PhistA_ar)
 for i in range(len(AhistA_ar)):
-    alpha=(i+1)/(1+len(AhistA_ar))
-    ax.plot(AhistA_ar[i,:,0],linewidth=.6,c=(1,0,0,alpha**2),label="1")
-    ax.plot(AhistA_ar[i,:,1],linewidth=.6,c=(0,0,1,alpha**2),label="2")
-    ax.plot(AhistA_ar[i,:,2],linewidth=.6,c=(0,1,0,alpha**2),label="3")
-    #ax.plot(AhistA_ar[i,:,3],linewidth=.6,c=(1,0,1,alpha**2))
+    alphap=(i+1)/(1+len(AhistA_ar))
+    ax.plot(AhistA_ar[i,:,0],linewidth=.6,c=(1,0,0,alphap**2),label="1")
+    ax.plot(AhistA_ar[i,:,1],linewidth=.6,c=(0,0,1,alphap**2),label="2")
+    ax.plot(AhistA_ar[i,:,2],linewidth=.6,c=(0,1,0,alphap**2),label="3")
+    #ax.plot(AhistA_ar[i,:,3],linewidth=.6,c=(1,0,1,alphap**2))
 ax.set_title("A Angle development in FIRST "+str(len(AhistA_ar))+" trials")
 
 ax=plt.subplot(246)
 AhistA_arl=np.array(PhistA_arl)
 PhistA_arl=np.array(PhistA_arl)
 for i in range(len(AhistA_arl)):
-    alpha=(i+1)/(1+len(AhistA_arl))
-    ax.plot(AhistA_arl[i,:,0],linewidth=.6,c=(1,0,0,alpha**2),label="1")
-    ax.plot(AhistA_arl[i,:,1],linewidth=.6,c=(0,0,1,alpha**2),label="2")
-    ax.plot(AhistA_arl[i,:,2],linewidth=.6,c=(0,1,0,alpha**2),label="3")
-    #ax.plot(AhistA_arl[i,:,3],linewidth=.6,c=(1,0,1,alpha**2))
+    alphap=(i+1)/(1+len(AhistA_arl))
+    ax.plot(AhistA_arl[i,:,0],linewidth=.6,c=(1,0,0,alphap**2),label="1")
+    ax.plot(AhistA_arl[i,:,1],linewidth=.6,c=(0,0,1,alphap**2),label="2")
+    ax.plot(AhistA_arl[i,:,2],linewidth=.6,c=(0,1,0,alphap**2),label="3")
+    #ax.plot(AhistA_arl[i,:,3],linewidth=.6,c=(1,0,1,alphap**2))
 ax.set_title("A Angle development in LATER "+str(len(AhistA_arl))+" trials")
 
 
 ax = plt.subplot(245)
-ax.imshow(rBf_t, aspect='auto', origin='lower')#rAl_t
+ax.imshow(rAl_t, aspect='auto', origin='lower')#rAl_t
 ax.set_title('ALL 10 100ms-chunks of PopulationA of last trial')
 
 
@@ -422,11 +439,11 @@ ax = plt.subplot(243)
 #ax.plot(initialA[:, mynet.begin_out], label='before')
 
 ax.plot(posis1[:,0]-targetA[0],  label='end pos x',color="blue")
-ax.plot((initposi[0]-targetA[0])*np.ones(len(posis1)), label='init x',color='blue',linewidth=.5)
+#ax.plot((initposi[0]-targetA[0])*np.ones(len(posis1)), label='init x',color='blue',linewidth=.5)   #if not randinit
 ax.plot(posis1[:,1]-targetA[1],  label='end pos y',color="red")
-ax.plot((initposi[1]-targetA[1])*np.ones(len(posis1)), label='init y',color='red',linewidth=.5)
+#ax.plot((initposi[1]-targetA[1])*np.ones(len(posis1)), label='init y',color='red',linewidth=.5)
 ax.plot(posis1[:,2]-targetA[2],  label='end pos z',color="green")
-ax.plot((initposi[2]-targetA[2])*np.ones(len(posis1)), label='init z',color='green',linewidth=.5)
+#ax.plot((initposi[2]-targetA[2])*np.ones(len(posis1)), label='init z',color='green',linewidth=.5)
 if usekm==False:
     ax.plot(0*np.ones(len(posis1)), label='target =0')
 if usekm==True:
@@ -453,16 +470,17 @@ ax.set_title('target B trials')
 #ax.legend()
 
 ax = plt.subplot(247)
-ax.plot(R_means1,label='mean_learnerror')
-ax.plot(r_means1,label='mean_error')
-#ax.set_ylim((-0.3,0.12))
-
-
-ax = plt.subplot(248)
-ax.plot(R_means2,label='mean_learned_error')
-ax.plot(r_means2,label='mean_error')
+ax.plot(R_means1,label='mean_learnerror 1')
+ax.plot(r_means1,label='mean_error 1')
 #ax.set_ylim((-0.3,0.12))
 ax.legend()
+
+ax = plt.subplot(248)
+ax.plot(R_means2,label='mean_learned_error 2')
+ax.plot(r_means2,label='mean_error 2')
+#ax.set_ylim((-0.3,0.12))
+ax.legend()
+
 fig.suptitle("params:"+figname, fontsize=14)
 savefiginp="y"#input("save the figure? (y/n)")
 if savefiginp=="y":
@@ -473,3 +491,4 @@ else:
     print("not saved")
 if showplot:
     plt.show()
+print("achtung: mean_error=1 in minconi.py")

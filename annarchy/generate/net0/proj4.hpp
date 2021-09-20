@@ -5,21 +5,21 @@
 
 #include "sparse_matrix.hpp"
 
-#include "pop3.hpp"
+#include "pop5.hpp"
 #include "pop0.hpp"
 
 
 
-extern PopStruct3 pop3;
+extern PopStruct5 pop5;
 extern PopStruct0 pop0;
 
 extern std::vector<std::mt19937> rng;
 
 /////////////////////////////////////////////////////////////////////////////
-// proj2: pop3 -> pop0 with target in
+// proj4: pop5 -> pop0 with target in
 /////////////////////////////////////////////////////////////////////////////
-struct ProjStruct2 : LILMatrix<int> {
-    ProjStruct2() : LILMatrix<int>( 400, 21) {
+struct ProjStruct4 : LILMatrix<int> {
+    ProjStruct4() : LILMatrix<int>( 400, 2) {
     }
 
 
@@ -65,7 +65,7 @@ struct ProjStruct2 : LILMatrix<int> {
     // Method called to initialize the projection
     void init_projection() {
     #ifdef _DEBUG
-        std::cout << "ProjStruct2::init_projection()" << std::endl;
+        std::cout << "ProjStruct4::init_projection()" << std::endl;
     #endif
 
         _transmission = true;
@@ -94,7 +94,7 @@ struct ProjStruct2 : LILMatrix<int> {
     // Computes the weighted sum of inputs or updates the conductances
     void compute_psp() {
     #ifdef _TRACE_SIMULATION_STEPS
-        std::cout << "    ProjStruct2::compute_psp()" << std::endl;
+        std::cout << "    ProjStruct4::compute_psp()" << std::endl;
     #endif
         int nb_post; int rk_post; int rk_pre; double sum;
 
@@ -106,7 +106,7 @@ struct ProjStruct2 : LILMatrix<int> {
             for(int i = 0; i < nb_post; i++) {
                 sum = 0.0;
                 for(int j = 0; j < pre_rank[i].size(); j++) {
-                    sum += pop3.r[pre_rank[i][j]]*w[i][j] ;
+                    sum += pop5.r[pre_rank[i][j]]*w[i][j] ;
                 }
                 pop0._sum_in[post_rank[i]] += sum;
             }
@@ -123,7 +123,7 @@ struct ProjStruct2 : LILMatrix<int> {
     // Updates synaptic variables
     void update_synapse() {
     #ifdef _TRACE_SIMULATION_STEPS
-        std::cout << "    ProjStruct2::update_synapse()" << std::endl;
+        std::cout << "    ProjStruct4::update_synapse()" << std::endl;
     #endif
 
 
@@ -149,7 +149,7 @@ struct ProjStruct2 : LILMatrix<int> {
 
 
         // should not happen
-        std::cerr << "ProjStruct2::get_local_attribute_all: " << name << " not found" << std::endl;
+        std::cerr << "ProjStruct4::get_local_attribute_all: " << name << " not found" << std::endl;
         return std::vector<std::vector<double>>();
     }
 
@@ -161,7 +161,7 @@ struct ProjStruct2 : LILMatrix<int> {
 
 
         // should not happen
-        std::cerr << "ProjStruct2::get_local_attribute_row: " << name << " not found" << std::endl;
+        std::cerr << "ProjStruct4::get_local_attribute_row: " << name << " not found" << std::endl;
         return std::vector<double>();
     }
 
@@ -173,7 +173,7 @@ struct ProjStruct2 : LILMatrix<int> {
 
 
         // should not happen
-        std::cerr << "ProjStruct2::get_local_attribute: " << name << " not found" << std::endl;
+        std::cerr << "ProjStruct4::get_local_attribute: " << name << " not found" << std::endl;
         return 0.0;
     }
 
@@ -208,7 +208,7 @@ struct ProjStruct2 : LILMatrix<int> {
 
 
         // should not happen
-        std::cerr << "ProjStruct2::get_semiglobal_attribute_all: " << name << " not found" << std::endl;
+        std::cerr << "ProjStruct4::get_semiglobal_attribute_all: " << name << " not found" << std::endl;
         return std::vector<double>();
     }
 
@@ -216,7 +216,7 @@ struct ProjStruct2 : LILMatrix<int> {
 
 
         // should not happen
-        std::cerr << "ProjStruct2::get_semiglobal_attribute: " << name << " not found" << std::endl;
+        std::cerr << "ProjStruct4::get_semiglobal_attribute: " << name << " not found" << std::endl;
         return 0.0;
     }
 
@@ -232,7 +232,7 @@ struct ProjStruct2 : LILMatrix<int> {
 
 
         // should not happen
-        std::cerr << "ProjStruct2::get_global_attribute: " << name << " not found" << std::endl;
+        std::cerr << "ProjStruct4::get_global_attribute: " << name << " not found" << std::endl;
         return 0.0;
     }
 
@@ -264,7 +264,7 @@ struct ProjStruct2 : LILMatrix<int> {
 
     void clear() {
     #ifdef _DEBUG
-        std::cout << "PopStruct2::clear()" << std::endl;
+        std::cout << "PopStruct4::clear()" << std::endl;
     #endif
 
     }

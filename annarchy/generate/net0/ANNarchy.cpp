@@ -19,12 +19,18 @@ std::vector<std::mt19937> rng;
 PopStruct0 pop0;
 PopStruct1 pop1;
 PopStruct2 pop2;
+PopStruct3 pop3;
+PopStruct4 pop4;
+PopStruct5 pop5;
 
 
 // Projections
 ProjStruct0 proj0;
 ProjStruct1 proj1;
 ProjStruct2 proj2;
+ProjStruct3 proj3;
+ProjStruct4 proj4;
+ProjStruct5 proj5;
 
 
 // Global operations
@@ -109,6 +115,9 @@ void initialize(double _dt) {
     pop0.init_population();
     pop1.init_population();
     pop2.init_population();
+    pop3.init_population();
+    pop4.init_population();
+    pop5.init_population();
 
 
     // Projections
@@ -116,6 +125,9 @@ void initialize(double _dt) {
     proj0.init_projection();
     proj1.init_projection();
     proj2.init_projection();
+    proj3.init_projection();
+    proj4.init_projection();
+    proj5.init_projection();
 
 
     // Custom constants
@@ -128,6 +140,9 @@ void init_rng_dist() {
 pop0.init_rng_dist();
 pop1.init_rng_dist();
 pop2.init_rng_dist();
+pop3.init_rng_dist();
+pop4.init_rng_dist();
+pop5.init_rng_dist();
 
 }
 
@@ -188,6 +203,9 @@ void singleStep()
     proj0.compute_psp();
     proj1.compute_psp();
     proj2.compute_psp();
+    proj3.compute_psp();
+    proj4.compute_psp();
+    proj5.compute_psp();
 
 
 
@@ -248,7 +266,7 @@ void singleStep()
     std::cout << "Evaluate synaptic ODEs ..." << std::endl;
 #endif
 
-    proj2.update_synapse();
+    proj5.update_synapse();
 
 
 

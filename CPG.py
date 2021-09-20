@@ -145,10 +145,11 @@ class cpg:
     def move_to_init(self):
         # move to init position at begining of each trial
         angles = np.zeros(params.number_cpg)
-        angles[iCubMotor.LShoulderPitch] = -20.#-80
-        angles[iCubMotor.LShoulderRoll] = 60.#90
-        angles[iCubMotor.LShoulderYaw] = 80.
-        angles[iCubMotor.LElbow] = 65.
+        lsp=-20;lsr=60;lsy=80;leb=65
+        angles[iCubMotor.LShoulderPitch] = lsp
+        angles[iCubMotor.LShoulderRoll] = lsr
+        angles[iCubMotor.LShoulderYaw] = lsy
+        angles[iCubMotor.LElbow] = leb
         angles[iCubMotor.LWristProsup] = -67.
         angles[iCubMotor.LWristPitch] = 0.
         angles[iCubMotor.LWristYaw] = 0.
@@ -174,14 +175,26 @@ class cpg:
         self.iCub_robot.iCub_set_angles(angles)
         # print("___after_set___")
 
-    def move_to_init2(self):
+    def move_to_init2(self,randinit):
+        if randinit:
+            #for random init positions:
+            [joint11,joint21,joint31,joint41]=np.random.rand(4)
+            
+            joint11*=160
+            joint21=joint21*(106-15)+15
+            joint31=joint31*(8+95.5)-95.5
+            joint41=joint41*(80+32)-32
+            (lsp,lsr,lsy,leb)=(joint31,joint11,joint41,joint21)
+        else:
+            #for one init position only
+            lsp=-7.6931;lsr=15.3936;lsy=13.1915;leb=38.7954
         # move to init position at begining of each trial
         #15.393610227562071 38.795440830509705 -7.693182229450187 13.191547981283598
         self.Angles = np.zeros(params.number_cpg)
-        self.Angles[self.LShoulderRoll] = 15.3936#60.#90
-        self.Angles[self.LElbow] = 38.7954#65.
-        self.Angles[self.LShoulderPitch] = -7.6931#-20.#-80
-        self.Angles[self.LShoulderYaw] = 13.1915#80.
+        self.Angles[self.LShoulderRoll] = lsr#60.#90
+        self.Angles[self.LElbow] = leb#65.
+        self.Angles[self.LShoulderPitch] = lsp #-20.#-80
+        self.Angles[self.LShoulderYaw] = lsy#80.
 
         # convert angles to radians
         self.Angles = np.radians(self.Angles)

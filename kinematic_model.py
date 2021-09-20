@@ -72,10 +72,10 @@ joint2 = 65
 joint3 = -80
 joint4 = 80
 
-joint1 = 140 #[0,160]
-joint2 = 65 #[15,106]
-joint3 = -20 #[-95.5,8]
-joint4 = 40 #[-32,80]
+joint1 = 140 #[0,160]   #roll
+joint2 = 65 #[15,106]   #bow
+joint3 = -20 #[-95.5,8] #pitch
+joint4 = 40 #[-32,80]   #yaw
 joints = [joint4,joint3,joint1,joint2]
 
 

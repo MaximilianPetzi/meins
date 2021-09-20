@@ -1,4 +1,5 @@
 use_feedback=True
+popcodeM=None
 import time
 import numpy as np
 Paramarr=np.load("../paramarr.npy")
@@ -31,6 +32,7 @@ setup(dt=1.0)
 class net:
     def __init__(self, n_out):
         self.n_out=n_out
+        
     begin_out=0
     neuron = Neuron(
         parameters = """
@@ -38,7 +40,7 @@ class net:
             constant = 0.0 # The four first neurons have constant rates
             alpha = 0.05 : population # To compute the sliding mean
             f = """+str(var_f)+""" : population # Frequency of the perturbation (war 3)
-            A = """+str(var_A)+""" : (default 16) population # Perturbation amplitude. dt*A/tau should be 0.5...
+            A = """+str(var_A/2)+""" : (default 16) population # Perturbation amplitude. dt*A/tau should be 0.5...
         """,
 
         equations="""
@@ -76,7 +78,7 @@ class net:
 
             # Weight update only at the end of the trial
             delta_w = if learning_phase > 0.5:
-                    eta * trace * (mean_error) * (error - mean_error)
+                    eta * trace * (mean_error) * (error - mean_error)  #eta * trace * (error-1) #
                 else:
                     0.0 : min=-max_weight_change, max=max_weight_change
             w -= if learning_phase > 0.5:
@@ -95,37 +97,47 @@ class net:
     pop[41].constant = 1.0
     pop[42].constant = -1.0
     pop.x = Uniform(-0.1, 0.1)
+
+
     
+    if not popcodeM:
+        NN=21
+        Nx=NN;Ny=NN;Nz=NN;Nw=NN
+    if popcodeM:
+        Nx=1;Ny=1;Nz=1;Nw=1
     if use_feedback:
-        NN=10
-        Nx=NN;Ny=NN;Nz=NN
-        wis=2/(Nx+Ny+Nz)
+        wis=1.5/(4)#manuell irgendwie machen, hängt von den sigmas ab
+        connect_prob=.25
         fdbx = Population(Nx, Neuron(parameters="r=0.0"))
         Wfx=Projection(fdbx, pop, 'in')
-        Wfx.connect_all_to_all(weights=Uniform(-1.5*wis, 1.5*wis))
+        Wfx.connect_fixed_probability(probability = connect_prob, weights=Uniform(-1.5*wis, 1.5*wis))
 
         fdby = Population(Ny, Neuron(parameters="r=0.0"))
         Wfy=Projection(fdby, pop, 'in')
-        Wfy.connect_all_to_all(weights=Uniform(-1.5*wis, 1.5*wis))
+        Wfy.connect_fixed_probability(probability = connect_prob, weights=Uniform(-1.5*wis, 1.5*wis))
 
         fdbz = Population(Nz, Neuron(parameters="r=0.0"))
         Wfz=Projection(fdbz, pop, 'in')
-        Wfz.connect_all_to_all(weights=Uniform(-1.5*wis, 1.5*wis))
+        Wfz.connect_fixed_probability(probability = connect_prob, weights=Uniform(-1.5*wis, 1.5*wis))
+
+        fdbw = Population(Nw, Neuron(parameters="r=0.0"))
+        Wfw=Projection(fdbw, pop, 'in')
+        Wfw.connect_fixed_probability(probability = connect_prob, weights=Uniform(-1.5*wis, 1.5*wis))
 
     
     # Input population
-    inpx = Population(2, Neuron(parameters="r=0.0"))
+    inp = Population(2, Neuron(parameters="r=0.0"))
     # Input weights'
     Wi = Projection(inp, pop, 'in')
     #setup(seed=5)
-    Wi.connect_all_to_all(weights=Uniform(-1.5, 1.5))
+    Wi.connect_fixed_probability(probability = 0, weights=Uniform(-1.5, 1.5))
     
 
     # Recurrent weights
     g = var_g #default 1.5
     Wrec = Projection(pop, pop, 'exc', synapse)
     #setup(seed=68)
-    Wrec.connect_all_to_all(weights=Normal(0., g/np.sqrt(N)), allow_self_connections=True)
+    Wrec.connect_fixed_probability(probability = 1 ,weights=Normal(0., g/np.sqrt(N)), allow_self_connections=True)
     m = Monitor(pop, ['r'])
     compile()
     ####
