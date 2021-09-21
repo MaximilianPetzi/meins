@@ -86,7 +86,7 @@ if usekm==False:
 # Compute the mean reward per trial
 R_mean = np.zeros((2))
 r_mean = np.zeros((2))
-alpha = 0.75 # 0.33
+alpha = 0.85 # 0.33
 if multiple_rewards:
     alpha=alpha**(1/nchunks) #to slow down R_mean again to the previous value
 import CPG
@@ -297,7 +297,7 @@ try:
         Cancel=str(cancel_content.read())
         if Cancel[0]!="0":break
         print('Trial', trial)
-        posi1, recordsA, tracesA, r_mean, R_mean, initposi, AhistA, PhistA, error1, learnerror1, errors1,learnerrors1= trial_simulation(trial, 0, R_mean)
+        posi1, recordsA, tracesA, r_mean, R_mean, initposi, AhistA, PhistA, error1, learnerror1, errors1, learnerrors1= trial_simulation(trial, 0, R_mean)
         (posi2, recordsB, tracesB, r_mean, R_mean, initposi, AhistB, PhistB, error2, learnerror2, errors2, learnerrors2)= (posi1, recordsA, tracesA, r_mean, R_mean, initposi, AhistA, PhistA, error1, learnerror1, errors1,learnerrors1)#trial_simulation(trial, 0, R_mean)
         
         if trial == 0:

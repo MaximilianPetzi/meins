@@ -78,7 +78,7 @@ class net:
 
             # Weight update only at the end of the trial
             delta_w = if learning_phase > 0.5:
-                    eta * trace * (mean_error) * (error - mean_error)  #eta * trace * (error-1) #
+                    eta * trace * (error-1) #eta * trace * (mean_error) * (error - mean_error)  #
                 else:
                     0.0 : min=-max_weight_change, max=max_weight_change
             w -= if learning_phase > 0.5:
