@@ -2403,11 +2403,10 @@ static PyObject *__pyx_f_13ANNarchyCore0___pyx_unpickle_ProjRecorder5_wrapper__s
 static PyObject *__pyx_convert_vector_to_py_double(const std::vector<double>  &); /*proto*/
 static std::vector<double>  __pyx_convert_vector_from_py_double(PyObject *); /*proto*/
 static std::vector<int>  __pyx_convert_vector_from_py_int(PyObject *); /*proto*/
-static std::vector<std::vector<int> >  __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(PyObject *); /*proto*/
-static std::vector<std::vector<double> >  __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(PyObject *); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_int(const std::vector<int>  &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_int_3e___(const std::vector<std::vector<int> >  &); /*proto*/
 static std::string __pyx_convert_string_from_py_std__in_string(PyObject *); /*proto*/
+static std::vector<std::vector<double> >  __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(PyObject *); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_double_3e___(const std::vector<std::vector<double> >  &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_vector_3c_double_3e____3e___(const std::vector<std::vector<std::vector<double> > >  &); /*proto*/
 static std::vector<std::vector<std::vector<double> > >  __pyx_convert_vector_from_py_std_3a__3a_vector_3c_std_3a__3a_vector_3c_double_3e____3e___(PyObject *); /*proto*/
@@ -2425,8 +2424,8 @@ static PyObject *__pyx_builtin_ImportError;
 static const char __pyx_k_[] = "";
 static const char __pyx_k_i[] = "i";
 static const char __pyx_k_n[] = "n";
+static const char __pyx_k_p[] = "p";
 static const char __pyx_k_t[] = "t";
-static const char __pyx_k_w[] = "w";
 static const char __pyx_k__2[] = "=";
 static const char __pyx_k__3[] = "-";
 static const char __pyx_k__4[] = "\r[";
@@ -2453,7 +2452,6 @@ static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_array[] = "array";
 static const char __pyx_k_batch[] = "batch";
 static const char __pyx_k_count[] = "count";
-static const char __pyx_k_delay[] = "delay";
 static const char __pyx_k_flush[] = "flush";
 static const char __pyx_k_get_A[] = "get_A";
 static const char __pyx_k_get_f[] = "get_f";
@@ -2495,7 +2493,6 @@ static const char __pyx_k_get_time[] = "get_time";
 static const char __pyx_k_getstate[] = "__getstate__";
 static const char __pyx_k_nb_steps[] = "nb_steps";
 static const char __pyx_k_percents[] = "percents";
-static const char __pyx_k_pre_rank[] = "pre_rank";
 static const char __pyx_k_progress[] = "progress";
 static const char __pyx_k_pyx_step[] = "pyx_step";
 static const char __pyx_k_pyx_type[] = "__pyx_type";
@@ -2508,7 +2505,7 @@ static const char __pyx_k_get_alpha[] = "get_alpha";
 static const char __pyx_k_get_noise[] = "get_noise";
 static const char __pyx_k_get_rprev[] = "get_rprev";
 static const char __pyx_k_max_delay[] = "max_delay";
-static const char __pyx_k_post_rank[] = "post_rank";
+static const char __pyx_k_pre_ranks[] = "pre_ranks";
 static const char __pyx_k_pyx_state[] = "__pyx_state";
 static const char __pyx_k_reduce_ex[] = "__reduce_ex__";
 static const char __pyx_k_set_alpha[] = "set_alpha";
@@ -2518,17 +2515,22 @@ static const char __pyx_k_ValueError[] = "ValueError";
 static const char __pyx_k_filled_len[] = "filled_len";
 static const char __pyx_k_get_sum_in[] = "get_sum_in";
 static const char __pyx_k_get_x_mean[] = "get_x_mean";
+static const char __pyx_k_post_ranks[] = "post_ranks";
 static const char __pyx_k_pyx_create[] = "pyx_create";
 static const char __pyx_k_pyx_result[] = "__pyx_result";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_set_x_mean[] = "set_x_mean";
 static const char __pyx_k_ImportError[] = "ImportError";
 static const char __pyx_k_PickleError[] = "PickleError";
+static const char __pyx_k_d_dist_arg1[] = "d_dist_arg1";
+static const char __pyx_k_d_dist_arg2[] = "d_dist_arg2";
 static const char __pyx_k_get_delta_x[] = "get_delta_x";
 static const char __pyx_k_get_sum_exc[] = "get_sum_exc";
 static const char __pyx_k_num_sources[] = "num_sources";
 static const char __pyx_k_populations[] = "populations";
 static const char __pyx_k_set_delta_x[] = "set_delta_x";
+static const char __pyx_k_w_dist_arg1[] = "w_dist_arg1";
+static const char __pyx_k_w_dist_arg2[] = "w_dist_arg2";
 static const char __pyx_k_RuntimeError[] = "RuntimeError";
 static const char __pyx_k_get_constant[] = "get_constant";
 static const char __pyx_k_get_single_A[] = "get_single_A";
@@ -2590,6 +2592,7 @@ static const char __pyx_k_ProjRecorder2_wrapper[] = "ProjRecorder2_wrapper";
 static const char __pyx_k_ProjRecorder3_wrapper[] = "ProjRecorder3_wrapper";
 static const char __pyx_k_ProjRecorder4_wrapper[] = "ProjRecorder4_wrapper";
 static const char __pyx_k_ProjRecorder5_wrapper[] = "ProjRecorder5_wrapper";
+static const char __pyx_k_allow_self_connections[] = "allow_self_connections";
 static const char __pyx_k_get_single_perturbation[] = "get_single_perturbation";
 static const char __pyx_k_set_single_perturbation[] = "set_single_perturbation";
 static const char __pyx_k_pyx_unpickle_pop0_wrapper[] = "__pyx_unpickle_pop0_wrapper";
@@ -2657,6 +2660,7 @@ static PyObject *__pyx_kp_u__4;
 static PyObject *__pyx_kp_u__5;
 static PyObject *__pyx_kp_u__6;
 static PyObject *__pyx_kp_u__7;
+static PyObject *__pyx_n_s_allow_self_connections;
 static PyObject *__pyx_n_s_array;
 static PyObject *__pyx_n_s_bar;
 static PyObject *__pyx_n_s_bar_len;
@@ -2665,7 +2669,8 @@ static PyObject *__pyx_n_s_ceil;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_core_list;
 static PyObject *__pyx_n_s_count;
-static PyObject *__pyx_n_s_delay;
+static PyObject *__pyx_n_s_d_dist_arg1;
+static PyObject *__pyx_n_s_d_dist_arg2;
 static PyObject *__pyx_n_s_dict;
 static PyObject *__pyx_n_s_dt;
 static PyObject *__pyx_n_s_encode;
@@ -2718,6 +2723,7 @@ static PyObject *__pyx_n_s_numpy;
 static PyObject *__pyx_kp_u_numpy_core_multiarray_failed_to;
 static PyObject *__pyx_kp_u_numpy_core_umath_failed_to_impor;
 static PyObject *__pyx_n_s_offset;
+static PyObject *__pyx_n_s_p;
 static PyObject *__pyx_n_s_percents;
 static PyObject *__pyx_n_s_period;
 static PyObject *__pyx_n_s_period_offset;
@@ -2729,8 +2735,8 @@ static PyObject *__pyx_n_s_pop3_wrapper;
 static PyObject *__pyx_n_s_pop4_wrapper;
 static PyObject *__pyx_n_s_pop5_wrapper;
 static PyObject *__pyx_n_s_populations;
-static PyObject *__pyx_n_s_post_rank;
-static PyObject *__pyx_n_s_pre_rank;
+static PyObject *__pyx_n_s_post_ranks;
+static PyObject *__pyx_n_s_pre_ranks;
 static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_n_s_progress;
 static PyObject *__pyx_n_s_progress_bar;
@@ -2828,7 +2834,8 @@ static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_use_seed_seq;
 static PyObject *__pyx_kp_u_utf_8;
 static PyObject *__pyx_n_s_value;
-static PyObject *__pyx_n_s_w;
+static PyObject *__pyx_n_s_w_dist_arg1;
+static PyObject *__pyx_n_s_w_dist_arg2;
 static PyObject *__pyx_n_s_write;
 static int __pyx_pf_13ANNarchyCore0_12pop0_wrapper___init__(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_pop0_wrapper *__pyx_v_self, PyObject *__pyx_v_size, PyObject *__pyx_v_max_delay); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_12pop0_wrapper_4size___get__(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_pop0_wrapper *__pyx_v_self); /* proto */
@@ -2957,7 +2964,7 @@ static PyObject *__pyx_pf_13ANNarchyCore0_12pop5_wrapper_20clear(CYTHON_UNUSED s
 static PyObject *__pyx_pf_13ANNarchyCore0_12pop5_wrapper_22__reduce_cython__(struct __pyx_obj_13ANNarchyCore0_pop5_wrapper *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_12pop5_wrapper_24__setstate_cython__(struct __pyx_obj_13ANNarchyCore0_pop5_wrapper *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_13ANNarchyCore0_13proj0_wrapper___init__(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj0_wrapper *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_13ANNarchyCore0_13proj0_wrapper_2init_from_lil(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj0_wrapper *__pyx_v_self, PyObject *__pyx_v_synapses); /* proto */
+static PyObject *__pyx_pf_13ANNarchyCore0_13proj0_wrapper_2fixed_probability(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj0_wrapper *__pyx_v_self, PyObject *__pyx_v_post_ranks, PyObject *__pyx_v_pre_ranks, PyObject *__pyx_v_p, PyObject *__pyx_v_w_dist_arg1, PyObject *__pyx_v_w_dist_arg2, PyObject *__pyx_v_d_dist_arg1, PyObject *__pyx_v_d_dist_arg2, PyObject *__pyx_v_allow_self_connections); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj0_wrapper_4size___get__(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj0_wrapper *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj0_wrapper_4nb_synapses(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj0_wrapper *__pyx_v_self, int __pyx_v_n); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj0_wrapper_6_get_transmission(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj0_wrapper *__pyx_v_self); /* proto */
@@ -2990,7 +2997,7 @@ static PyObject *__pyx_pf_13ANNarchyCore0_13proj0_wrapper_58clear(CYTHON_UNUSED 
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj0_wrapper_60__reduce_cython__(struct __pyx_obj_13ANNarchyCore0_proj0_wrapper *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj0_wrapper_62__setstate_cython__(struct __pyx_obj_13ANNarchyCore0_proj0_wrapper *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_13ANNarchyCore0_13proj1_wrapper___init__(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj1_wrapper *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_13ANNarchyCore0_13proj1_wrapper_2init_from_lil(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj1_wrapper *__pyx_v_self, PyObject *__pyx_v_synapses); /* proto */
+static PyObject *__pyx_pf_13ANNarchyCore0_13proj1_wrapper_2fixed_probability(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj1_wrapper *__pyx_v_self, PyObject *__pyx_v_post_ranks, PyObject *__pyx_v_pre_ranks, PyObject *__pyx_v_p, PyObject *__pyx_v_w_dist_arg1, PyObject *__pyx_v_w_dist_arg2, PyObject *__pyx_v_d_dist_arg1, PyObject *__pyx_v_d_dist_arg2, PyObject *__pyx_v_allow_self_connections); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj1_wrapper_4size___get__(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj1_wrapper *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj1_wrapper_4nb_synapses(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj1_wrapper *__pyx_v_self, int __pyx_v_n); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj1_wrapper_6_get_transmission(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj1_wrapper *__pyx_v_self); /* proto */
@@ -3023,7 +3030,7 @@ static PyObject *__pyx_pf_13ANNarchyCore0_13proj1_wrapper_58clear(CYTHON_UNUSED 
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj1_wrapper_60__reduce_cython__(struct __pyx_obj_13ANNarchyCore0_proj1_wrapper *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj1_wrapper_62__setstate_cython__(struct __pyx_obj_13ANNarchyCore0_proj1_wrapper *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_13ANNarchyCore0_13proj2_wrapper___init__(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj2_wrapper *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_13ANNarchyCore0_13proj2_wrapper_2init_from_lil(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj2_wrapper *__pyx_v_self, PyObject *__pyx_v_synapses); /* proto */
+static PyObject *__pyx_pf_13ANNarchyCore0_13proj2_wrapper_2fixed_probability(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj2_wrapper *__pyx_v_self, PyObject *__pyx_v_post_ranks, PyObject *__pyx_v_pre_ranks, PyObject *__pyx_v_p, PyObject *__pyx_v_w_dist_arg1, PyObject *__pyx_v_w_dist_arg2, PyObject *__pyx_v_d_dist_arg1, PyObject *__pyx_v_d_dist_arg2, PyObject *__pyx_v_allow_self_connections); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj2_wrapper_4size___get__(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj2_wrapper *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj2_wrapper_4nb_synapses(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj2_wrapper *__pyx_v_self, int __pyx_v_n); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj2_wrapper_6_get_transmission(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj2_wrapper *__pyx_v_self); /* proto */
@@ -3056,7 +3063,7 @@ static PyObject *__pyx_pf_13ANNarchyCore0_13proj2_wrapper_58clear(CYTHON_UNUSED 
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj2_wrapper_60__reduce_cython__(struct __pyx_obj_13ANNarchyCore0_proj2_wrapper *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj2_wrapper_62__setstate_cython__(struct __pyx_obj_13ANNarchyCore0_proj2_wrapper *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_13ANNarchyCore0_13proj3_wrapper___init__(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj3_wrapper *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_13ANNarchyCore0_13proj3_wrapper_2init_from_lil(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj3_wrapper *__pyx_v_self, PyObject *__pyx_v_synapses); /* proto */
+static PyObject *__pyx_pf_13ANNarchyCore0_13proj3_wrapper_2fixed_probability(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj3_wrapper *__pyx_v_self, PyObject *__pyx_v_post_ranks, PyObject *__pyx_v_pre_ranks, PyObject *__pyx_v_p, PyObject *__pyx_v_w_dist_arg1, PyObject *__pyx_v_w_dist_arg2, PyObject *__pyx_v_d_dist_arg1, PyObject *__pyx_v_d_dist_arg2, PyObject *__pyx_v_allow_self_connections); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj3_wrapper_4size___get__(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj3_wrapper *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj3_wrapper_4nb_synapses(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj3_wrapper *__pyx_v_self, int __pyx_v_n); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj3_wrapper_6_get_transmission(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj3_wrapper *__pyx_v_self); /* proto */
@@ -3089,7 +3096,7 @@ static PyObject *__pyx_pf_13ANNarchyCore0_13proj3_wrapper_58clear(CYTHON_UNUSED 
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj3_wrapper_60__reduce_cython__(struct __pyx_obj_13ANNarchyCore0_proj3_wrapper *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj3_wrapper_62__setstate_cython__(struct __pyx_obj_13ANNarchyCore0_proj3_wrapper *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_13ANNarchyCore0_13proj4_wrapper___init__(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj4_wrapper *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_13ANNarchyCore0_13proj4_wrapper_2init_from_lil(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj4_wrapper *__pyx_v_self, PyObject *__pyx_v_synapses); /* proto */
+static PyObject *__pyx_pf_13ANNarchyCore0_13proj4_wrapper_2fixed_probability(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj4_wrapper *__pyx_v_self, PyObject *__pyx_v_post_ranks, PyObject *__pyx_v_pre_ranks, PyObject *__pyx_v_p, PyObject *__pyx_v_w_dist_arg1, PyObject *__pyx_v_w_dist_arg2, PyObject *__pyx_v_d_dist_arg1, PyObject *__pyx_v_d_dist_arg2, PyObject *__pyx_v_allow_self_connections); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj4_wrapper_4size___get__(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj4_wrapper *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj4_wrapper_4nb_synapses(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj4_wrapper *__pyx_v_self, int __pyx_v_n); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj4_wrapper_6_get_transmission(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj4_wrapper *__pyx_v_self); /* proto */
@@ -3122,7 +3129,7 @@ static PyObject *__pyx_pf_13ANNarchyCore0_13proj4_wrapper_58clear(CYTHON_UNUSED 
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj4_wrapper_60__reduce_cython__(struct __pyx_obj_13ANNarchyCore0_proj4_wrapper *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj4_wrapper_62__setstate_cython__(struct __pyx_obj_13ANNarchyCore0_proj4_wrapper *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_13ANNarchyCore0_13proj5_wrapper___init__(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj5_wrapper *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_13ANNarchyCore0_13proj5_wrapper_2init_from_lil(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj5_wrapper *__pyx_v_self, PyObject *__pyx_v_synapses); /* proto */
+static PyObject *__pyx_pf_13ANNarchyCore0_13proj5_wrapper_2fixed_probability(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj5_wrapper *__pyx_v_self, PyObject *__pyx_v_post_ranks, PyObject *__pyx_v_pre_ranks, PyObject *__pyx_v_p, PyObject *__pyx_v_w_dist_arg1, PyObject *__pyx_v_w_dist_arg2, PyObject *__pyx_v_d_dist_arg1, PyObject *__pyx_v_d_dist_arg2, PyObject *__pyx_v_allow_self_connections); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj5_wrapper_4size___get__(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj5_wrapper *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj5_wrapper_4nb_synapses(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj5_wrapper *__pyx_v_self, int __pyx_v_n); /* proto */
 static PyObject *__pyx_pf_13ANNarchyCore0_13proj5_wrapper_6_get_transmission(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj5_wrapper *__pyx_v_self); /* proto */
@@ -19948,67 +19955,179 @@ static int __pyx_pf_13ANNarchyCore0_13proj0_wrapper___init__(CYTHON_UNUSED struc
 /* "ANNarchyCore0.pyx":1251
  * 
  * 
- *     def init_from_lil(self, synapses):             # <<<<<<<<<<<<<<
- *         proj0.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+ *     def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):             # <<<<<<<<<<<<<<
+ *         proj0.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)
  * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_13ANNarchyCore0_13proj0_wrapper_3init_from_lil(PyObject *__pyx_v_self, PyObject *__pyx_v_synapses); /*proto*/
-static PyObject *__pyx_pw_13ANNarchyCore0_13proj0_wrapper_3init_from_lil(PyObject *__pyx_v_self, PyObject *__pyx_v_synapses) {
+static PyObject *__pyx_pw_13ANNarchyCore0_13proj0_wrapper_3fixed_probability(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_13ANNarchyCore0_13proj0_wrapper_3fixed_probability(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_post_ranks = 0;
+  PyObject *__pyx_v_pre_ranks = 0;
+  PyObject *__pyx_v_p = 0;
+  PyObject *__pyx_v_w_dist_arg1 = 0;
+  PyObject *__pyx_v_w_dist_arg2 = 0;
+  PyObject *__pyx_v_d_dist_arg1 = 0;
+  PyObject *__pyx_v_d_dist_arg2 = 0;
+  PyObject *__pyx_v_allow_self_connections = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("init_from_lil (wrapper)", 0);
-  __pyx_r = __pyx_pf_13ANNarchyCore0_13proj0_wrapper_2init_from_lil(((struct __pyx_obj_13ANNarchyCore0_proj0_wrapper *)__pyx_v_self), ((PyObject *)__pyx_v_synapses));
+  __Pyx_RefNannySetupContext("fixed_probability (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_post_ranks,&__pyx_n_s_pre_ranks,&__pyx_n_s_p,&__pyx_n_s_w_dist_arg1,&__pyx_n_s_w_dist_arg2,&__pyx_n_s_d_dist_arg1,&__pyx_n_s_d_dist_arg2,&__pyx_n_s_allow_self_connections,0};
+    PyObject* values[8] = {0,0,0,0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+        CYTHON_FALLTHROUGH;
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        CYTHON_FALLTHROUGH;
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        CYTHON_FALLTHROUGH;
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_post_ranks)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pre_ranks)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 1); __PYX_ERR(0, 1251, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_p)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 2); __PYX_ERR(0, 1251, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_w_dist_arg1)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 3); __PYX_ERR(0, 1251, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_w_dist_arg2)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 4); __PYX_ERR(0, 1251, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  5:
+        if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d_dist_arg1)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 5); __PYX_ERR(0, 1251, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  6:
+        if (likely((values[6] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d_dist_arg2)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 6); __PYX_ERR(0, 1251, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  7:
+        if (likely((values[7] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_allow_self_connections)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 7); __PYX_ERR(0, 1251, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fixed_probability") < 0)) __PYX_ERR(0, 1251, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 8) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+      values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+      values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+      values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+    }
+    __pyx_v_post_ranks = values[0];
+    __pyx_v_pre_ranks = values[1];
+    __pyx_v_p = values[2];
+    __pyx_v_w_dist_arg1 = values[3];
+    __pyx_v_w_dist_arg2 = values[4];
+    __pyx_v_d_dist_arg1 = values[5];
+    __pyx_v_d_dist_arg2 = values[6];
+    __pyx_v_allow_self_connections = values[7];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1251, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("ANNarchyCore0.proj0_wrapper.fixed_probability", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_13ANNarchyCore0_13proj0_wrapper_2fixed_probability(((struct __pyx_obj_13ANNarchyCore0_proj0_wrapper *)__pyx_v_self), __pyx_v_post_ranks, __pyx_v_pre_ranks, __pyx_v_p, __pyx_v_w_dist_arg1, __pyx_v_w_dist_arg2, __pyx_v_d_dist_arg1, __pyx_v_d_dist_arg2, __pyx_v_allow_self_connections);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_13ANNarchyCore0_13proj0_wrapper_2init_from_lil(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj0_wrapper *__pyx_v_self, PyObject *__pyx_v_synapses) {
+static PyObject *__pyx_pf_13ANNarchyCore0_13proj0_wrapper_2fixed_probability(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj0_wrapper *__pyx_v_self, PyObject *__pyx_v_post_ranks, PyObject *__pyx_v_pre_ranks, PyObject *__pyx_v_p, PyObject *__pyx_v_w_dist_arg1, PyObject *__pyx_v_w_dist_arg2, PyObject *__pyx_v_d_dist_arg1, PyObject *__pyx_v_d_dist_arg2, PyObject *__pyx_v_allow_self_connections) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
+  std::vector<int>  __pyx_t_1;
   std::vector<int>  __pyx_t_2;
-  std::vector<std::vector<int> >  __pyx_t_3;
-  std::vector<std::vector<double> >  __pyx_t_4;
-  std::vector<std::vector<int> >  __pyx_t_5;
+  double __pyx_t_3;
+  double __pyx_t_4;
+  double __pyx_t_5;
+  double __pyx_t_6;
+  double __pyx_t_7;
+  bool __pyx_t_8;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("init_from_lil", 0);
+  __Pyx_RefNannySetupContext("fixed_probability", 0);
 
   /* "ANNarchyCore0.pyx":1252
  * 
- *     def init_from_lil(self, synapses):
- *         proj0.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)             # <<<<<<<<<<<<<<
+ *     def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):
+ *         proj0.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_post_rank); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1252, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_convert_vector_from_py_int(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1252, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_pre_rank); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1252, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1252, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_w); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1252, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1252, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_delay); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1252, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1252, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  proj0.init_from_lil(__pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_5);
+  __pyx_t_1 = __pyx_convert_vector_from_py_int(__pyx_v_post_ranks); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1252, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_vector_from_py_int(__pyx_v_pre_ranks); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1252, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_p); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1252, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_v_w_dist_arg1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1252, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_v_w_dist_arg2); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1252, __pyx_L1_error)
+  __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_v_d_dist_arg1); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1252, __pyx_L1_error)
+  __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_v_d_dist_arg2); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1252, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_allow_self_connections); if (unlikely((__pyx_t_8 == ((bool)-1)) && PyErr_Occurred())) __PYX_ERR(0, 1252, __pyx_L1_error)
+  proj0.fixed_probability_pattern(__pyx_t_1, __pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6, __pyx_t_7, __pyx_t_8);
 
   /* "ANNarchyCore0.pyx":1251
  * 
  * 
- *     def init_from_lil(self, synapses):             # <<<<<<<<<<<<<<
- *         proj0.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+ *     def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):             # <<<<<<<<<<<<<<
+ *         proj0.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)
  * 
  */
 
@@ -20016,8 +20135,7 @@ static PyObject *__pyx_pf_13ANNarchyCore0_13proj0_wrapper_2init_from_lil(CYTHON_
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("ANNarchyCore0.proj0_wrapper.init_from_lil", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ANNarchyCore0.proj0_wrapper.fixed_probability", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -23147,67 +23265,179 @@ static int __pyx_pf_13ANNarchyCore0_13proj1_wrapper___init__(CYTHON_UNUSED struc
 /* "ANNarchyCore0.pyx":1374
  * 
  * 
- *     def init_from_lil(self, synapses):             # <<<<<<<<<<<<<<
- *         proj1.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+ *     def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):             # <<<<<<<<<<<<<<
+ *         proj1.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)
  * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_13ANNarchyCore0_13proj1_wrapper_3init_from_lil(PyObject *__pyx_v_self, PyObject *__pyx_v_synapses); /*proto*/
-static PyObject *__pyx_pw_13ANNarchyCore0_13proj1_wrapper_3init_from_lil(PyObject *__pyx_v_self, PyObject *__pyx_v_synapses) {
+static PyObject *__pyx_pw_13ANNarchyCore0_13proj1_wrapper_3fixed_probability(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_13ANNarchyCore0_13proj1_wrapper_3fixed_probability(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_post_ranks = 0;
+  PyObject *__pyx_v_pre_ranks = 0;
+  PyObject *__pyx_v_p = 0;
+  PyObject *__pyx_v_w_dist_arg1 = 0;
+  PyObject *__pyx_v_w_dist_arg2 = 0;
+  PyObject *__pyx_v_d_dist_arg1 = 0;
+  PyObject *__pyx_v_d_dist_arg2 = 0;
+  PyObject *__pyx_v_allow_self_connections = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("init_from_lil (wrapper)", 0);
-  __pyx_r = __pyx_pf_13ANNarchyCore0_13proj1_wrapper_2init_from_lil(((struct __pyx_obj_13ANNarchyCore0_proj1_wrapper *)__pyx_v_self), ((PyObject *)__pyx_v_synapses));
+  __Pyx_RefNannySetupContext("fixed_probability (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_post_ranks,&__pyx_n_s_pre_ranks,&__pyx_n_s_p,&__pyx_n_s_w_dist_arg1,&__pyx_n_s_w_dist_arg2,&__pyx_n_s_d_dist_arg1,&__pyx_n_s_d_dist_arg2,&__pyx_n_s_allow_self_connections,0};
+    PyObject* values[8] = {0,0,0,0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+        CYTHON_FALLTHROUGH;
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        CYTHON_FALLTHROUGH;
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        CYTHON_FALLTHROUGH;
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_post_ranks)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pre_ranks)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 1); __PYX_ERR(0, 1374, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_p)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 2); __PYX_ERR(0, 1374, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_w_dist_arg1)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 3); __PYX_ERR(0, 1374, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_w_dist_arg2)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 4); __PYX_ERR(0, 1374, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  5:
+        if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d_dist_arg1)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 5); __PYX_ERR(0, 1374, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  6:
+        if (likely((values[6] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d_dist_arg2)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 6); __PYX_ERR(0, 1374, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  7:
+        if (likely((values[7] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_allow_self_connections)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 7); __PYX_ERR(0, 1374, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fixed_probability") < 0)) __PYX_ERR(0, 1374, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 8) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+      values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+      values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+      values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+    }
+    __pyx_v_post_ranks = values[0];
+    __pyx_v_pre_ranks = values[1];
+    __pyx_v_p = values[2];
+    __pyx_v_w_dist_arg1 = values[3];
+    __pyx_v_w_dist_arg2 = values[4];
+    __pyx_v_d_dist_arg1 = values[5];
+    __pyx_v_d_dist_arg2 = values[6];
+    __pyx_v_allow_self_connections = values[7];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1374, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("ANNarchyCore0.proj1_wrapper.fixed_probability", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_13ANNarchyCore0_13proj1_wrapper_2fixed_probability(((struct __pyx_obj_13ANNarchyCore0_proj1_wrapper *)__pyx_v_self), __pyx_v_post_ranks, __pyx_v_pre_ranks, __pyx_v_p, __pyx_v_w_dist_arg1, __pyx_v_w_dist_arg2, __pyx_v_d_dist_arg1, __pyx_v_d_dist_arg2, __pyx_v_allow_self_connections);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_13ANNarchyCore0_13proj1_wrapper_2init_from_lil(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj1_wrapper *__pyx_v_self, PyObject *__pyx_v_synapses) {
+static PyObject *__pyx_pf_13ANNarchyCore0_13proj1_wrapper_2fixed_probability(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj1_wrapper *__pyx_v_self, PyObject *__pyx_v_post_ranks, PyObject *__pyx_v_pre_ranks, PyObject *__pyx_v_p, PyObject *__pyx_v_w_dist_arg1, PyObject *__pyx_v_w_dist_arg2, PyObject *__pyx_v_d_dist_arg1, PyObject *__pyx_v_d_dist_arg2, PyObject *__pyx_v_allow_self_connections) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
+  std::vector<int>  __pyx_t_1;
   std::vector<int>  __pyx_t_2;
-  std::vector<std::vector<int> >  __pyx_t_3;
-  std::vector<std::vector<double> >  __pyx_t_4;
-  std::vector<std::vector<int> >  __pyx_t_5;
+  double __pyx_t_3;
+  double __pyx_t_4;
+  double __pyx_t_5;
+  double __pyx_t_6;
+  double __pyx_t_7;
+  bool __pyx_t_8;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("init_from_lil", 0);
+  __Pyx_RefNannySetupContext("fixed_probability", 0);
 
   /* "ANNarchyCore0.pyx":1375
  * 
- *     def init_from_lil(self, synapses):
- *         proj1.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)             # <<<<<<<<<<<<<<
+ *     def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):
+ *         proj1.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_post_rank); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1375, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_convert_vector_from_py_int(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1375, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_pre_rank); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1375, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1375, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_w); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1375, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1375, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_delay); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1375, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1375, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  proj1.init_from_lil(__pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_5);
+  __pyx_t_1 = __pyx_convert_vector_from_py_int(__pyx_v_post_ranks); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1375, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_vector_from_py_int(__pyx_v_pre_ranks); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1375, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_p); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1375, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_v_w_dist_arg1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1375, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_v_w_dist_arg2); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1375, __pyx_L1_error)
+  __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_v_d_dist_arg1); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1375, __pyx_L1_error)
+  __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_v_d_dist_arg2); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1375, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_allow_self_connections); if (unlikely((__pyx_t_8 == ((bool)-1)) && PyErr_Occurred())) __PYX_ERR(0, 1375, __pyx_L1_error)
+  proj1.fixed_probability_pattern(__pyx_t_1, __pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6, __pyx_t_7, __pyx_t_8);
 
   /* "ANNarchyCore0.pyx":1374
  * 
  * 
- *     def init_from_lil(self, synapses):             # <<<<<<<<<<<<<<
- *         proj1.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+ *     def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):             # <<<<<<<<<<<<<<
+ *         proj1.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)
  * 
  */
 
@@ -23215,8 +23445,7 @@ static PyObject *__pyx_pf_13ANNarchyCore0_13proj1_wrapper_2init_from_lil(CYTHON_
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("ANNarchyCore0.proj1_wrapper.init_from_lil", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ANNarchyCore0.proj1_wrapper.fixed_probability", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -26346,67 +26575,179 @@ static int __pyx_pf_13ANNarchyCore0_13proj2_wrapper___init__(CYTHON_UNUSED struc
 /* "ANNarchyCore0.pyx":1497
  * 
  * 
- *     def init_from_lil(self, synapses):             # <<<<<<<<<<<<<<
- *         proj2.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+ *     def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):             # <<<<<<<<<<<<<<
+ *         proj2.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)
  * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_13ANNarchyCore0_13proj2_wrapper_3init_from_lil(PyObject *__pyx_v_self, PyObject *__pyx_v_synapses); /*proto*/
-static PyObject *__pyx_pw_13ANNarchyCore0_13proj2_wrapper_3init_from_lil(PyObject *__pyx_v_self, PyObject *__pyx_v_synapses) {
+static PyObject *__pyx_pw_13ANNarchyCore0_13proj2_wrapper_3fixed_probability(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_13ANNarchyCore0_13proj2_wrapper_3fixed_probability(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_post_ranks = 0;
+  PyObject *__pyx_v_pre_ranks = 0;
+  PyObject *__pyx_v_p = 0;
+  PyObject *__pyx_v_w_dist_arg1 = 0;
+  PyObject *__pyx_v_w_dist_arg2 = 0;
+  PyObject *__pyx_v_d_dist_arg1 = 0;
+  PyObject *__pyx_v_d_dist_arg2 = 0;
+  PyObject *__pyx_v_allow_self_connections = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("init_from_lil (wrapper)", 0);
-  __pyx_r = __pyx_pf_13ANNarchyCore0_13proj2_wrapper_2init_from_lil(((struct __pyx_obj_13ANNarchyCore0_proj2_wrapper *)__pyx_v_self), ((PyObject *)__pyx_v_synapses));
+  __Pyx_RefNannySetupContext("fixed_probability (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_post_ranks,&__pyx_n_s_pre_ranks,&__pyx_n_s_p,&__pyx_n_s_w_dist_arg1,&__pyx_n_s_w_dist_arg2,&__pyx_n_s_d_dist_arg1,&__pyx_n_s_d_dist_arg2,&__pyx_n_s_allow_self_connections,0};
+    PyObject* values[8] = {0,0,0,0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+        CYTHON_FALLTHROUGH;
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        CYTHON_FALLTHROUGH;
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        CYTHON_FALLTHROUGH;
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_post_ranks)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pre_ranks)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 1); __PYX_ERR(0, 1497, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_p)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 2); __PYX_ERR(0, 1497, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_w_dist_arg1)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 3); __PYX_ERR(0, 1497, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_w_dist_arg2)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 4); __PYX_ERR(0, 1497, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  5:
+        if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d_dist_arg1)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 5); __PYX_ERR(0, 1497, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  6:
+        if (likely((values[6] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d_dist_arg2)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 6); __PYX_ERR(0, 1497, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  7:
+        if (likely((values[7] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_allow_self_connections)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 7); __PYX_ERR(0, 1497, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fixed_probability") < 0)) __PYX_ERR(0, 1497, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 8) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+      values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+      values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+      values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+    }
+    __pyx_v_post_ranks = values[0];
+    __pyx_v_pre_ranks = values[1];
+    __pyx_v_p = values[2];
+    __pyx_v_w_dist_arg1 = values[3];
+    __pyx_v_w_dist_arg2 = values[4];
+    __pyx_v_d_dist_arg1 = values[5];
+    __pyx_v_d_dist_arg2 = values[6];
+    __pyx_v_allow_self_connections = values[7];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1497, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("ANNarchyCore0.proj2_wrapper.fixed_probability", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_13ANNarchyCore0_13proj2_wrapper_2fixed_probability(((struct __pyx_obj_13ANNarchyCore0_proj2_wrapper *)__pyx_v_self), __pyx_v_post_ranks, __pyx_v_pre_ranks, __pyx_v_p, __pyx_v_w_dist_arg1, __pyx_v_w_dist_arg2, __pyx_v_d_dist_arg1, __pyx_v_d_dist_arg2, __pyx_v_allow_self_connections);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_13ANNarchyCore0_13proj2_wrapper_2init_from_lil(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj2_wrapper *__pyx_v_self, PyObject *__pyx_v_synapses) {
+static PyObject *__pyx_pf_13ANNarchyCore0_13proj2_wrapper_2fixed_probability(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj2_wrapper *__pyx_v_self, PyObject *__pyx_v_post_ranks, PyObject *__pyx_v_pre_ranks, PyObject *__pyx_v_p, PyObject *__pyx_v_w_dist_arg1, PyObject *__pyx_v_w_dist_arg2, PyObject *__pyx_v_d_dist_arg1, PyObject *__pyx_v_d_dist_arg2, PyObject *__pyx_v_allow_self_connections) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
+  std::vector<int>  __pyx_t_1;
   std::vector<int>  __pyx_t_2;
-  std::vector<std::vector<int> >  __pyx_t_3;
-  std::vector<std::vector<double> >  __pyx_t_4;
-  std::vector<std::vector<int> >  __pyx_t_5;
+  double __pyx_t_3;
+  double __pyx_t_4;
+  double __pyx_t_5;
+  double __pyx_t_6;
+  double __pyx_t_7;
+  bool __pyx_t_8;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("init_from_lil", 0);
+  __Pyx_RefNannySetupContext("fixed_probability", 0);
 
   /* "ANNarchyCore0.pyx":1498
  * 
- *     def init_from_lil(self, synapses):
- *         proj2.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)             # <<<<<<<<<<<<<<
+ *     def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):
+ *         proj2.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_post_rank); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1498, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_convert_vector_from_py_int(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1498, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_pre_rank); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1498, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1498, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_w); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1498, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1498, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_delay); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1498, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1498, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  proj2.init_from_lil(__pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_5);
+  __pyx_t_1 = __pyx_convert_vector_from_py_int(__pyx_v_post_ranks); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1498, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_vector_from_py_int(__pyx_v_pre_ranks); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1498, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_p); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1498, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_v_w_dist_arg1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1498, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_v_w_dist_arg2); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1498, __pyx_L1_error)
+  __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_v_d_dist_arg1); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1498, __pyx_L1_error)
+  __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_v_d_dist_arg2); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1498, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_allow_self_connections); if (unlikely((__pyx_t_8 == ((bool)-1)) && PyErr_Occurred())) __PYX_ERR(0, 1498, __pyx_L1_error)
+  proj2.fixed_probability_pattern(__pyx_t_1, __pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6, __pyx_t_7, __pyx_t_8);
 
   /* "ANNarchyCore0.pyx":1497
  * 
  * 
- *     def init_from_lil(self, synapses):             # <<<<<<<<<<<<<<
- *         proj2.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+ *     def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):             # <<<<<<<<<<<<<<
+ *         proj2.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)
  * 
  */
 
@@ -26414,8 +26755,7 @@ static PyObject *__pyx_pf_13ANNarchyCore0_13proj2_wrapper_2init_from_lil(CYTHON_
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("ANNarchyCore0.proj2_wrapper.init_from_lil", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ANNarchyCore0.proj2_wrapper.fixed_probability", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -29545,67 +29885,179 @@ static int __pyx_pf_13ANNarchyCore0_13proj3_wrapper___init__(CYTHON_UNUSED struc
 /* "ANNarchyCore0.pyx":1620
  * 
  * 
- *     def init_from_lil(self, synapses):             # <<<<<<<<<<<<<<
- *         proj3.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+ *     def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):             # <<<<<<<<<<<<<<
+ *         proj3.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)
  * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_13ANNarchyCore0_13proj3_wrapper_3init_from_lil(PyObject *__pyx_v_self, PyObject *__pyx_v_synapses); /*proto*/
-static PyObject *__pyx_pw_13ANNarchyCore0_13proj3_wrapper_3init_from_lil(PyObject *__pyx_v_self, PyObject *__pyx_v_synapses) {
+static PyObject *__pyx_pw_13ANNarchyCore0_13proj3_wrapper_3fixed_probability(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_13ANNarchyCore0_13proj3_wrapper_3fixed_probability(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_post_ranks = 0;
+  PyObject *__pyx_v_pre_ranks = 0;
+  PyObject *__pyx_v_p = 0;
+  PyObject *__pyx_v_w_dist_arg1 = 0;
+  PyObject *__pyx_v_w_dist_arg2 = 0;
+  PyObject *__pyx_v_d_dist_arg1 = 0;
+  PyObject *__pyx_v_d_dist_arg2 = 0;
+  PyObject *__pyx_v_allow_self_connections = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("init_from_lil (wrapper)", 0);
-  __pyx_r = __pyx_pf_13ANNarchyCore0_13proj3_wrapper_2init_from_lil(((struct __pyx_obj_13ANNarchyCore0_proj3_wrapper *)__pyx_v_self), ((PyObject *)__pyx_v_synapses));
+  __Pyx_RefNannySetupContext("fixed_probability (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_post_ranks,&__pyx_n_s_pre_ranks,&__pyx_n_s_p,&__pyx_n_s_w_dist_arg1,&__pyx_n_s_w_dist_arg2,&__pyx_n_s_d_dist_arg1,&__pyx_n_s_d_dist_arg2,&__pyx_n_s_allow_self_connections,0};
+    PyObject* values[8] = {0,0,0,0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+        CYTHON_FALLTHROUGH;
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        CYTHON_FALLTHROUGH;
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        CYTHON_FALLTHROUGH;
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_post_ranks)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pre_ranks)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 1); __PYX_ERR(0, 1620, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_p)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 2); __PYX_ERR(0, 1620, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_w_dist_arg1)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 3); __PYX_ERR(0, 1620, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_w_dist_arg2)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 4); __PYX_ERR(0, 1620, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  5:
+        if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d_dist_arg1)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 5); __PYX_ERR(0, 1620, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  6:
+        if (likely((values[6] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d_dist_arg2)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 6); __PYX_ERR(0, 1620, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  7:
+        if (likely((values[7] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_allow_self_connections)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 7); __PYX_ERR(0, 1620, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fixed_probability") < 0)) __PYX_ERR(0, 1620, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 8) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+      values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+      values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+      values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+    }
+    __pyx_v_post_ranks = values[0];
+    __pyx_v_pre_ranks = values[1];
+    __pyx_v_p = values[2];
+    __pyx_v_w_dist_arg1 = values[3];
+    __pyx_v_w_dist_arg2 = values[4];
+    __pyx_v_d_dist_arg1 = values[5];
+    __pyx_v_d_dist_arg2 = values[6];
+    __pyx_v_allow_self_connections = values[7];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1620, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("ANNarchyCore0.proj3_wrapper.fixed_probability", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_13ANNarchyCore0_13proj3_wrapper_2fixed_probability(((struct __pyx_obj_13ANNarchyCore0_proj3_wrapper *)__pyx_v_self), __pyx_v_post_ranks, __pyx_v_pre_ranks, __pyx_v_p, __pyx_v_w_dist_arg1, __pyx_v_w_dist_arg2, __pyx_v_d_dist_arg1, __pyx_v_d_dist_arg2, __pyx_v_allow_self_connections);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_13ANNarchyCore0_13proj3_wrapper_2init_from_lil(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj3_wrapper *__pyx_v_self, PyObject *__pyx_v_synapses) {
+static PyObject *__pyx_pf_13ANNarchyCore0_13proj3_wrapper_2fixed_probability(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj3_wrapper *__pyx_v_self, PyObject *__pyx_v_post_ranks, PyObject *__pyx_v_pre_ranks, PyObject *__pyx_v_p, PyObject *__pyx_v_w_dist_arg1, PyObject *__pyx_v_w_dist_arg2, PyObject *__pyx_v_d_dist_arg1, PyObject *__pyx_v_d_dist_arg2, PyObject *__pyx_v_allow_self_connections) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
+  std::vector<int>  __pyx_t_1;
   std::vector<int>  __pyx_t_2;
-  std::vector<std::vector<int> >  __pyx_t_3;
-  std::vector<std::vector<double> >  __pyx_t_4;
-  std::vector<std::vector<int> >  __pyx_t_5;
+  double __pyx_t_3;
+  double __pyx_t_4;
+  double __pyx_t_5;
+  double __pyx_t_6;
+  double __pyx_t_7;
+  bool __pyx_t_8;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("init_from_lil", 0);
+  __Pyx_RefNannySetupContext("fixed_probability", 0);
 
   /* "ANNarchyCore0.pyx":1621
  * 
- *     def init_from_lil(self, synapses):
- *         proj3.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)             # <<<<<<<<<<<<<<
+ *     def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):
+ *         proj3.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_post_rank); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1621, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_convert_vector_from_py_int(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1621, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_pre_rank); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1621, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1621, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_w); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1621, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1621, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_delay); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1621, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1621, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  proj3.init_from_lil(__pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_5);
+  __pyx_t_1 = __pyx_convert_vector_from_py_int(__pyx_v_post_ranks); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1621, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_vector_from_py_int(__pyx_v_pre_ranks); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1621, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_p); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1621, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_v_w_dist_arg1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1621, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_v_w_dist_arg2); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1621, __pyx_L1_error)
+  __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_v_d_dist_arg1); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1621, __pyx_L1_error)
+  __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_v_d_dist_arg2); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1621, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_allow_self_connections); if (unlikely((__pyx_t_8 == ((bool)-1)) && PyErr_Occurred())) __PYX_ERR(0, 1621, __pyx_L1_error)
+  proj3.fixed_probability_pattern(__pyx_t_1, __pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6, __pyx_t_7, __pyx_t_8);
 
   /* "ANNarchyCore0.pyx":1620
  * 
  * 
- *     def init_from_lil(self, synapses):             # <<<<<<<<<<<<<<
- *         proj3.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+ *     def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):             # <<<<<<<<<<<<<<
+ *         proj3.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)
  * 
  */
 
@@ -29613,8 +30065,7 @@ static PyObject *__pyx_pf_13ANNarchyCore0_13proj3_wrapper_2init_from_lil(CYTHON_
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("ANNarchyCore0.proj3_wrapper.init_from_lil", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ANNarchyCore0.proj3_wrapper.fixed_probability", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -32744,67 +33195,179 @@ static int __pyx_pf_13ANNarchyCore0_13proj4_wrapper___init__(CYTHON_UNUSED struc
 /* "ANNarchyCore0.pyx":1743
  * 
  * 
- *     def init_from_lil(self, synapses):             # <<<<<<<<<<<<<<
- *         proj4.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+ *     def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):             # <<<<<<<<<<<<<<
+ *         proj4.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)
  * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_13ANNarchyCore0_13proj4_wrapper_3init_from_lil(PyObject *__pyx_v_self, PyObject *__pyx_v_synapses); /*proto*/
-static PyObject *__pyx_pw_13ANNarchyCore0_13proj4_wrapper_3init_from_lil(PyObject *__pyx_v_self, PyObject *__pyx_v_synapses) {
+static PyObject *__pyx_pw_13ANNarchyCore0_13proj4_wrapper_3fixed_probability(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_13ANNarchyCore0_13proj4_wrapper_3fixed_probability(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_post_ranks = 0;
+  PyObject *__pyx_v_pre_ranks = 0;
+  PyObject *__pyx_v_p = 0;
+  PyObject *__pyx_v_w_dist_arg1 = 0;
+  PyObject *__pyx_v_w_dist_arg2 = 0;
+  PyObject *__pyx_v_d_dist_arg1 = 0;
+  PyObject *__pyx_v_d_dist_arg2 = 0;
+  PyObject *__pyx_v_allow_self_connections = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("init_from_lil (wrapper)", 0);
-  __pyx_r = __pyx_pf_13ANNarchyCore0_13proj4_wrapper_2init_from_lil(((struct __pyx_obj_13ANNarchyCore0_proj4_wrapper *)__pyx_v_self), ((PyObject *)__pyx_v_synapses));
+  __Pyx_RefNannySetupContext("fixed_probability (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_post_ranks,&__pyx_n_s_pre_ranks,&__pyx_n_s_p,&__pyx_n_s_w_dist_arg1,&__pyx_n_s_w_dist_arg2,&__pyx_n_s_d_dist_arg1,&__pyx_n_s_d_dist_arg2,&__pyx_n_s_allow_self_connections,0};
+    PyObject* values[8] = {0,0,0,0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+        CYTHON_FALLTHROUGH;
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        CYTHON_FALLTHROUGH;
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        CYTHON_FALLTHROUGH;
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_post_ranks)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pre_ranks)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 1); __PYX_ERR(0, 1743, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_p)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 2); __PYX_ERR(0, 1743, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_w_dist_arg1)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 3); __PYX_ERR(0, 1743, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_w_dist_arg2)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 4); __PYX_ERR(0, 1743, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  5:
+        if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d_dist_arg1)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 5); __PYX_ERR(0, 1743, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  6:
+        if (likely((values[6] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d_dist_arg2)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 6); __PYX_ERR(0, 1743, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  7:
+        if (likely((values[7] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_allow_self_connections)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 7); __PYX_ERR(0, 1743, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fixed_probability") < 0)) __PYX_ERR(0, 1743, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 8) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+      values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+      values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+      values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+    }
+    __pyx_v_post_ranks = values[0];
+    __pyx_v_pre_ranks = values[1];
+    __pyx_v_p = values[2];
+    __pyx_v_w_dist_arg1 = values[3];
+    __pyx_v_w_dist_arg2 = values[4];
+    __pyx_v_d_dist_arg1 = values[5];
+    __pyx_v_d_dist_arg2 = values[6];
+    __pyx_v_allow_self_connections = values[7];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1743, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("ANNarchyCore0.proj4_wrapper.fixed_probability", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_13ANNarchyCore0_13proj4_wrapper_2fixed_probability(((struct __pyx_obj_13ANNarchyCore0_proj4_wrapper *)__pyx_v_self), __pyx_v_post_ranks, __pyx_v_pre_ranks, __pyx_v_p, __pyx_v_w_dist_arg1, __pyx_v_w_dist_arg2, __pyx_v_d_dist_arg1, __pyx_v_d_dist_arg2, __pyx_v_allow_self_connections);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_13ANNarchyCore0_13proj4_wrapper_2init_from_lil(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj4_wrapper *__pyx_v_self, PyObject *__pyx_v_synapses) {
+static PyObject *__pyx_pf_13ANNarchyCore0_13proj4_wrapper_2fixed_probability(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj4_wrapper *__pyx_v_self, PyObject *__pyx_v_post_ranks, PyObject *__pyx_v_pre_ranks, PyObject *__pyx_v_p, PyObject *__pyx_v_w_dist_arg1, PyObject *__pyx_v_w_dist_arg2, PyObject *__pyx_v_d_dist_arg1, PyObject *__pyx_v_d_dist_arg2, PyObject *__pyx_v_allow_self_connections) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
+  std::vector<int>  __pyx_t_1;
   std::vector<int>  __pyx_t_2;
-  std::vector<std::vector<int> >  __pyx_t_3;
-  std::vector<std::vector<double> >  __pyx_t_4;
-  std::vector<std::vector<int> >  __pyx_t_5;
+  double __pyx_t_3;
+  double __pyx_t_4;
+  double __pyx_t_5;
+  double __pyx_t_6;
+  double __pyx_t_7;
+  bool __pyx_t_8;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("init_from_lil", 0);
+  __Pyx_RefNannySetupContext("fixed_probability", 0);
 
   /* "ANNarchyCore0.pyx":1744
  * 
- *     def init_from_lil(self, synapses):
- *         proj4.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)             # <<<<<<<<<<<<<<
+ *     def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):
+ *         proj4.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_post_rank); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1744, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_convert_vector_from_py_int(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1744, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_pre_rank); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1744, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1744, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_w); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1744, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1744, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_delay); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1744, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1744, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  proj4.init_from_lil(__pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_5);
+  __pyx_t_1 = __pyx_convert_vector_from_py_int(__pyx_v_post_ranks); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1744, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_vector_from_py_int(__pyx_v_pre_ranks); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1744, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_p); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1744, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_v_w_dist_arg1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1744, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_v_w_dist_arg2); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1744, __pyx_L1_error)
+  __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_v_d_dist_arg1); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1744, __pyx_L1_error)
+  __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_v_d_dist_arg2); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1744, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_allow_self_connections); if (unlikely((__pyx_t_8 == ((bool)-1)) && PyErr_Occurred())) __PYX_ERR(0, 1744, __pyx_L1_error)
+  proj4.fixed_probability_pattern(__pyx_t_1, __pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6, __pyx_t_7, __pyx_t_8);
 
   /* "ANNarchyCore0.pyx":1743
  * 
  * 
- *     def init_from_lil(self, synapses):             # <<<<<<<<<<<<<<
- *         proj4.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+ *     def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):             # <<<<<<<<<<<<<<
+ *         proj4.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)
  * 
  */
 
@@ -32812,8 +33375,7 @@ static PyObject *__pyx_pf_13ANNarchyCore0_13proj4_wrapper_2init_from_lil(CYTHON_
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("ANNarchyCore0.proj4_wrapper.init_from_lil", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ANNarchyCore0.proj4_wrapper.fixed_probability", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -35943,67 +36505,179 @@ static int __pyx_pf_13ANNarchyCore0_13proj5_wrapper___init__(CYTHON_UNUSED struc
 /* "ANNarchyCore0.pyx":1866
  * 
  * 
- *     def init_from_lil(self, synapses):             # <<<<<<<<<<<<<<
- *         proj5.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+ *     def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):             # <<<<<<<<<<<<<<
+ *         proj5.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)
  * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_13ANNarchyCore0_13proj5_wrapper_3init_from_lil(PyObject *__pyx_v_self, PyObject *__pyx_v_synapses); /*proto*/
-static PyObject *__pyx_pw_13ANNarchyCore0_13proj5_wrapper_3init_from_lil(PyObject *__pyx_v_self, PyObject *__pyx_v_synapses) {
+static PyObject *__pyx_pw_13ANNarchyCore0_13proj5_wrapper_3fixed_probability(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_13ANNarchyCore0_13proj5_wrapper_3fixed_probability(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_post_ranks = 0;
+  PyObject *__pyx_v_pre_ranks = 0;
+  PyObject *__pyx_v_p = 0;
+  PyObject *__pyx_v_w_dist_arg1 = 0;
+  PyObject *__pyx_v_w_dist_arg2 = 0;
+  PyObject *__pyx_v_d_dist_arg1 = 0;
+  PyObject *__pyx_v_d_dist_arg2 = 0;
+  PyObject *__pyx_v_allow_self_connections = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("init_from_lil (wrapper)", 0);
-  __pyx_r = __pyx_pf_13ANNarchyCore0_13proj5_wrapper_2init_from_lil(((struct __pyx_obj_13ANNarchyCore0_proj5_wrapper *)__pyx_v_self), ((PyObject *)__pyx_v_synapses));
+  __Pyx_RefNannySetupContext("fixed_probability (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_post_ranks,&__pyx_n_s_pre_ranks,&__pyx_n_s_p,&__pyx_n_s_w_dist_arg1,&__pyx_n_s_w_dist_arg2,&__pyx_n_s_d_dist_arg1,&__pyx_n_s_d_dist_arg2,&__pyx_n_s_allow_self_connections,0};
+    PyObject* values[8] = {0,0,0,0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+        CYTHON_FALLTHROUGH;
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        CYTHON_FALLTHROUGH;
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        CYTHON_FALLTHROUGH;
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_post_ranks)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pre_ranks)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 1); __PYX_ERR(0, 1866, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_p)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 2); __PYX_ERR(0, 1866, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_w_dist_arg1)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 3); __PYX_ERR(0, 1866, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_w_dist_arg2)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 4); __PYX_ERR(0, 1866, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  5:
+        if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d_dist_arg1)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 5); __PYX_ERR(0, 1866, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  6:
+        if (likely((values[6] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d_dist_arg2)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 6); __PYX_ERR(0, 1866, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  7:
+        if (likely((values[7] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_allow_self_connections)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, 7); __PYX_ERR(0, 1866, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fixed_probability") < 0)) __PYX_ERR(0, 1866, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 8) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+      values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+      values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+      values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+    }
+    __pyx_v_post_ranks = values[0];
+    __pyx_v_pre_ranks = values[1];
+    __pyx_v_p = values[2];
+    __pyx_v_w_dist_arg1 = values[3];
+    __pyx_v_w_dist_arg2 = values[4];
+    __pyx_v_d_dist_arg1 = values[5];
+    __pyx_v_d_dist_arg2 = values[6];
+    __pyx_v_allow_self_connections = values[7];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("fixed_probability", 1, 8, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1866, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("ANNarchyCore0.proj5_wrapper.fixed_probability", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_13ANNarchyCore0_13proj5_wrapper_2fixed_probability(((struct __pyx_obj_13ANNarchyCore0_proj5_wrapper *)__pyx_v_self), __pyx_v_post_ranks, __pyx_v_pre_ranks, __pyx_v_p, __pyx_v_w_dist_arg1, __pyx_v_w_dist_arg2, __pyx_v_d_dist_arg1, __pyx_v_d_dist_arg2, __pyx_v_allow_self_connections);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_13ANNarchyCore0_13proj5_wrapper_2init_from_lil(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj5_wrapper *__pyx_v_self, PyObject *__pyx_v_synapses) {
+static PyObject *__pyx_pf_13ANNarchyCore0_13proj5_wrapper_2fixed_probability(CYTHON_UNUSED struct __pyx_obj_13ANNarchyCore0_proj5_wrapper *__pyx_v_self, PyObject *__pyx_v_post_ranks, PyObject *__pyx_v_pre_ranks, PyObject *__pyx_v_p, PyObject *__pyx_v_w_dist_arg1, PyObject *__pyx_v_w_dist_arg2, PyObject *__pyx_v_d_dist_arg1, PyObject *__pyx_v_d_dist_arg2, PyObject *__pyx_v_allow_self_connections) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
+  std::vector<int>  __pyx_t_1;
   std::vector<int>  __pyx_t_2;
-  std::vector<std::vector<int> >  __pyx_t_3;
-  std::vector<std::vector<double> >  __pyx_t_4;
-  std::vector<std::vector<int> >  __pyx_t_5;
+  double __pyx_t_3;
+  double __pyx_t_4;
+  double __pyx_t_5;
+  double __pyx_t_6;
+  double __pyx_t_7;
+  bool __pyx_t_8;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("init_from_lil", 0);
+  __Pyx_RefNannySetupContext("fixed_probability", 0);
 
   /* "ANNarchyCore0.pyx":1867
  * 
- *     def init_from_lil(self, synapses):
- *         proj5.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)             # <<<<<<<<<<<<<<
+ *     def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):
+ *         proj5.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_post_rank); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1867, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_convert_vector_from_py_int(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1867, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_pre_rank); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1867, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1867, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_w); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1867, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1867, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_synapses, __pyx_n_s_delay); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1867, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1867, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  proj5.init_from_lil(__pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_5);
+  __pyx_t_1 = __pyx_convert_vector_from_py_int(__pyx_v_post_ranks); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1867, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_vector_from_py_int(__pyx_v_pre_ranks); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1867, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_p); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1867, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_v_w_dist_arg1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1867, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_v_w_dist_arg2); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1867, __pyx_L1_error)
+  __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_v_d_dist_arg1); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1867, __pyx_L1_error)
+  __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_v_d_dist_arg2); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1867, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_allow_self_connections); if (unlikely((__pyx_t_8 == ((bool)-1)) && PyErr_Occurred())) __PYX_ERR(0, 1867, __pyx_L1_error)
+  proj5.fixed_probability_pattern(__pyx_t_1, __pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6, __pyx_t_7, __pyx_t_8);
 
   /* "ANNarchyCore0.pyx":1866
  * 
  * 
- *     def init_from_lil(self, synapses):             # <<<<<<<<<<<<<<
- *         proj5.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+ *     def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):             # <<<<<<<<<<<<<<
+ *         proj5.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)
  * 
  */
 
@@ -36011,8 +36685,7 @@ static PyObject *__pyx_pf_13ANNarchyCore0_13proj5_wrapper_2init_from_lil(CYTHON_
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("ANNarchyCore0.proj5_wrapper.init_from_lil", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ANNarchyCore0.proj5_wrapper.fixed_probability", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -65676,234 +66349,6 @@ static std::vector<int>  __pyx_convert_vector_from_py_int(PyObject *__pyx_v_o) {
   return __pyx_r;
 }
 
-static std::vector<std::vector<int> >  __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(PyObject *__pyx_v_o) {
-  std::vector<std::vector<int> >  __pyx_v_v;
-  PyObject *__pyx_v_item = NULL;
-  std::vector<std::vector<int> >  __pyx_r;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  Py_ssize_t __pyx_t_2;
-  PyObject *(*__pyx_t_3)(PyObject *);
-  PyObject *__pyx_t_4 = NULL;
-  std::vector<int>  __pyx_t_5;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___", 0);
-
-  /* "vector.from_py":47
- * cdef vector[X] __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(object o) except *:
- *     cdef vector[X] v
- *     for item in o:             # <<<<<<<<<<<<<<
- *         v.push_back(<X>item)
- *     return v
- */
-  if (likely(PyList_CheckExact(__pyx_v_o)) || PyTuple_CheckExact(__pyx_v_o)) {
-    __pyx_t_1 = __pyx_v_o; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
-    __pyx_t_3 = NULL;
-  } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_o); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 47, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 47, __pyx_L1_error)
-  }
-  for (;;) {
-    if (likely(!__pyx_t_3)) {
-      if (likely(PyList_CheckExact(__pyx_t_1))) {
-        if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(1, 47, __pyx_L1_error)
-        #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 47, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        #endif
-      } else {
-        if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(1, 47, __pyx_L1_error)
-        #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 47, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        #endif
-      }
-    } else {
-      __pyx_t_4 = __pyx_t_3(__pyx_t_1);
-      if (unlikely(!__pyx_t_4)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(1, 47, __pyx_L1_error)
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_4);
-    }
-    __Pyx_XDECREF_SET(__pyx_v_item, __pyx_t_4);
-    __pyx_t_4 = 0;
-
-    /* "vector.from_py":48
- *     cdef vector[X] v
- *     for item in o:
- *         v.push_back(<X>item)             # <<<<<<<<<<<<<<
- *     return v
- * 
- */
-    __pyx_t_5 = __pyx_convert_vector_from_py_int(__pyx_v_item); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 48, __pyx_L1_error)
-    __pyx_v_v.push_back(((std::vector<int> )__pyx_t_5));
-
-    /* "vector.from_py":47
- * cdef vector[X] __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(object o) except *:
- *     cdef vector[X] v
- *     for item in o:             # <<<<<<<<<<<<<<
- *         v.push_back(<X>item)
- *     return v
- */
-  }
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "vector.from_py":49
- *     for item in o:
- *         v.push_back(<X>item)
- *     return v             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __pyx_r = __pyx_v_v;
-  goto __pyx_L0;
-
-  /* "vector.from_py":45
- * 
- * @cname("__pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___")
- * cdef vector[X] __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(object o) except *:             # <<<<<<<<<<<<<<
- *     cdef vector[X] v
- *     for item in o:
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("vector.from_py.__pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_pretend_to_initialize(&__pyx_r);
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_item);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static std::vector<std::vector<double> >  __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(PyObject *__pyx_v_o) {
-  std::vector<std::vector<double> >  __pyx_v_v;
-  PyObject *__pyx_v_item = NULL;
-  std::vector<std::vector<double> >  __pyx_r;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  Py_ssize_t __pyx_t_2;
-  PyObject *(*__pyx_t_3)(PyObject *);
-  PyObject *__pyx_t_4 = NULL;
-  std::vector<double>  __pyx_t_5;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___", 0);
-
-  /* "vector.from_py":47
- * cdef vector[X] __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(object o) except *:
- *     cdef vector[X] v
- *     for item in o:             # <<<<<<<<<<<<<<
- *         v.push_back(<X>item)
- *     return v
- */
-  if (likely(PyList_CheckExact(__pyx_v_o)) || PyTuple_CheckExact(__pyx_v_o)) {
-    __pyx_t_1 = __pyx_v_o; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
-    __pyx_t_3 = NULL;
-  } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_o); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 47, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 47, __pyx_L1_error)
-  }
-  for (;;) {
-    if (likely(!__pyx_t_3)) {
-      if (likely(PyList_CheckExact(__pyx_t_1))) {
-        if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(1, 47, __pyx_L1_error)
-        #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 47, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        #endif
-      } else {
-        if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(1, 47, __pyx_L1_error)
-        #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 47, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        #endif
-      }
-    } else {
-      __pyx_t_4 = __pyx_t_3(__pyx_t_1);
-      if (unlikely(!__pyx_t_4)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(1, 47, __pyx_L1_error)
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_4);
-    }
-    __Pyx_XDECREF_SET(__pyx_v_item, __pyx_t_4);
-    __pyx_t_4 = 0;
-
-    /* "vector.from_py":48
- *     cdef vector[X] v
- *     for item in o:
- *         v.push_back(<X>item)             # <<<<<<<<<<<<<<
- *     return v
- * 
- */
-    __pyx_t_5 = __pyx_convert_vector_from_py_double(__pyx_v_item); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 48, __pyx_L1_error)
-    __pyx_v_v.push_back(((std::vector<double> )__pyx_t_5));
-
-    /* "vector.from_py":47
- * cdef vector[X] __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(object o) except *:
- *     cdef vector[X] v
- *     for item in o:             # <<<<<<<<<<<<<<
- *         v.push_back(<X>item)
- *     return v
- */
-  }
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "vector.from_py":49
- *     for item in o:
- *         v.push_back(<X>item)
- *     return v             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __pyx_r = __pyx_v_v;
-  goto __pyx_L0;
-
-  /* "vector.from_py":45
- * 
- * @cname("__pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___")
- * cdef vector[X] __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(object o) except *:             # <<<<<<<<<<<<<<
- *     cdef vector[X] v
- *     for item in o:
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("vector.from_py.__pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_pretend_to_initialize(&__pyx_r);
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_item);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
 /* "vector.to_py":60
  * 
  * @cname("__pyx_convert_vector_to_py_int")
@@ -66087,6 +66532,128 @@ static std::string __pyx_convert_string_from_py_std__in_string(PyObject *__pyx_v
   __Pyx_AddTraceback("string.from_py.__pyx_convert_string_from_py_std__in_string", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_pretend_to_initialize(&__pyx_r);
   __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "vector.from_py":45
+ * 
+ * @cname("__pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___")
+ * cdef vector[X] __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(object o) except *:             # <<<<<<<<<<<<<<
+ *     cdef vector[X] v
+ *     for item in o:
+ */
+
+static std::vector<std::vector<double> >  __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(PyObject *__pyx_v_o) {
+  std::vector<std::vector<double> >  __pyx_v_v;
+  PyObject *__pyx_v_item = NULL;
+  std::vector<std::vector<double> >  __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  Py_ssize_t __pyx_t_2;
+  PyObject *(*__pyx_t_3)(PyObject *);
+  PyObject *__pyx_t_4 = NULL;
+  std::vector<double>  __pyx_t_5;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___", 0);
+
+  /* "vector.from_py":47
+ * cdef vector[X] __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(object o) except *:
+ *     cdef vector[X] v
+ *     for item in o:             # <<<<<<<<<<<<<<
+ *         v.push_back(<X>item)
+ *     return v
+ */
+  if (likely(PyList_CheckExact(__pyx_v_o)) || PyTuple_CheckExact(__pyx_v_o)) {
+    __pyx_t_1 = __pyx_v_o; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
+    __pyx_t_3 = NULL;
+  } else {
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_o); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 47, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 47, __pyx_L1_error)
+  }
+  for (;;) {
+    if (likely(!__pyx_t_3)) {
+      if (likely(PyList_CheckExact(__pyx_t_1))) {
+        if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(1, 47, __pyx_L1_error)
+        #else
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 47, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        #endif
+      } else {
+        if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(1, 47, __pyx_L1_error)
+        #else
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 47, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        #endif
+      }
+    } else {
+      __pyx_t_4 = __pyx_t_3(__pyx_t_1);
+      if (unlikely(!__pyx_t_4)) {
+        PyObject* exc_type = PyErr_Occurred();
+        if (exc_type) {
+          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+          else __PYX_ERR(1, 47, __pyx_L1_error)
+        }
+        break;
+      }
+      __Pyx_GOTREF(__pyx_t_4);
+    }
+    __Pyx_XDECREF_SET(__pyx_v_item, __pyx_t_4);
+    __pyx_t_4 = 0;
+
+    /* "vector.from_py":48
+ *     cdef vector[X] v
+ *     for item in o:
+ *         v.push_back(<X>item)             # <<<<<<<<<<<<<<
+ *     return v
+ * 
+ */
+    __pyx_t_5 = __pyx_convert_vector_from_py_double(__pyx_v_item); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 48, __pyx_L1_error)
+    __pyx_v_v.push_back(((std::vector<double> )__pyx_t_5));
+
+    /* "vector.from_py":47
+ * cdef vector[X] __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(object o) except *:
+ *     cdef vector[X] v
+ *     for item in o:             # <<<<<<<<<<<<<<
+ *         v.push_back(<X>item)
+ *     return v
+ */
+  }
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "vector.from_py":49
+ *     for item in o:
+ *         v.push_back(<X>item)
+ *     return v             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_r = __pyx_v_v;
+  goto __pyx_L0;
+
+  /* "vector.from_py":45
+ * 
+ * @cname("__pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___")
+ * cdef vector[X] __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(object o) except *:             # <<<<<<<<<<<<<<
+ *     cdef vector[X] v
+ *     for item in o:
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("vector.from_py.__pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_pretend_to_initialize(&__pyx_r);
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_item);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -67110,7 +67677,7 @@ static PyObject *__pyx_getprop_13ANNarchyCore0_13proj0_wrapper_size(PyObject *o,
 }
 
 static PyMethodDef __pyx_methods_13ANNarchyCore0_proj0_wrapper[] = {
-  {"init_from_lil", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj0_wrapper_3init_from_lil, METH_O, 0},
+  {"fixed_probability", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13ANNarchyCore0_13proj0_wrapper_3fixed_probability, METH_VARARGS|METH_KEYWORDS, 0},
   {"nb_synapses", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj0_wrapper_5nb_synapses, METH_O, 0},
   {"_get_transmission", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj0_wrapper_7_get_transmission, METH_NOARGS, 0},
   {"_set_transmission", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj0_wrapper_9_set_transmission, METH_O, 0},
@@ -67243,7 +67810,7 @@ static PyObject *__pyx_getprop_13ANNarchyCore0_13proj1_wrapper_size(PyObject *o,
 }
 
 static PyMethodDef __pyx_methods_13ANNarchyCore0_proj1_wrapper[] = {
-  {"init_from_lil", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj1_wrapper_3init_from_lil, METH_O, 0},
+  {"fixed_probability", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13ANNarchyCore0_13proj1_wrapper_3fixed_probability, METH_VARARGS|METH_KEYWORDS, 0},
   {"nb_synapses", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj1_wrapper_5nb_synapses, METH_O, 0},
   {"_get_transmission", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj1_wrapper_7_get_transmission, METH_NOARGS, 0},
   {"_set_transmission", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj1_wrapper_9_set_transmission, METH_O, 0},
@@ -67376,7 +67943,7 @@ static PyObject *__pyx_getprop_13ANNarchyCore0_13proj2_wrapper_size(PyObject *o,
 }
 
 static PyMethodDef __pyx_methods_13ANNarchyCore0_proj2_wrapper[] = {
-  {"init_from_lil", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj2_wrapper_3init_from_lil, METH_O, 0},
+  {"fixed_probability", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13ANNarchyCore0_13proj2_wrapper_3fixed_probability, METH_VARARGS|METH_KEYWORDS, 0},
   {"nb_synapses", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj2_wrapper_5nb_synapses, METH_O, 0},
   {"_get_transmission", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj2_wrapper_7_get_transmission, METH_NOARGS, 0},
   {"_set_transmission", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj2_wrapper_9_set_transmission, METH_O, 0},
@@ -67509,7 +68076,7 @@ static PyObject *__pyx_getprop_13ANNarchyCore0_13proj3_wrapper_size(PyObject *o,
 }
 
 static PyMethodDef __pyx_methods_13ANNarchyCore0_proj3_wrapper[] = {
-  {"init_from_lil", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj3_wrapper_3init_from_lil, METH_O, 0},
+  {"fixed_probability", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13ANNarchyCore0_13proj3_wrapper_3fixed_probability, METH_VARARGS|METH_KEYWORDS, 0},
   {"nb_synapses", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj3_wrapper_5nb_synapses, METH_O, 0},
   {"_get_transmission", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj3_wrapper_7_get_transmission, METH_NOARGS, 0},
   {"_set_transmission", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj3_wrapper_9_set_transmission, METH_O, 0},
@@ -67642,7 +68209,7 @@ static PyObject *__pyx_getprop_13ANNarchyCore0_13proj4_wrapper_size(PyObject *o,
 }
 
 static PyMethodDef __pyx_methods_13ANNarchyCore0_proj4_wrapper[] = {
-  {"init_from_lil", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj4_wrapper_3init_from_lil, METH_O, 0},
+  {"fixed_probability", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13ANNarchyCore0_13proj4_wrapper_3fixed_probability, METH_VARARGS|METH_KEYWORDS, 0},
   {"nb_synapses", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj4_wrapper_5nb_synapses, METH_O, 0},
   {"_get_transmission", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj4_wrapper_7_get_transmission, METH_NOARGS, 0},
   {"_set_transmission", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj4_wrapper_9_set_transmission, METH_O, 0},
@@ -67775,7 +68342,7 @@ static PyObject *__pyx_getprop_13ANNarchyCore0_13proj5_wrapper_size(PyObject *o,
 }
 
 static PyMethodDef __pyx_methods_13ANNarchyCore0_proj5_wrapper[] = {
-  {"init_from_lil", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj5_wrapper_3init_from_lil, METH_O, 0},
+  {"fixed_probability", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13ANNarchyCore0_13proj5_wrapper_3fixed_probability, METH_VARARGS|METH_KEYWORDS, 0},
   {"nb_synapses", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj5_wrapper_5nb_synapses, METH_O, 0},
   {"_get_transmission", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj5_wrapper_7_get_transmission, METH_NOARGS, 0},
   {"_set_transmission", (PyCFunction)__pyx_pw_13ANNarchyCore0_13proj5_wrapper_9_set_transmission, METH_O, 0},
@@ -70146,6 +70713,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u__5, __pyx_k__5, sizeof(__pyx_k__5), 0, 1, 0, 0},
   {&__pyx_kp_u__6, __pyx_k__6, sizeof(__pyx_k__6), 0, 1, 0, 0},
   {&__pyx_kp_u__7, __pyx_k__7, sizeof(__pyx_k__7), 0, 1, 0, 0},
+  {&__pyx_n_s_allow_self_connections, __pyx_k_allow_self_connections, sizeof(__pyx_k_allow_self_connections), 0, 0, 1, 1},
   {&__pyx_n_s_array, __pyx_k_array, sizeof(__pyx_k_array), 0, 0, 1, 1},
   {&__pyx_n_s_bar, __pyx_k_bar, sizeof(__pyx_k_bar), 0, 0, 1, 1},
   {&__pyx_n_s_bar_len, __pyx_k_bar_len, sizeof(__pyx_k_bar_len), 0, 0, 1, 1},
@@ -70154,7 +70722,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_core_list, __pyx_k_core_list, sizeof(__pyx_k_core_list), 0, 0, 1, 1},
   {&__pyx_n_s_count, __pyx_k_count, sizeof(__pyx_k_count), 0, 0, 1, 1},
-  {&__pyx_n_s_delay, __pyx_k_delay, sizeof(__pyx_k_delay), 0, 0, 1, 1},
+  {&__pyx_n_s_d_dist_arg1, __pyx_k_d_dist_arg1, sizeof(__pyx_k_d_dist_arg1), 0, 0, 1, 1},
+  {&__pyx_n_s_d_dist_arg2, __pyx_k_d_dist_arg2, sizeof(__pyx_k_d_dist_arg2), 0, 0, 1, 1},
   {&__pyx_n_s_dict, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
   {&__pyx_n_s_dt, __pyx_k_dt, sizeof(__pyx_k_dt), 0, 0, 1, 1},
   {&__pyx_n_s_encode, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
@@ -70207,6 +70776,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_numpy_core_multiarray_failed_to, __pyx_k_numpy_core_multiarray_failed_to, sizeof(__pyx_k_numpy_core_multiarray_failed_to), 0, 1, 0, 0},
   {&__pyx_kp_u_numpy_core_umath_failed_to_impor, __pyx_k_numpy_core_umath_failed_to_impor, sizeof(__pyx_k_numpy_core_umath_failed_to_impor), 0, 1, 0, 0},
   {&__pyx_n_s_offset, __pyx_k_offset, sizeof(__pyx_k_offset), 0, 0, 1, 1},
+  {&__pyx_n_s_p, __pyx_k_p, sizeof(__pyx_k_p), 0, 0, 1, 1},
   {&__pyx_n_s_percents, __pyx_k_percents, sizeof(__pyx_k_percents), 0, 0, 1, 1},
   {&__pyx_n_s_period, __pyx_k_period, sizeof(__pyx_k_period), 0, 0, 1, 1},
   {&__pyx_n_s_period_offset, __pyx_k_period_offset, sizeof(__pyx_k_period_offset), 0, 0, 1, 1},
@@ -70218,8 +70788,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pop4_wrapper, __pyx_k_pop4_wrapper, sizeof(__pyx_k_pop4_wrapper), 0, 0, 1, 1},
   {&__pyx_n_s_pop5_wrapper, __pyx_k_pop5_wrapper, sizeof(__pyx_k_pop5_wrapper), 0, 0, 1, 1},
   {&__pyx_n_s_populations, __pyx_k_populations, sizeof(__pyx_k_populations), 0, 0, 1, 1},
-  {&__pyx_n_s_post_rank, __pyx_k_post_rank, sizeof(__pyx_k_post_rank), 0, 0, 1, 1},
-  {&__pyx_n_s_pre_rank, __pyx_k_pre_rank, sizeof(__pyx_k_pre_rank), 0, 0, 1, 1},
+  {&__pyx_n_s_post_ranks, __pyx_k_post_ranks, sizeof(__pyx_k_post_ranks), 0, 0, 1, 1},
+  {&__pyx_n_s_pre_ranks, __pyx_k_pre_ranks, sizeof(__pyx_k_pre_ranks), 0, 0, 1, 1},
   {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
   {&__pyx_n_s_progress, __pyx_k_progress, sizeof(__pyx_k_progress), 0, 0, 1, 1},
   {&__pyx_n_s_progress_bar, __pyx_k_progress_bar, sizeof(__pyx_k_progress_bar), 0, 0, 1, 1},
@@ -70317,7 +70887,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_use_seed_seq, __pyx_k_use_seed_seq, sizeof(__pyx_k_use_seed_seq), 0, 0, 1, 1},
   {&__pyx_kp_u_utf_8, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 1, 0, 0},
   {&__pyx_n_s_value, __pyx_k_value, sizeof(__pyx_k_value), 0, 0, 1, 1},
-  {&__pyx_n_s_w, __pyx_k_w, sizeof(__pyx_k_w), 0, 0, 1, 1},
+  {&__pyx_n_s_w_dist_arg1, __pyx_k_w_dist_arg1, sizeof(__pyx_k_w_dist_arg1), 0, 0, 1, 1},
+  {&__pyx_n_s_w_dist_arg2, __pyx_k_w_dist_arg2, sizeof(__pyx_k_w_dist_arg2), 0, 0, 1, 1},
   {&__pyx_n_s_write, __pyx_k_write, sizeof(__pyx_k_write), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };

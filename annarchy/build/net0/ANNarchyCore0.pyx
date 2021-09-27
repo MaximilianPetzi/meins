@@ -294,7 +294,7 @@ cdef extern from "ANNarchy.h":
         void set_size(int)
 
         # Connectivity
-        void init_from_lil(vector[int], vector[vector[int]], vector[vector[double]], vector[vector[int]])
+        void fixed_probability_pattern(vector[int], vector[int], double, double, double, double, double, bool)
         # Access connectivity
         vector[int] get_post_rank()
         vector[vector[int]] get_pre_ranks()
@@ -344,7 +344,7 @@ cdef extern from "ANNarchy.h":
         void set_size(int)
 
         # Connectivity
-        void init_from_lil(vector[int], vector[vector[int]], vector[vector[double]], vector[vector[int]])
+        void fixed_probability_pattern(vector[int], vector[int], double, double, double, double, double, bool)
         # Access connectivity
         vector[int] get_post_rank()
         vector[vector[int]] get_pre_ranks()
@@ -394,7 +394,7 @@ cdef extern from "ANNarchy.h":
         void set_size(int)
 
         # Connectivity
-        void init_from_lil(vector[int], vector[vector[int]], vector[vector[double]], vector[vector[int]])
+        void fixed_probability_pattern(vector[int], vector[int], double, double, double, double, double, bool)
         # Access connectivity
         vector[int] get_post_rank()
         vector[vector[int]] get_pre_ranks()
@@ -444,7 +444,7 @@ cdef extern from "ANNarchy.h":
         void set_size(int)
 
         # Connectivity
-        void init_from_lil(vector[int], vector[vector[int]], vector[vector[double]], vector[vector[int]])
+        void fixed_probability_pattern(vector[int], vector[int], double, double, double, double, double, bool)
         # Access connectivity
         vector[int] get_post_rank()
         vector[vector[int]] get_pre_ranks()
@@ -494,7 +494,7 @@ cdef extern from "ANNarchy.h":
         void set_size(int)
 
         # Connectivity
-        void init_from_lil(vector[int], vector[vector[int]], vector[vector[double]], vector[vector[int]])
+        void fixed_probability_pattern(vector[int], vector[int], double, double, double, double, double, bool)
         # Access connectivity
         vector[int] get_post_rank()
         vector[vector[int]] get_pre_ranks()
@@ -544,7 +544,7 @@ cdef extern from "ANNarchy.h":
         void set_size(int)
 
         # Connectivity
-        void init_from_lil(vector[int], vector[vector[int]], vector[vector[double]], vector[vector[int]])
+        void fixed_probability_pattern(vector[int], vector[int], double, double, double, double, double, bool)
         # Access connectivity
         vector[int] get_post_rank()
         vector[vector[int]] get_pre_ranks()
@@ -1248,8 +1248,8 @@ cdef class proj0_wrapper :
                     pass
 
 
-    def init_from_lil(self, synapses):
-        proj0.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+    def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):
+        proj0.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)
 
 
     property size:
@@ -1371,8 +1371,8 @@ cdef class proj1_wrapper :
                     pass
 
 
-    def init_from_lil(self, synapses):
-        proj1.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+    def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):
+        proj1.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)
 
 
     property size:
@@ -1494,8 +1494,8 @@ cdef class proj2_wrapper :
                     pass
 
 
-    def init_from_lil(self, synapses):
-        proj2.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+    def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):
+        proj2.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)
 
 
     property size:
@@ -1617,8 +1617,8 @@ cdef class proj3_wrapper :
                     pass
 
 
-    def init_from_lil(self, synapses):
-        proj3.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+    def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):
+        proj3.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)
 
 
     property size:
@@ -1740,8 +1740,8 @@ cdef class proj4_wrapper :
                     pass
 
 
-    def init_from_lil(self, synapses):
-        proj4.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+    def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):
+        proj4.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)
 
 
     property size:
@@ -1863,8 +1863,8 @@ cdef class proj5_wrapper :
                     pass
 
 
-    def init_from_lil(self, synapses):
-        proj5.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+    def fixed_probability(self, post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections):
+        proj5.fixed_probability_pattern(post_ranks, pre_ranks, p, w_dist_arg1, w_dist_arg2, d_dist_arg1, d_dist_arg2, allow_self_connections)
 
 
     property size:

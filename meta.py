@@ -8,14 +8,19 @@ use_feedback=True
 randinit=True
 popcode=False
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
-showplot=True
+showplot=False
 doplot2=False
 nchunks=1
-max_trials=1000
+max_trials=20000
 chunktime1=200   #also change var_f inversely
 chunktime2=200
 d_execution=200   #average over last d_execution timesteps
-learnstart=20
+learnstart=30
+import critic
+mycrit=critic.model("squareF")
+crit2=critic.model("linF")
+crit3=critic.model("constantF")
+crit4=critic.model("gaussianF")
 import os
 import time
 from termcolor import colored
@@ -76,7 +81,7 @@ if usekm==True:
 
 njoints_max=4
 mynet=minconi.net(n_out=6*njoints_max) #mynet has many class variables
-minconi.popcodeM=popcode
+
 # mynet.init_w = minconi.net.Wrec.w #instance variable implicitly created
 
 if usekm==False:
@@ -86,7 +91,7 @@ if usekm==False:
 # Compute the mean reward per trial
 R_mean = np.zeros((2))
 r_mean = np.zeros((2))
-alpha = 0.85 # 0.33
+alpha = 0.94 # 0.33
 if multiple_rewards:
     alpha=alpha**(1/nchunks) #to slow down R_mean again to the previous value
 import CPG
@@ -181,7 +186,10 @@ def trial_simulation(trial,first,R_mean):
                 mynet.fdbz[:].r=(oldangles[2]+32)/(32+80)
                 mynet.fdbw[:].r=(oldangles[3]-15)/(106+15)
         minconi.simulate(chunktime1)
-        
+        #für später(critic) merken:
+        feedback_vector=np.append(mynet.fdbx[:].r,mynet.fdby[:].r)
+        feedback_vector=np.append(feedback_vector,mynet.fdbz[:].r)
+        feedback_vector=np.append(feedback_vector,mynet.fdbw[:].r)
         mynet.inp[0:2].r = 0.0
         mynet.fdbx[:].r=0.0
         mynet.fdby[:].r=0.0
@@ -246,17 +254,27 @@ def trial_simulation(trial,first,R_mean):
         if trial > learnstart and learncond:
             errors.append(error)
             learnerrors.append(learnerror)
-            # Apply the learning rule
+            #learn minconi net (actor)
             mynet.Wrec.learning_phase = 1.0
             mynet.Wrec.error = learnerror
-            mynet.Wrec.mean_error = R_mean[first]
-            # Learn for one step
+            #error_predictor=1
+            #error_predictor=R_mean[first]
+            #use critic:
+            error_predictor=mycrit.predict(feedback_vector)
+            mynet.Wrec.mean_error = error_predictor
+
+            # Learn minconi net for one step (actor)
             minconi.step()
             # Reset the traces
             mynet.Wrec.learning_phase = 0.0
             mynet.Wrec.trace = 0.0
             _ = mynet.m.get() # to flush the recording of the last step
-
+        
+        #learn critic (from the beginning)
+        mycrit.learnstep(x=feedback_vector,r=-learnerror,eta=.02)
+        crit2.learnstep(x=feedback_vector,r=-learnerror,eta=.02)
+        crit3.learnstep(x=feedback_vector,r=-learnerror,eta=.02)
+        crit4.learnstep(x=feedback_vector,r=-learnerror,eta=.02)
         # Update the mean reward
         R_mean[first] = alpha * R_mean[first] + (1.- alpha) * learnerror
         r_mean[first] = alpha * r_mean[first] + (1.- alpha) * error
@@ -386,6 +404,18 @@ print("saved as",ehname)
 import matplotlib.pyplot as plt
 import matplotlib
 #matplotlib.use("TkAgg")
+plt.plot(mycrit.me,color="black",label="critic-error (sqaure)")
+plt.plot(crit2.me,label="lin")
+plt.plot(crit3.me,label="constant")
+plt.plot(crit4.me,label="gauss")
+print(sum(mycrit.me))
+print(sum(crit2.me))
+print(sum(crit3.me))
+print(sum(crit4.me))
+#plt.plot(mycrit.weights)
+plt.legend()
+plt.show()
+
 quarter=int((max_trials-learnstart)/4)
 if doplot2:
     plt.plot((errorz.T)[:,0:quarter],color=(0,0,0))

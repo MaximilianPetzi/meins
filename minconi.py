@@ -1,5 +1,5 @@
 use_feedback=True
-popcodeM=None
+popcodeM=False
 import time
 import numpy as np
 Paramarr=np.load("../paramarr.npy")
@@ -99,15 +99,16 @@ class net:
     pop.x = Uniform(-0.1, 0.1)
 
 
-    
-    if not popcodeM:
-        NN=21
-        Nx=NN;Ny=NN;Nz=NN;Nw=NN
     if popcodeM:
+        NN=16
+        Nx=NN;Ny=NN;Nz=NN;Nw=NN
+    if not popcodeM:
         Nx=1;Ny=1;Nz=1;Nw=1
     if use_feedback:
-        wis=1.5/(4)#manuell irgendwie machen, hängt von den sigmas ab
-        connect_prob=.25
+        wis=7/(4)#manuell irgendwie machen, hängt von den sigmas ab
+        #popcode true -> wis 7/4
+        #        false -> wis 
+        connect_prob=.50
         fdbx = Population(Nx, Neuron(parameters="r=0.0"))
         Wfx=Projection(fdbx, pop, 'in')
         Wfx.connect_fixed_probability(probability = connect_prob, weights=Uniform(-1.5*wis, 1.5*wis))

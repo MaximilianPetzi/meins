@@ -10,6 +10,7 @@ os.system("rm ../bilder/temporary/*")
 os.system("rm ../error_h/*")
 #ara=[.3,.5,1]
 #arb=[4,8,16]
+ara=np.array([0.07,0.07001,0.2,0.20001,0.6,0.60001])
 ara=np.arange(25)/10000+.600
 #ara=[.500,.501,.502,.503]
 arb=[1.5]

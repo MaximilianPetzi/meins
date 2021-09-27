@@ -19,25 +19,15 @@ extern std::vector<std::mt19937> rng;
 // proj1: pop2 -> pop0 with target in
 /////////////////////////////////////////////////////////////////////////////
 struct ProjStruct1 : LILMatrix<int> {
-    ProjStruct1() : LILMatrix<int>( 400, 21) {
+    ProjStruct1() : LILMatrix<int>( 200, 21) {
     }
 
 
-    void init_from_lil( std::vector<int> &row_indices,
-                        std::vector< std::vector<int> > &column_indices,
-                        std::vector< std::vector<double> > &values,
-                        std::vector< std::vector<int> > &delays) {
-        static_cast<LILMatrix<int>*>(this)->init_matrix_from_lil(row_indices, column_indices);
+    void fixed_probability_pattern(std::vector<int> post_ranks, std::vector<int> pre_ranks, double p, double w_dist_arg1, double w_dist_arg2, double d_dist_arg1, double d_dist_arg2, bool allow_self_connections) {
+        static_cast<LILMatrix<int>*>(this)->fixed_probability_pattern(post_ranks, pre_ranks, p, allow_self_connections, rng[0]);
 
+        w = init_matrix_variable_uniform<double>(w_dist_arg1, w_dist_arg2, rng[0]);
 
-        // Local parameter w
-        w = init_matrix_variable<double>(static_cast<double>(0.0));
-        update_matrix_variable_all<double>(w, values);
-
-
-    #ifdef _DEBUG_CONN
-        static_cast<LILMatrix<int>*>(this)->print_data_representation();
-    #endif
     }
 
 
