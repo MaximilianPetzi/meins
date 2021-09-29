@@ -22,7 +22,7 @@ def scaledgaus(x,idx,sig,Nc,rangea,rangeb):
 def gaussianF(x):
     features=[1]#baseline->init weight as -1
     origins=[]
-    n_n=10
+    n_n=3
     n_i=n_n
     n_j=n_n
     n_k=n_n
@@ -31,10 +31,10 @@ def gaussianF(x):
         for j in range(n_j):
             for k in range(n_k):
                 for l in range(n_l):
-                    (v1,o1)=scaledgaus(x[0],i,1,n_i,0,160)
-                    (v2,o2)=scaledgaus(x[1],j,1,n_j,-95.5, 8)
-                    (v3,o3)=scaledgaus(x[2],k,1,n_k,-32, 80)
-                    (v4,o4)=scaledgaus(x[3],l,1,n_l,15, 106)
+                    (v1,o1)=scaledgaus(x[0],i,2,n_i,0,160)
+                    (v2,o2)=scaledgaus(x[1],j,2,n_j,-95.5, 8)
+                    (v3,o3)=scaledgaus(x[2],k,2,n_k,-32, 80)
+                    (v4,o4)=scaledgaus(x[3],l,2,n_l,15, 106)
                     features.append(v1*v2*v3*v4)
                     origins.append([o1,o2,o3,o4])
     return np.array(features)#,np.array(origins)
@@ -60,10 +60,10 @@ class model:
         self.kernelstr=kernelstr
         testfeat=kernel([0,0,0,0],self.kernelstr)
         self.w=np.zeros(len(testfeat))#polynome 0deg, 1deg(x,y,z,w)
-        self.w[0]=-1   #baseline position
+        self.w[0]=0   #baseline position
         self.me=[0]
         self.weights=np.zeros((0,len(self.w)))
-        self.meAlpha=.6
+        self.meAlpha=0
 
     def predict(self,x):
         features=kernel(x,self.kernelstr)
@@ -78,7 +78,7 @@ class model:
         self.me.append(lastme*self.meAlpha+abs((r-rhat))**2*(1-self.meAlpha))
         self.weights=np.concatenate((self.weights,np.array([self.w])),axis=0)
 
-#mycrit=model()
+#mycrit=model("gaussianF")
 #print(mycrit.predict([1,2,3,4]))
 #for i in range(5):
 #    mycrit.learnstep(x=[1,2,3,4],r=-1.1,eta=.02)

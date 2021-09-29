@@ -11,21 +11,27 @@ popcode=False
 showplot=False
 doplot2=False
 nchunks=1
-max_trials=20000
+max_trials=3000
 chunktime1=200   #also change var_f inversely
 chunktime2=200
 d_execution=200   #average over last d_execution timesteps
 learnstart=30
 import critic
-mycrit=critic.model("squareF")
-crit2=critic.model("linF")
-crit3=critic.model("constantF")
-crit4=critic.model("gaussianF")
+mycrit=critic.model("gaussianF")
+crit2=critic.model("constantF")
+crit3=critic.model("linF")
+crit4=critic.model("squareF")
 import os
 import time
 from termcolor import colored
 import numpy as np
 import sys
+import matplotlib.pyplot as plt
+import matplotlib
+#3D stuff:
+from mpl_toolkits import mplot3d
+from mpl_toolkits.mplot3d import axes3d
+#matplotlib.use("TkAgg")
 sys.path.append("../CPG_iCub")
 
 import argparse
@@ -43,7 +49,7 @@ if not args.m:
         var_f=9
         var_eta=.6
         var_g=1.5
-        var_N=400
+        var_N=600
         var_A=20
     else:
         var_f=float(input("f="))
@@ -91,7 +97,7 @@ if usekm==False:
 # Compute the mean reward per trial
 R_mean = np.zeros((2))
 r_mean = np.zeros((2))
-alpha = 0.94 # 0.33
+alpha = 0.6 # 0.33
 if multiple_rewards:
     alpha=alpha**(1/nchunks) #to slow down R_mean again to the previous value
 import CPG
@@ -107,40 +113,51 @@ def fdbencode(coord,sig,Nc,rangea,rangeb):
     arenc=np.zeros(Nc)
     for i in range(Nc):
         ii=i/(Nc-1)*(rangeb-rangea)+rangea
-        arenc[i]=np.exp(-(ii-coord)**2/(2*sig**2))
+        arenc[i]=np.exp(-(ii-coord)**2/(2*sig**2))-np.exp(-(ii-coord)**2/((2*sig)**2))
     return arenc
 ####################################################
-def trial_simulation(trial,first,R_mean):
+def trial_simulation(trial,first,R_mean,trialtype,initseed):#trialtype "normal" or sample
+    print(trialtype)
     traces = []
     #start cpg:
     mycpg=CPG.cpg()
+
+    if initseed =="noseed":
+        initseed=np.random.randint(100000)
+    #move to starting position:
+    if usekm==False:
+        mycpg.move_to_init(randinit=randinit)#noch machen (wie bei move_to_init2)
+    if usekm==True:
+        mycpg.move_to_init2(randinit=randinit,initseed=initseed)
+    #time.sleep(2.5)  # wait until robot finished motion
     
-    def give_position():
+    #rbpy, mycpg.Angles are radians
+    def give_position(a=False,b=False,c=False,d=False):
+        if a==False:
+            a=mycpg.Angles[mycpg.LShoulderRoll]
+            b=mycpg.Angles[mycpg.LElbow]
+            c=mycpg.Angles[mycpg.LShoulderPitch]
+            d=mycpg.Angles[mycpg.LShoulderYaw]
         if usekm==False:
             position=myreadr.read()
         if usekm==True:
             if skipcpg:
                 the1=(parr[0,0]+1)*80
             if not skipcpg:
-                the1=mycpg.Angles[mycpg.LShoulderRoll]
-            the2=mycpg.Angles[mycpg.LElbow]
+                the1=a
+            the2=b
             if skipcpg:
                 the3=(parr[1,0]+1)/2*(8+95.5)-95.5
             if not skipcpg:
-                the3=mycpg.Angles[mycpg.LShoulderPitch]
-            the4=mycpg.Angles[mycpg.LShoulderYaw]
-            position=kinematic_model.wrist_position([the4,the3,the1,the2])[0:3]
+                the3=c
+            the4=d
+            position=kinematic_model.wrist_position([the4,the3,the1,the2])[0:3]#yprb
         return position
-
-    #move to starting position:
-    if usekm==False:
-        mycpg.move_to_init(randinit=randinit)#noch machen (wie bei move_to_init2)
-    if usekm==True:
-        mycpg.move_to_init2(randinit=randinit)
-    #time.sleep(2.5)  # wait until robot finished motion
-
-
+    
+    
     initposi=give_position()# needed only for plotting
+    trajectory=np.array([initposi])#array of 3D coordinates for total trial movement
+
     #print(CPG.cpg.myCont[0].RG.E.q)
     #print(mycpg.myCont[0].RG.E.V)
     
@@ -158,6 +175,7 @@ def trial_simulation(trial,first,R_mean):
     errors=[]
     learnerrors=[]
     ############################################# minitrials:
+    
     for timechunk in range(nchunks):
         #reset network activities:
         mynet.reinit()
@@ -173,7 +191,7 @@ def trial_simulation(trial,first,R_mean):
         ##################### simulate the net with minconis structure:
         mynet.inp[first].r=1.0   #if not randinit ... eigentlich=1.0
         if use_feedback:
-            oldangles=np.degrees(mycpg.Angles[[26,25,27,28]])#(r p y b)
+            oldangles=np.degrees(np.array(mycpg.Angles)[[26,25,27,28]])#(r p y b)
             oldposition=give_position()
             if popcode:
                 mynet.fdbx[:].r=fdbencode(oldangles[0],6,mynet.Nx,0,160)   #sigma ändern->minconi.wis ändern
@@ -209,14 +227,8 @@ def trial_simulation(trial,first,R_mean):
         #print("______________OUTPUTSSS: ",output)
         output=np.array(output)
         output=np.average(output,axis=0)
-
-        ###alpha,theta,Sf,Ss,InjCMF,TM
-        #mycpg.set_patterns([.25], [0],  [5] ,[0.1] ,[1], [0.1])
-        #mycpg.set_patterns([.25,.1], [0,0],  [5,5] ,[.1,0.1] ,[1,1], [.1,0.1])
-        #mycpg.set_patterns([scaling(1.3),.1], [scaling(0.03),0],  [scaling2(1.9),5] ,[scaling2(6.1),0.1] ,[scalingICUR(2.9),1], [scaling(0.4),0.1])
-        #mycpg.set_patterns(.1, 0,  5 ,0.1 ,1, 0.1)
-        #print(output[0:6])
         
+
         parr=[]
         for i in range(njoints_max):
             parr.append(output[i*6:i*6+6])
@@ -228,14 +240,28 @@ def trial_simulation(trial,first,R_mean):
         parrr[:,4] = np.clip( (1+parrr[:,4]),0.01,2.0)  
         parrr[:,5] = np.clip( (1+parrr[:,5]),0.01,2.0) 
         
-        mycpg.set_patterns(parrr[:,0],parrr[:,1],parrr[:,2],parrr[:,3],parrr[:,4],parrr[:,5])
+        ###alpha,theta,Sf,Ss,InjCMF,TM
+        #mycpg.set_patterns([.25], [0],  [5] ,[0.1] ,[1], [0.1])
+        #mycpg.set_patterns([.25,.1], [0,0],  [5,5] ,[.1,0.1] ,[1,1], [.1,0.1])
+        #mycpg.set_patterns([scaling(1.3),.1], [scaling(0.03),0],  [scaling2(1.9),5] ,[scaling2(6.1),0.1] ,[scalingICUR(2.9),1], [scaling(0.4),0.1])
+        #mycpg.set_patterns(.1, 0,  5 ,0.1 ,1, 0.1)
+        #print(output[0:6])
+        mycpg.set_patterns(parrr[:,0]*0+.25,parrr[:,1]*0,parrr[:,2]*0+5,parrr[:,3]*0+.1,parrr[:,4]/2-0.4,parrr[:,5]*0+.3)
+        print(parrr[:,5])
         #mycpg.set_patterns(scaling(parr[:,0]),scaling(parr[:,1]),scaling2(parr[:,2]),scaling2(parr[:,3]),scalingICUR(parr[:,4]),scaling(parr[:,5]))
         
         #########################   move:
         mycpg.loop_move(timechunk)
+        trajecto=np.array(mycpg.trajectori)
+        lentra=np.shape(trajecto)[0]
+        trajecto2=np.zeros((lentra,3))
+        for tr_i in range(lentra):
+            curpos9=give_position(a=trajecto[tr_i,0],b=trajecto[tr_i,1],c=trajecto[tr_i,2],d=trajecto[tr_i,3])    #stimmt reihenfolge?
+            trajecto2[tr_i]=np.array(curpos9)
+        trajectory=np.concatenate((trajectory,trajecto2),axis=0)                                    #und stimmt deg/rad?
 
         #print(mycpg.Angles)
-        Ahist.append(np.degrees(np.array(mycpg.Angles)[[26,25,27,28]]))#r p y b
+        Ahist.append(np.degrees(np.array(mycpg.Angles)[[26,25,27,28]]))#r p y b 
         
         #print("_______________là: loop-moved")
 
@@ -245,13 +271,13 @@ def trial_simulation(trial,first,R_mean):
         #haut nur beim ersten mal hin
         #mycpg.plot_layers()
         error = (np.linalg.norm(np.array(target) - np.array(position)))**1
-        learnerror=error/(np.linalg.norm(np.array(target) - np.array(oldposition)))
+        learnerror=error-(np.linalg.norm(np.array(target) - np.array(oldposition)))
         
         if multiple_rewards:
             learncond=True
         else:
             learncond=timechunk==9
-        if trial > learnstart and learncond:
+        if trial > learnstart and learncond and trialtype=="normal":
             errors.append(error)
             learnerrors.append(learnerror)
             #learn minconi net (actor)
@@ -269,17 +295,17 @@ def trial_simulation(trial,first,R_mean):
             mynet.Wrec.learning_phase = 0.0
             mynet.Wrec.trace = 0.0
             _ = mynet.m.get() # to flush the recording of the last step
+        if trialtype=="normal":
+            #learn critic (from the beginning)
+            mycrit.learnstep(x=feedback_vector,r=-learnerror,eta=.03)
+            crit2.learnstep(x=feedback_vector,r=-learnerror,eta=.6)
+            crit3.learnstep(x=feedback_vector,r=-learnerror,eta=.02)
+            crit4.learnstep(x=feedback_vector,r=-learnerror,eta=.02)
+            # Update the mean reward
+            R_mean[first] = alpha * R_mean[first] + (1.- alpha) * learnerror
+            r_mean[first] = alpha * r_mean[first] + (1.- alpha) * error
         
-        #learn critic (from the beginning)
-        mycrit.learnstep(x=feedback_vector,r=-learnerror,eta=.02)
-        crit2.learnstep(x=feedback_vector,r=-learnerror,eta=.02)
-        crit3.learnstep(x=feedback_vector,r=-learnerror,eta=.02)
-        crit4.learnstep(x=feedback_vector,r=-learnerror,eta=.02)
-        # Update the mean reward
-        R_mean[first] = alpha * R_mean[first] + (1.- alpha) * learnerror
-        r_mean[first] = alpha * r_mean[first] + (1.- alpha) * error
-
-    return position,recz ,traces, r_mean, R_mean, initposi, Ahist, Phist, error,learnerror,errors,learnerrors
+    return position,recz ,traces, r_mean, R_mean, initposi, Ahist, Phist, error,learnerror,errors,learnerrors, trajectory
 
 ####################################### now do the simulation:
 if usekm==True:
@@ -310,12 +336,36 @@ try:
     error_history=[]
     errorz=[]
     learnerrorz=[]
+    seedlist=np.random.randint(10000,size=(1000))
     for trial in range(max_trials):
         cancel_content = open("../cancel.txt", "r")
         Cancel=str(cancel_content.read())
         if Cancel[0]!="0":break
+
+        if trial==40 or trial==41 or trial ==140 or trial==180 or trial==250:
+            fig = plt.figure()
+            ax = fig.gca(projection="3d")
+            ax.set_xlabel("x")
+            ax.set_ylabel("y")
+            ax.set_zlabel("z")
+            nr_s_external=50
+            nr_s_internal=1
+            for kkk in range(nr_s_external):
+                intextseed=seedlist[kkk]
+                for kkkk in range(nr_s_internal):
+                    posi110,recordsA10,tracesA10,r_mean10,R_mean10,initposi10,AhistA10,PhistA10,error110,learnerror110,errors110,learnerrors110,trajectory= trial_simulation(trial, 0, R_mean, "not_normal",intextseed)
+                    xtraj=trajectory[:,0]
+                    ytraj=trajectory[:,1]
+                    ztraj=trajectory[:,2]
+                    colorval=(kkk+1)/(nr_s_external)
+                    colorvalinternal=(kkkk+1)/(nr_s_internal)/2+.3
+                    ax.plot(xtraj, ytraj, ztraj,color=[colorval,0,1-colorval,colorvalinternal],linewidth=.5)
+                ax.plot([xtraj[0],xtraj[0]+0.001],[ytraj[0],ytraj[0]+0.001],[ztraj[0],ztraj[0]+0.001],linewidth=2,color="black")
+            ax.plot([targetA[0],targetA[0]+0.001],[targetA[1],targetA[1]],[targetA[2],targetA[2]],linewidth=10)          
+            #plt.legend()
+
         print('Trial', trial)
-        posi1, recordsA, tracesA, r_mean, R_mean, initposi, AhistA, PhistA, error1, learnerror1, errors1, learnerrors1= trial_simulation(trial, 0, R_mean)
+        posi1,recordsA,tracesA,r_mean,R_mean,initposi,AhistA,PhistA,error1,learnerror1,errors1,learnerrors1,trajectory= trial_simulation(trial, 0, R_mean, "normal","noseed")
         (posi2, recordsB, tracesB, r_mean, R_mean, initposi, AhistB, PhistB, error2, learnerror2, errors2, learnerrors2)= (posi1, recordsA, tracesA, r_mean, R_mean, initposi, AhistA, PhistA, error1, learnerror1, errors1,learnerrors1)#trial_simulation(trial, 0, R_mean)
         
         if trial == 0:
@@ -401,20 +451,24 @@ ehname="../error_h/"+str(sim)+"error.npy"
 np.save(ehname,error_history)
 print("saved as",ehname)
 
-import matplotlib.pyplot as plt
-import matplotlib
-#matplotlib.use("TkAgg")
-plt.plot(mycrit.me,color="black",label="critic-error (sqaure)")
-plt.plot(crit2.me,label="lin")
-plt.plot(crit3.me,label="constant")
-plt.plot(crit4.me,label="gauss")
+plt.show()
+
+plt.plot(mycrit.me,color="black",linewidth=.7,label="critic-error (gaussian)")
+plt.plot(crit2.me,label="const",linewidth=.7)
+plt.plot(crit3.me,label="lin",linewidth=.7)
+#plt.plot(crit4.me,label="squared")
 print(sum(mycrit.me))
 print(sum(crit2.me))
 print(sum(crit3.me))
 print(sum(crit4.me))
-#plt.plot(mycrit.weights)
 plt.legend()
 plt.show()
+#########3D#########
+
+
+
+
+
 
 quarter=int((max_trials-learnstart)/4)
 if doplot2:

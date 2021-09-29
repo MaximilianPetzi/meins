@@ -26,12 +26,11 @@ iCubMotor = importlib.import_module(params.iCub_joint_names)
 
 
 class cpg:
-
     global All_Command
     global All_Joints_Sensor
     global angles, myT, myCont
     if usekm==True:
-        global Angles
+        pass#global Angles
     
     LShoulderRoll = 26
     LElbow = 28
@@ -53,7 +52,6 @@ class cpg:
 
     # Create list of CPG objects
     myCont = fnewMLMPcpg(params.number_cpg)
-    print(params.number_cpg)  # =41
 
     # Instantiate the CPG list with iCub robot data
     myCont = fSetCPGNet(myCont, params.my_iCub_limits,
@@ -175,10 +173,12 @@ class cpg:
         self.iCub_robot.iCub_set_angles(angles)
         # print("___after_set___")
 
-    def move_to_init2(self,randinit):
+    def move_to_init2(self,randinit,initseed):
         if randinit:
             #for random init positions:
-            [joint11,joint21,joint31,joint41]=np.random.rand(4)
+            np.random.seed(initseed)
+            randangles=np.random.rand(4)
+            [joint11,joint21,joint31,joint41]=randangles
             
             joint11*=160
             joint21=joint21*(106-15)+15
@@ -199,8 +199,9 @@ class cpg:
         # convert angles to radians
         self.Angles = np.radians(self.Angles)
         self.init_angles = np.copy(self.Angles)
-
+    trajectori=[]
     def loop_move(self, timechunk):
+        self.trajectori=[]
         #############################
         # MAIN LOOP
         I = 0
@@ -215,10 +216,9 @@ class cpg:
         # myT.T4 = myT.T3 + myT.signal_pulse_width#signal_p_w..==0.2
 
         MAT_Iinj = []
-        #print("Main loop.. ")
         # for I in range(0,int(myT.N_Loop/2)):
 
-        Imax = 4
+        Imax = 5
         while I < Imax:  # (time.time() - tt) < maxt:
             I += 1
             t = timechunk*Imax*myT.T + I * myT.T  # myT.T==0.05
@@ -331,6 +331,7 @@ class cpg:
             All_Command.append(iCubMotor.MotorCommand[:])
             All_Joints_Sensor.append(angles)
 
+            self.trajectori.append(np.array(self.Angles)[[26,28,25,27]])#26,28,25,27 r b p y
             ######################################
 
             time2 = time.time()
