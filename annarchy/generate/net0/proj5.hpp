@@ -179,8 +179,8 @@ struct ProjStruct5 : LILMatrix<int> {
                     trace[i][j] += (learning_phase < 0.5 ? power(pop0.delta_x[post_rank[i]]*pop0.rprev[pre_rank[i][j]], 3) : 0.0);
 
 
-                    // delta_w = if learning_phase > 0.5: eta * trace * (error-1) else: 0.0
-                    delta_w[i][j] = (learning_phase > 0.5 ? eta*trace[i][j]*(error - 1) : 0.0);
+                    // delta_w = if learning_phase > 0.5: eta * trace * (mean_error) * (error - mean_error) else: 0.0
+                    delta_w[i][j] = (learning_phase > 0.5 ? eta*mean_error*trace[i][j]*(error - mean_error) : 0.0);
                     if(delta_w[i][j] < -max_weight_change)
                         delta_w[i][j] = -max_weight_change;
                     if(delta_w[i][j] > max_weight_change)

@@ -1,4 +1,5 @@
-
+import numpy as np
+import os
 #just use one meta.py at a time, except with params.py
 #terminal auf CPG_iCub
 usekm=True      #use kinematic model or not (simulator, not on ssh)
@@ -7,6 +8,9 @@ multiple_rewards=True
 use_feedback=True
 randinit=True
 popcode=False
+figname2=str(np.random.randint(100000))
+savepa="../bilder/temporary/"+figname2+"/"
+os.system("mkdir "+savepa)
 #picture usually saved in bilder/temporary/, and this folder is always cleared before
 showplot=False
 doplot2=False
@@ -15,16 +19,14 @@ max_trials=3000
 chunktime1=200   #also change var_f inversely
 chunktime2=200
 d_execution=200   #average over last d_execution timesteps
-learnstart=30
+learnstart=100
 import critic
 mycrit=critic.model("gaussianF")
 crit2=critic.model("constantF")
 crit3=critic.model("linF")
 crit4=critic.model("squareF")
-import os
 import time
 from termcolor import colored
-import numpy as np
 import sys
 import matplotlib.pyplot as plt
 import matplotlib
@@ -42,14 +44,14 @@ args = parser.parse_args()
 sim=args.s
 
 if not args.m:
-    os.system("rm ../bilder/temporary/*")
+    #os.system("rm ../bilder/temporary/*")
     Paramarr=np.zeros((6))
     default="y"#input("use default?(y/n)")
     if default=="y":
         var_f=9
-        var_eta=.6
+        var_eta=0.6
         var_g=1.5
-        var_N=600
+        var_N=200
         var_A=20
     else:
         var_f=float(input("f="))
@@ -116,14 +118,14 @@ def fdbencode(coord,sig,Nc,rangea,rangeb):
         arenc[i]=np.exp(-(ii-coord)**2/(2*sig**2))-np.exp(-(ii-coord)**2/((2*sig)**2))
     return arenc
 ####################################################
+
+weightlist=np.zeros((0,38))
 def trial_simulation(trial,first,R_mean,trialtype,initseed):#trialtype "normal" or sample
     print(trialtype)
     traces = []
     #start cpg:
     mycpg=CPG.cpg()
 
-    if initseed =="noseed":
-        initseed=np.random.randint(100000)
     #move to starting position:
     if usekm==False:
         mycpg.move_to_init(randinit=randinit)#noch machen (wie bei move_to_init2)
@@ -174,6 +176,7 @@ def trial_simulation(trial,first,R_mean,trialtype,initseed):#trialtype "normal" 
     
     errors=[]
     learnerrors=[]
+    
     ############################################# minitrials:
     
     for timechunk in range(nchunks):
@@ -199,15 +202,20 @@ def trial_simulation(trial,first,R_mean,trialtype,initseed):#trialtype "normal" 
                 mynet.fdbz[:].r=fdbencode(oldangles[2],5,mynet.Nz,-32, 80)
                 mynet.fdbw[:].r=fdbencode(oldangles[3],5,mynet.Nw,15, 106)
             if not popcode:
-                mynet.fdbx[:].r=oldangles[0]/160
-                mynet.fdby[:].r=(oldangles[1]+95.5)/(8+95.5)
-                mynet.fdbz[:].r=(oldangles[2]+32)/(32+80)
-                mynet.fdbw[:].r=(oldangles[3]-15)/(106+15)
+                mynet.fdbx[0].r=oldangles[0]/160
+                mynet.fdby[0].r=(oldangles[1]+95.5)/(8+95.5)
+                mynet.fdbz[0].r=(oldangles[2]+32)/(32+80)
+                mynet.fdbw[0].r=(oldangles[3]-15)/(106+15)
+                mynet.fdbx[1].r=1-mynet.fdbx[0].r
+                mynet.fdby[1].r=1-mynet.fdby[0].r
+                mynet.fdbz[1].r=1-mynet.fdbz[0].r
+                mynet.fdbw[1].r=1-mynet.fdbw[0].r
         minconi.simulate(chunktime1)
         #für später(critic) merken:
-        feedback_vector=np.append(mynet.fdbx[:].r,mynet.fdby[:].r)
-        feedback_vector=np.append(feedback_vector,mynet.fdbz[:].r)
-        feedback_vector=np.append(feedback_vector,mynet.fdbw[:].r)
+        #feedback_vector=np.append(mynet.fdbx[0].r,mynet.fdby[0].r)#delete those
+        #feedback_vector=np.append(feedback_vector,mynet.fdbz[:].r)#
+        #feedback_vector=np.append(feedback_vector,mynet.fdbw[:].r)#
+        feedback_vector=np.array([oldangles[0]/160,(oldangles[1]+95.5)/(8+95.5),(oldangles[2]+32)/(32+80),(oldangles[3]-15)/(106+15)])
         mynet.inp[0:2].r = 0.0
         mynet.fdbx[:].r=0.0
         mynet.fdby[:].r=0.0
@@ -232,13 +240,20 @@ def trial_simulation(trial,first,R_mean,trialtype,initseed):#trialtype "normal" 
         parr=[]
         for i in range(njoints_max):
             parr.append(output[i*6:i*6+6])
+        #parrr[:,0] = np.clip( (1+parrr[:,0])*(5.0/2.0),1,5)  #,0.001,5)
+        #parrr[:,1] = np.clip( (1+parrr[:,1])*(5.0/2.0),0.001,5) 
+        #parrr[:,2] = np.clip(parrr[:,2]*4,-4,4)  
+        #parrr[:,3] = np.clip( (1+parrr[:,3])*(10.0/2.0),0.001,10)  
+        #parrr[:,4] = np.clip( (1+parrr[:,4]),0.5,2.0)   #.001
+        #parrr[:,5] = np.clip( (1+parrr[:,5]),0.01,2.0) 
         parrr=np.array(parr)
-        parrr[:,0] = np.clip( (1+parrr[:,0])*(5.0/2.0),0.001,5)  
+        parrr[:,0] = np.clip( (1+parrr[:,0])*(5.0/2.0),.001,5)  #,0.001,5)
         parrr[:,1] = np.clip( (1+parrr[:,1])*(5.0/2.0),0.001,5) 
-        parrr[:,2] = np.clip(parrr[:,2]*4,-4,4)  
+        parrr[:,2] = np.clip(parrr[:,2]*4,-4,4)  #-4
         parrr[:,3] = np.clip( (1+parrr[:,3])*(10.0/2.0),0.001,10)  
-        parrr[:,4] = np.clip( (1+parrr[:,4]),0.01,2.0)  
+        parrr[:,4] = np.clip( (1+parrr[:,4]),0.001,2.0)   #.001
         parrr[:,5] = np.clip( (1+parrr[:,5]),0.01,2.0) 
+
         
         ###alpha,theta,Sf,Ss,InjCMF,TM
         #mycpg.set_patterns([.25], [0],  [5] ,[0.1] ,[1], [0.1])
@@ -247,7 +262,8 @@ def trial_simulation(trial,first,R_mean,trialtype,initseed):#trialtype "normal" 
         #mycpg.set_patterns(.1, 0,  5 ,0.1 ,1, 0.1)
         #print(output[0:6])
         mycpg.set_patterns(parrr[:,0]*0+.25,parrr[:,1]*0,parrr[:,2]*0+5,parrr[:,3]*0+.1,parrr[:,4]/2-0.4,parrr[:,5]*0+.3)
-        print(parrr[:,5])
+        #mycpg.set_patterns(parrr[:,0],parrr[:,1],parrr[:,2],parrr[:,3],parrr[:,4],parrr[:,5])
+        
         #mycpg.set_patterns(scaling(parr[:,0]),scaling(parr[:,1]),scaling2(parr[:,2]),scaling2(parr[:,3]),scalingICUR(parr[:,4]),scaling(parr[:,5]))
         
         #########################   move:
@@ -272,7 +288,11 @@ def trial_simulation(trial,first,R_mean,trialtype,initseed):#trialtype "normal" 
         #mycpg.plot_layers()
         error = (np.linalg.norm(np.array(target) - np.array(position)))**1
         learnerror=error-(np.linalg.norm(np.array(target) - np.array(oldposition)))
-        
+        #learnerror=min(0,learnerror)
+        penalty=-1*min(0,np.linalg.norm(np.array(position-oldposition))-0.2)   #doesnt work at all
+        #print(np.linalg.norm(np.array(position-oldposition)),penalty,learnerror)
+        #learnerror=0*learnerror+penalty
+        error=penalty
         if multiple_rewards:
             learncond=True
         else:
@@ -280,12 +300,15 @@ def trial_simulation(trial,first,R_mean,trialtype,initseed):#trialtype "normal" 
         if trial > learnstart and learncond and trialtype=="normal":
             errors.append(error)
             learnerrors.append(learnerror)
+            global weightlist
+            weightlist=np.concatenate((weightlist,[mynet.Wrec.w[0][0:np.shape(weightlist)[1]]]),axis=0)
             #learn minconi net (actor)
             mynet.Wrec.learning_phase = 1.0
             mynet.Wrec.error = learnerror
             #error_predictor=1
             #error_predictor=R_mean[first]
             #use critic:
+            
             error_predictor=mycrit.predict(feedback_vector)
             mynet.Wrec.mean_error = error_predictor
 
@@ -298,7 +321,7 @@ def trial_simulation(trial,first,R_mean,trialtype,initseed):#trialtype "normal" 
         if trialtype=="normal":
             #learn critic (from the beginning)
             mycrit.learnstep(x=feedback_vector,r=-learnerror,eta=.03)
-            crit2.learnstep(x=feedback_vector,r=-learnerror,eta=.6)
+            crit2.learnstep(x=feedback_vector,r=-learnerror,eta=.06)
             crit3.learnstep(x=feedback_vector,r=-learnerror,eta=.02)
             crit4.learnstep(x=feedback_vector,r=-learnerror,eta=.02)
             # Update the mean reward
@@ -342,13 +365,13 @@ try:
         Cancel=str(cancel_content.read())
         if Cancel[0]!="0":break
 
-        if trial==40 or trial==41 or trial ==140 or trial==180 or trial==250:
+        if trial%150==10:
             fig = plt.figure()
             ax = fig.gca(projection="3d")
             ax.set_xlabel("x")
             ax.set_ylabel("y")
             ax.set_zlabel("z")
-            nr_s_external=50
+            nr_s_external=10
             nr_s_internal=1
             for kkk in range(nr_s_external):
                 intextseed=seedlist[kkk]
@@ -362,6 +385,8 @@ try:
                     ax.plot(xtraj, ytraj, ztraj,color=[colorval,0,1-colorval,colorvalinternal],linewidth=.5)
                 ax.plot([xtraj[0],xtraj[0]+0.001],[ytraj[0],ytraj[0]+0.001],[ztraj[0],ztraj[0]+0.001],linewidth=2,color="black")
             ax.plot([targetA[0],targetA[0]+0.001],[targetA[1],targetA[1]],[targetA[2],targetA[2]],linewidth=10)          
+            plt.title("3D_Tr"+str(TRIAL))
+            plt.savefig(savepa+"_3D_Tr"+str(TRIAL))
             #plt.legend()
 
         print('Trial', trial)
@@ -450,25 +475,26 @@ rAl_t = np.reshape(rAl_t, (raltsh[1], raltsh[0]*raltsh[2]))
 ehname="../error_h/"+str(sim)+"error.npy"
 np.save(ehname,error_history)
 print("saved as",ehname)
-
-plt.show()
-
-plt.plot(mycrit.me,color="black",linewidth=.7,label="critic-error (gaussian)")
-plt.plot(crit2.me,label="const",linewidth=.7)
-plt.plot(crit3.me,label="lin",linewidth=.7)
+plt.savefig(savepa+"_3D_Tr"+str(TRIAL)+"_end")
+plt.figure()
+plt.subplot(1,2,1)
+plt.plot(weightlist)
+plt.subplot(1,2,2)
+plt.imshow((weightlist-weightlist[1,:]).T,cmap="seismic",aspect="auto", interpolation='none')
+plt.colorbar()
+plt.savefig(savepa+"_weights")
+plt.figure()
+plt.plot(mycrit.me,color="black",linewidth=.8,label="critic-error (gaussian)")
+plt.plot(crit2.me,label="const",linewidth=.8)
+#plt.plot(crit3.me,label="lin",linewidth=.8)
 #plt.plot(crit4.me,label="squared")
 print(sum(mycrit.me))
 print(sum(crit2.me))
 print(sum(crit3.me))
 print(sum(crit4.me))
 plt.legend()
-plt.show()
-#########3D#########
-
-
-
-
-
+plt.savefig(savepa+"_critics")
+plt.figure()
 
 quarter=int((max_trials-learnstart)/4)
 if doplot2:
@@ -514,7 +540,7 @@ ax.set_title("A Angle development in LATER "+str(len(AhistA_arl))+" trials")
 
 
 ax = plt.subplot(245)
-ax.imshow(rAl_t, aspect='auto', origin='lower')#rAl_t
+ax.imshow(rAl_t, aspect='auto', origin='lower', interpolation='none')#rAl_t
 ax.set_title('ALL 10 100ms-chunks of PopulationA of last trial')
 
 
@@ -555,7 +581,7 @@ ax.set_title('target B trials')
 
 ax = plt.subplot(247)
 ax.plot(R_means1,label='mean_learnerror 1')
-ax.plot(r_means1,label='mean_error 1')
+ax.plot(r_means1,label='mean_penalty1')
 #ax.set_ylim((-0.3,0.12))
 ax.legend()
 
@@ -566,13 +592,13 @@ ax.plot(r_means2,label='mean_error 2')
 ax.legend()
 
 fig.suptitle("params:"+figname, fontsize=14)
+plt.savefig(savepa+"__")
 savefiginp="y"#input("save the figure? (y/n)")
 if savefiginp=="y":
     savepa="../bilder/temporary/"
-    plt.savefig(savepa+figname+"_Tr"+str(TRIAL))	
-    print("saved in "+savepa)
+    #plt.savefig(savepa+figname+"_Tr"+str(TRIAL))	
+    #print("saved in "+savepa)
 else:
     print("not saved")
 if showplot:
     plt.show()
-print("achtung: mean_error=1 in minconi.py")

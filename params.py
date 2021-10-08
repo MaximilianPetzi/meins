@@ -28,7 +28,7 @@ for i in range(len(ara)):
 			if Paramarr[-1]==1:break
 			print("waiting")
 			time.sleep(.1)#wait till its 1
-		Paramarr=np.array([9,ara[i],arb[j],400,20,0])
+		Paramarr=np.array([9,ara[i],arb[j],200,20,0])
 #last entry=1 means file is writable, 0 means its not yet read by minconi.py so it has to wait before its changed again.
 		np.save('../paramarr',Paramarr)
 		sim+=1

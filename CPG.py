@@ -176,8 +176,12 @@ class cpg:
     def move_to_init2(self,randinit,initseed):
         if randinit:
             #for random init positions:
-            np.random.seed(initseed)
-            randangles=np.random.rand(4)
+            if initseed !="noseed":
+                rng = np.random.default_rng(initseed)
+                randangles=rng.random(4)
+            else: randangles=np.random.rand(4)
+            rng = np.random.default_rng(102)#delete
+            randangles=rng.random(4)#delete
             [joint11,joint21,joint31,joint41]=randangles
             
             joint11*=160
@@ -218,7 +222,7 @@ class cpg:
         MAT_Iinj = []
         # for I in range(0,int(myT.N_Loop/2)):
 
-        Imax = 5
+        Imax = 10
         while I < Imax:  # (time.time() - tt) < maxt:
             I += 1
             t = timechunk*Imax*myT.T + I * myT.T  # myT.T==0.05

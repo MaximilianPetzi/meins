@@ -78,7 +78,7 @@ class net:
 
             # Weight update only at the end of the trial
             delta_w = if learning_phase > 0.5:
-                    eta * trace * (error-1) #eta * trace * (mean_error) * (error - mean_error)  #
+                    eta * trace * (mean_error) * (error - mean_error)  #eta * trace * (error-1) #
                 else:
                     0.0 : min=-max_weight_change, max=max_weight_change
             w -= if learning_phase > 0.5:
@@ -103,12 +103,13 @@ class net:
         NN=16
         Nx=NN;Ny=NN;Nz=NN;Nw=NN
     if not popcodeM:
-        Nx=1;Ny=1;Nz=1;Nw=1
+        NN=2
+        Nx=NN;Ny=NN;Nz=NN;Nw=NN
     if use_feedback:
         wis=7/(4)#manuell irgendwie machen, hängt von den sigmas ab
         #popcode true -> wis 7/4
         #        false -> wis 
-        connect_prob=.50
+        connect_prob=.3
         fdbx = Population(Nx, Neuron(parameters="r=0.0"))
         Wfx=Projection(fdbx, pop, 'in')
         Wfx.connect_fixed_probability(probability = connect_prob, weights=Uniform(-1.5*wis, 1.5*wis))
@@ -152,9 +153,9 @@ class net:
         #setup(seed=1111)
         self.pop.x = Uniform(-0.1, 0.1).get_values(self.N)
         self.pop.r = np.tanh(self.pop.x)
-        self.pop[1].r = np.tanh(1.0)
-        self.pop[10].r = np.tanh(1.0)
-        self.pop[11].r = np.tanh(-1.0)
+        self.pop[40].r = np.tanh(1.0)
+        self.pop[41].r = np.tanh(1.0)
+        self.pop[42].r = np.tanh(-1.0)
         #print("(reinit)")
     
     
